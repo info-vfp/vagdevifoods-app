@@ -1,4 +1,3 @@
-
 import React from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { COMPANY_STRENGTHS_DATA, SHORT_COMPANY_NAME, ABOUT_PROMOTER_IMAGE_URL, MARKETS_DATA, COMPANY_ADDRESS } from '../constants';

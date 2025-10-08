@@ -2,21 +2,56 @@
 import React from 'react';
 import SectionTitle from '../components/SectionTitle';
 import ProductCard from '../components/ProductCard';
-import { RICE_VARIETIES_DATA, RICE_BRANDS_DATA, OTHER_PRODUCTS_DATA } from '../constants';
+import { RICE_VARIETIES_DATA, RICE_BRANDS_DATA } from '../constants';
 import type { RiceBrandInfo } from '../types';
 import { Link } from 'react-router-dom';
 
 const ProductsPage: React.FC = () => {
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How to choose the best steam rice for hotels?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When choosing steam rice for hotels, focus on grain length, aroma, and cooking consistency. JSR Steam Rice is an excellent choice as it delivers uniform, separate grains that hold up well in biryanis and pulaos, making it a reliable option for HORECA procurement."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is RNR boiled rice and why is it considered a healthy option?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RNR boiled rice, also known as Telangana Sona, is a premium variety known for its low glycemic index. This makes it a healthier option for diabetics and health-conscious consumers. Our RNR Boiled Rice is double-boiled to perfection, ensuring it retains maximum nutrients."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are you a bulk rice supplier for supermarkets?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we are a leading bulk rice supplier for supermarkets and retailers across India. We offer high-quality packaging, transparent supply chain management, and efficient fulfillment to meet the demands of modern retail. Contact us for a quote."
+        }
+      }
+    ]
+  };
+
   return (
-    <div className="bg-brand-bg font-sans pt-12 md:pt-16"> {/* Added top padding here */}
+    <div className="bg-brand-bg font-sans pt-12 md:pt-16">
+      <script type="application/ld+json">
+        {JSON.stringify(faqSchema)}
+      </script>
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle 
-          title="Our Extensive Product Range"
-          subtitle="Discover high-Quality rice brands, varieties, and by-products, all backed by our commitment to Trust and reliable Supply."
+          title="Premium Rice for Bulk Buyers & Exporters"
+          subtitle="Your trusted source for export-quality JSR Steam Rice, RNR Boiled Rice, and Pink Surya Rice. We are the preferred bulk rice supplier for HORECA, supermarkets, and global buyers."
         />
 
         {/* Rice Brands Section */}
-        <section className="py-12 md:py-16"> {/* Adjusted padding */}
+        <section className="py-12 md:py-16">
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-text-heading mb-12 md:mb-16 text-center">Our Esteemed Brands: A Testament to Quality & Trust</h2>
           <div className="space-y-16 md:space-y-20">
             {RICE_BRANDS_DATA.map((brand: RiceBrandInfo, index: number) => (
@@ -75,6 +110,23 @@ const ProductsPage: React.FC = () => {
           </div>
         </section>
 
+        {/* FAQ Section */}
+        <section className="py-20 sm:py-28">
+          <SectionTitle 
+            title="Frequently Asked Questions"
+            subtitle="Answers to common queries from our HORECA, supermarket, and export partners."
+          />
+          <div className="mt-12 max-w-3xl mx-auto">
+            <div className="space-y-6">
+              {faqSchema.mainEntity.map((faq, index) => (
+                <div key={index} className="p-6 bg-white rounded-lg shadow-md">
+                  <h3 className="text-lg font-semibold text-brand-brown-dark">{faq.name}</h3>
+                  <p className="mt-2 text-sm text-brand-text-on-light">{faq.acceptedAnswer.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
         
       </div>
     </div>

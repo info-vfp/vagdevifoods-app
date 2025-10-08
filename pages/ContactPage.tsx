@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { SHORT_COMPANY_NAME, COMPANY_ADDRESS, COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE_FORMATTED, CONTACT_MAP_PLACEHOLDER_URL } from '../constants';

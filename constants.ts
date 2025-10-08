@@ -1,4 +1,3 @@
-
 import type { NavLink, RiceVarietyInfo, RiceBrandInfo, MarketInfo, CompanyHighlight } from './types';
 import { GlobeAltIcon, LightBulbIcon, ShieldCheckIcon, TruckIcon, UsersIcon, StarIcon, BeakerIcon, ChatBubbleBottomCenterTextIcon, HeartIcon, CubeTransparentIcon } from '@heroicons/react/24/outline';
 import React from 'react';
@@ -36,22 +35,22 @@ export const NAV_LINKS: NavLink[] = [
 
 export const RICE_VARIETIES_DATA: RiceVarietyInfo[] = [
   { 
-    name: "JSR", 
+    name: "JSR Steam Rice", 
     types: ["Steam Rice", "Double Boiled Rice"], 
     imageUrl: "images/products/varieties/jsr_rice.webp",
-    description: "A popular choice known for its excellent cooking quality and taste, suitable for various culinary preparations."
+    description: "Our JSR Steam Rice is the preferred choice for HORECA procurement managers. Its long grains and excellent cooking quality make it ideal for biryanis and pulaos. We are a trusted supplier of export quality JSR steam rice."
   },
   { 
-    name: "HMT", 
-    types: ["Steam Rice", "Double Boiled Rice"], 
-    imageUrl: "images/products/varieties/hmt_rice.webp",
-    description: "Fine grain rice cherished for its aromatic fragrance and fluffy texture upon cooking."
-  },
-  { 
-    name: "RNR (Telangana Sona)", 
+    name: "RNR Boiled Rice", 
     types: ["Steam Rice", "Double Boiled Rice"], 
     imageUrl: "images/products/varieties/rnr_rice.webp",
-    description: "A healthy variety with a low glycemic index, known for its distinct taste and nutritional benefits."
+    description: "A premium variety of boiled rice, also known as Telangana Sona. With a low glycemic index, our RNR boiled rice is a healthy and nutritious option. We are a leading exporter of RNR boiled rice from India."
+  },
+  { 
+    name: "HMT Rice", 
+    types: ["Steam Rice", "Double Boiled Rice"], 
+    imageUrl: "images/products/varieties/hmt_rice.webp",
+    description: "A fine-grain rice cherished for its aromatic fragrance and fluffy texture. Our HMT rice is a popular choice for both retail and bulk buyers looking for premium quality."
   },
 ];
 
@@ -71,6 +70,16 @@ export const RICE_BRANDS_DATA: RiceBrandInfo[] = [
     logoUrl: "images/logos/surya_brand_logo.webp", 
     tagline: "Nourishing Homes, Energizing Lives.",
     description: "Surya brand offers wholesome and nutritious rice, a testament to our focus on Quality and consistent Supply. It's the Trusted choice for health-conscious consumers seeking reliability in every meal.",
+    packagingImageUrls: [
+        "images/products/brands/surya_pack_1.webp",
+        "images/products/brands/surya_pack_2.webp",
+    ]
+  },
+  { 
+    name: "Pink Surya Rice", 
+    logoUrl: "images/logos/surya_brand_logo.webp", 
+    tagline: "The Healthy Choice for the Modern Family.",
+    description: "A special variety of rice with a pinkish hue and a lower glycemic index. Pink Surya Rice is the perfect choice for health-conscious consumers, HORECA, and supermarkets looking for a premium and nutritious option.",
     packagingImageUrls: [
         "images/products/brands/surya_pack_1.webp",
         "images/products/brands/surya_pack_2.webp",

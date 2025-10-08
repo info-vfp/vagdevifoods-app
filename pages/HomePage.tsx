@@ -1,4 +1,3 @@
-
 import React from 'react';
 import HeroSection from '../components/HeroSection';
 import SectionTitle from '../components/SectionTitle';
@@ -90,7 +89,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-       {/* Popular Varieties Section */}
+       {/* Popular Rice Varieties Section */}
       <section className="py-16 sm:py-24">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle 
