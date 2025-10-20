@@ -8,8 +8,8 @@ export const SHORT_COMPANY_NAME = "Vagdevi Foods";
 export const COMPANY_TAGLINE = "Elevating Taste, Enriching Lives";
 export const COMPANY_ADDRESS = "Yadgarpalle, Telangana 508207";
 export const COMPANY_CONTACT_EMAIL = "info@vagdevifoods.com"; 
-export const COMPANY_CONTACT_PHONE = "+91 XXXXX XXXXX"; 
-export const COMPANY_CONTACT_PHONE_FORMATTED = "+91 XXXXX-XXXXX"; 
+export const COMPANY_CONTACT_PHONE = "+91 90004 16808"; 
+export const COMPANY_CONTACT_PHONE_FORMATTED = "+91 90004-16808"; 
 
 export const NAV_LOGO_URL = "images/logos/vagdevi_nav_logo.webp"; 
 export const FOOTER_LOGO_URL = "images/logos/vagdevi_footer_logo.webp";
