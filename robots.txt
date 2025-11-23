@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vagdevifoods.com/sitemap.xml
