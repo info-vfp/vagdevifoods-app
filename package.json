@@ -1,6 +1,6 @@
 {
   "name": "vagdevifoods-app",
-  "homepage": "https://info-mri.github.io/vagdevifoods-app",
+  "homepage": "https://info-vfp.github.io/vagdevifoods-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,6 +16,7 @@
     "@heroicons/react": "^2.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.25.1"
   },
   "devDependencies": {

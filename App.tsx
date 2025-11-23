@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -20,23 +21,25 @@ const ScrollToTop: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
-      <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-brand-bg">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/markets" element={<MarketsPage />} /> {/* Route re-added */}
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="*" element={<HomePage />} /> {/* Fallback to HomePage for any unmatched route */}
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </HashRouter>
+    <HelmetProvider>
+      <HashRouter>
+        <ScrollToTop />
+        <div className="flex flex-col min-h-screen bg-brand-bg">
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/markets" element={<MarketsPage />} /> {/* Route re-added */}
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="*" element={<HomePage />} /> {/* Fallback to HomePage for any unmatched route */}
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </HashRouter>
+    </HelmetProvider>
   );
 };
 

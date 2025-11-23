@@ -1,10 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
+import SEO from '../components/SEO';
 import SectionTitle from '../components/SectionTitle';
 import { SHORT_COMPANY_NAME, COMPANY_ADDRESS, COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE_FORMATTED } from '../constants';
 import { MapPinIcon, EnvelopeIcon, PhoneIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import emailjs from '@emailjs/browser';
 
 const ContactPage: React.FC = () => {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Vagdevi Food Products",
+    "description": "Get in touch with Vagdevi Food Products. We'd love to hear from you for orders, inquiries, or feedback.",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Vagdevi Food Products",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": COMPANY_CONTACT_PHONE_FORMATTED,
+        "contactType": "customer service",
+        "email": COMPANY_CONTACT_EMAIL,
+        "areaServed": "IN",
+        "availableLanguage": ["en", "te", "hi"]
+      }
+    }
+  };
+
   const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -105,6 +125,12 @@ const ContactPage: React.FC = () => {
 
   return (
     <div className="bg-brand-bg font-sans pt-24 md:pt-32 min-h-screen relative overflow-hidden">
+      <SEO
+        title="Contact Us - Vagdevi Food Products"
+        description="Get in touch with Vagdevi Food Products. We'd love to hear from you for orders, inquiries, or feedback."
+        keywords="contact vagdevi foods, rice suppliers contact, food products inquiry"
+        structuredData={structuredData}
+      />
       <style>{`
         @keyframes float {
           0% { transform: translateY(0px); }

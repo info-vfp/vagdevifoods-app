@@ -1,5 +1,6 @@
 
 import React from 'react';
+import SEO from '../components/SEO';
 import SectionTitle from '../components/SectionTitle';
 import ProductCard from '../components/ProductCard';
 import { RICE_VARIETIES_DATA, RICE_BRANDS_DATA, OTHER_PRODUCTS_DATA } from '../constants';
@@ -7,8 +8,34 @@ import type { RiceBrandInfo } from '../types';
 import { Link } from 'react-router-dom';
 
 const ProductsPage: React.FC = () => {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Our Products - Vagdevi Food Products",
+    "description": "Explore our wide range of premium spices, masalas, and food products. Fresh, authentic, and high quality.",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": RICE_BRANDS_DATA.map((brand, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": brand.name,
+          "description": brand.description,
+          "image": brand.logoUrl
+        }
+      }))
+    }
+  };
+
   return (
     <div className="bg-brand-bg font-sans pt-12 md:pt-16"> {/* Added top padding here */}
+      <SEO
+        title="Our Products - Vagdevi Food Products"
+        description="Explore our wide range of premium spices, masalas, and food products. Fresh, authentic, and high quality."
+        keywords="spices, masala powders, rice products, indian spices, vagdevi products"
+        structuredData={structuredData}
+      />
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionTitle
           title="Our Extensive Product Range"
