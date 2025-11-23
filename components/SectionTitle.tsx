@@ -9,11 +9,10 @@ interface SectionTitleProps {
 
 const SectionTitle: React.FC<SectionTitleProps> = ({ title, subtitle, textAlignment = 'text-center' }) => {
   return (
-    <div className={`${textAlignment} mb-10 md:mb-16 font-sans`}>
-      <h2 className="text-3xl font-serif font-bold text-brand-brown-dark sm:text-4xl lg:text-5xl">{title}</h2>
-      {subtitle && <p className={`mt-3 max-w-2xl ${textAlignment === 'text-center' ? 'mx-auto' : ''} text-lg text-brand-text-on-light sm:mt-4`}>{subtitle}</p>}
-       <div className={`mt-4 h-1 w-24 ${textAlignment === 'text-center' ? 'mx-auto' : ''} bg-brand-orange rounded-full transition-all duration-500 ease-out transform`} 
-            // Removed animation classes and style properties for underline animation
+    <div className={`${textAlignment} mb-12 md:mb-20 font-sans`}>
+      <h2 className="text-3xl font-serif font-bold text-brand-espresso sm:text-4xl lg:text-5xl tracking-tight">{title}</h2>
+      {subtitle && <p className={`mt-4 max-w-2xl ${textAlignment === 'text-center' ? 'mx-auto' : ''} text-lg text-text-muted sm:mt-5 leading-relaxed`}>{subtitle}</p>}
+       <div className={`mt-6 h-1 w-24 ${textAlignment === 'text-center' ? 'mx-auto' : ''} bg-brand-gold rounded-full opacity-80`} 
             style={{ transformOrigin: textAlignment === 'text-center' ? 'center' : textAlignment === 'text-left' ? 'left' : 'right' }}
        ></div>
     </div>

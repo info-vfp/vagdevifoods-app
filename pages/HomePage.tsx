@@ -9,27 +9,29 @@ import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="bg-brand-bg font-sans">
+    <div className="bg-brand-bg font-sans overflow-x-hidden">
       <HeroSection />
 
       {/* Core Values Section */}
-      <section className="py-16 sm:py-24">
+      {/* Core Values Section */}
+      <section className="py-24 sm:py-32 relative">
+        <div className="absolute inset-0 bg-brand-bg-alt/50 skew-y-3 transform origin-top-left -z-10"></div>
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle 
+          <SectionTitle
             title="Our Commitment to Excellence"
             subtitle={`At ${SHORT_COMPANY_NAME}, our operations are guided by our core principles: Uncompromising Quality, Enduring Trust, and Dependable Supply.`}
           />
-          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
             {CORE_VALUES_DATA.map((value: CompanyHighlight, index: number) => (
-              <div 
-                key={value.title} 
-                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-1 border border-amber-100 text-center"
+              <div
+                key={value.title}
+                className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-glass hover:shadow-glass-hover transition-all duration-500 ease-out hover:-translate-y-2 border border-brand-bg-alt text-center group"
               >
-                <div className="flex items-center justify-center h-16 w-16 rounded-full bg-brand-orange/10 text-brand-orange mx-auto mb-4 transition-transform duration-300 hover:scale-110">
-                  {value.icon || <span className="text-3xl">🌾</span>}
+                <div className="flex items-center justify-center h-20 w-20 rounded-full bg-brand-cream text-brand-saffron mx-auto mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-inner">
+                  {value.icon || <span className="text-4xl">🌾</span>}
                 </div>
-                <h3 className="text-xl font-serif font-semibold text-brand-brown-dark">{value.title}</h3>
-                <p className="mt-2 text-sm text-brand-text-on-light">{value.description}</p>
+                <h3 className="text-xl font-serif font-bold text-brand-espresso mb-3">{value.title}</h3>
+                <p className="mt-2 text-sm text-text-body leading-relaxed">{value.description}</p>
               </div>
             ))}
           </div>
@@ -37,67 +39,77 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Featured Products Section (Brands) */}
-      <section className="py-16 sm:py-24 bg-brand-orange/5">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle 
-            title="Our Premium Rice Brands" 
-            subtitle={`Discover excellence with ${RICE_BRANDS_DATA.map(b => b.name).join(' and ')}, founded on Quality and Trust.`} 
+      <section className="py-24 sm:py-32 bg-brand-bg-alt relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-brand-saffron/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-espresso/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <SectionTitle
+            title="Our Premium Rice Brands"
+            subtitle={`Discover excellence with ${RICE_BRANDS_DATA.map(b => b.name).join(' and ')}, founded on Quality and Trust.`}
           />
-          <div className="mt-12 grid gap-10 md:grid-cols-2">
+          <div className="mt-16 grid gap-12 md:grid-cols-2">
             {RICE_BRANDS_DATA.map((brand, index) => (
-              <div 
-                key={brand.name} 
-                className="bg-white rounded-lg shadow-xl overflow-hidden flex flex-col items-center p-6 md:p-8 text-center hover:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1"
+              <div
+                key={brand.name}
+                className="bg-white rounded-2xl shadow-premium overflow-hidden flex flex-col items-center p-10 md:p-12 text-center hover:shadow-glass-hover transition-all duration-500 ease-out hover:-translate-y-2 border border-brand-bg-alt group"
               >
-                <img src={brand.logoUrl} alt={`${brand.name} Logo`} className="h-20 md:h-24 w-auto mb-4 object-contain transition-transform duration-300 hover:scale-105"/>
-                <h3 className="text-2xl font-serif font-semibold text-brand-brown-dark mb-1">{brand.name}</h3>
-                <p className="text-sm text-brand-orange font-medium mb-3">{brand.tagline}</p>
-                <p className="text-brand-text-on-light text-sm mb-4 flex-grow px-4">{brand.description}</p>
-                 <div className="grid grid-cols-2 gap-4 my-4">
-                    {brand.packagingImageUrls.slice(0,2).map((url, idx) => (
-                        <img key={idx} src={url} alt={`${brand.name} packaging ${idx + 1}`} className="rounded-md shadow-md object-contain h-40 w-full transition-transform duration-300 hover:scale-105" />
-                    ))}
+                <div className="h-24 md:h-32 w-full flex items-center justify-center mb-6 p-4 bg-brand-bg-alt/30 rounded-xl group-hover:bg-brand-bg-alt/50 transition-colors">
+                  <img src={brand.logoUrl} alt={`${brand.name} Logo`} className="h-full w-auto object-contain transition-transform duration-500 group-hover:scale-110" />
                 </div>
-                <Link to="/products" className="mt-4 inline-block text-sm font-medium text-brand-orange hover:text-brand-brown-dark group transition-all duration-300 transform hover:scale-105">
-                  Explore {brand.name} <span className="group-hover:ml-1 transition-transform duration-300">&rarr;</span>
+                <h3 className="text-3xl font-serif font-bold text-brand-espresso mb-2">{brand.name}</h3>
+                <p className="text-sm text-brand-saffron font-bold tracking-widest uppercase mb-4">{brand.tagline}</p>
+                <p className="text-text-body text-base mb-8 flex-grow px-4 leading-relaxed">{brand.description}</p>
+                <div className="grid grid-cols-2 gap-6 my-6 w-full">
+                  {brand.packagingImageUrls.slice(0, 2).map((url, idx) => (
+                    <div key={idx} className="relative overflow-hidden rounded-lg shadow-md group-hover:shadow-lg transition-all duration-500">
+                      <div className="absolute inset-0 bg-brand-espresso/0 group-hover:bg-brand-espresso/5 transition-colors z-10"></div>
+                      <img src={url} alt={`${brand.name} packaging ${idx + 1}`} className="object-contain h-48 w-full bg-white transition-transform duration-700 group-hover:scale-110" />
+                    </div>
+                  ))}
+                </div>
+                <Link to="/products" className="mt-6 inline-flex items-center px-8 py-3 border border-brand-espresso text-sm font-semibold rounded-full text-brand-espresso hover:bg-brand-espresso hover:text-white transition-all duration-300 transform hover:scale-105">
+                  Explore {brand.name} <span className="ml-2">&rarr;</span>
                 </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
-      
+
       {/* "From the fields to your plate" / Why Choose Us Section */}
-      <section 
-        className="py-16 sm:py-24 bg-cover bg-center bg-no-repeat" 
-        style={{ backgroundImage: `linear-gradient(rgba(255,251,235,0.85), rgba(255,251,235,0.85)), url(${WHY_CHOOSE_US_BG_URL})` }}
+      <section
+        className="py-32 sm:py-40 bg-cover bg-center bg-no-repeat bg-fixed relative"
+        style={{ backgroundImage: `url(${WHY_CHOOSE_US_BG_URL})` }}
       >
-        <div className="max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <SectionTitle 
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-bg/90 via-brand-bg/80 to-brand-bg/90"></div>
+        <div className="max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <SectionTitle
             title="From Our Fields to Your Plate"
             subtitle="Our commitment to Quality and Trust ensures that every grain embodies purity and flavor. We guarantee a reliable Supply of wholesome rice."
           />
-          <img src={FARMER_MASCOT_URL} alt="Smiling Farmer Mascot" className="mx-auto my-6 h-24 w-auto rounded-full shadow-lg transition-transform duration-300 hover:scale-110"/>
-          <p className="text-brand-text-on-light leading-relaxed mb-8">
+          <img src={FARMER_MASCOT_URL} alt="Smiling Farmer Mascot" className="mx-auto my-8 h-32 w-auto rounded-full shadow-glass hover:shadow-glass-hover transition-transform duration-500 hover:scale-110 border-4 border-white" />
+          <p className="text-text-body text-xl leading-relaxed mb-10 font-light">
             {SHORT_COMPANY_NAME} combines generations of farming wisdom with modern milling techniques. Our dedication to fair practices and sustainable agriculture supports our promise of Quality, fosters Trust, and ensures dependable Supply.
           </p>
-          <Link 
-            to="/about" 
-            className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-orange hover:bg-opacity-80 shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+          <Link
+            to="/about"
+            className="inline-flex items-center justify-center px-10 py-4 border border-transparent text-lg font-semibold rounded-full text-white bg-brand-saffron hover:bg-brand-gold shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
             Learn About Our Process
           </Link>
         </div>
       </section>
 
-       {/* Popular Varieties Section */}
-      <section className="py-16 sm:py-24">
+      {/* Popular Varieties Section */}
+      <section className="py-24 sm:py-32">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle 
-            title="Our Popular Rice Varieties" 
-            subtitle="Each variety reflects our dedication to Quality, available in Steam and Double Boiled options to meet your needs." 
+          <SectionTitle
+            title="Our Popular Rice Varieties"
+            subtitle="Each variety reflects our dedication to Quality, available in Steam and Double Boiled options to meet your needs."
           />
-          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
             {RICE_VARIETIES_DATA.slice(0, 4).map((variety, index) => (
               <ProductCard
                 key={variety.name}
@@ -109,25 +121,26 @@ const HomePage: React.FC = () => {
               />
             ))}
           </div>
-           <div className="text-center mt-12">
-            <Link to="/products" className="text-base font-medium text-brand-orange hover:text-brand-brown-dark group transition-all duration-300 transform hover:scale-105">
-              View All Rice Varieties <span className="group-hover:ml-1 transition-transform duration-300">&rarr;</span>
+          <div className="text-center mt-16">
+            <Link to="/products" className="inline-flex items-center text-lg font-semibold text-brand-saffron hover:text-brand-gold group transition-all duration-300 transform hover:scale-105">
+              View All Rice Varieties <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">&rarr;</span>
             </Link>
           </div>
         </div>
       </section>
 
-       {/* Market Presence Snippet */}
-      <section className="py-16 sm:py-24 bg-brand-brown-medium text-brand-text-on-dark">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-serif font-bold sm:text-4xl">Serving Key Markets Across India</h2>
-          <p className="mt-4 text-lg text-amber-100 max-w-3xl mx-auto">
-            Our distribution network proudly delivers Quality rice and ensures reliable Supply to states like {MARKETS_DATA.slice(0,3).map(m => m.name).join(', ')}, and we are continually expanding.
+      {/* Market Presence Snippet */}
+      <section className="py-24 sm:py-32 bg-brand-espresso text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-4xl font-serif font-bold sm:text-5xl mb-6">Serving Key Markets Across India</h2>
+          <p className="mt-6 text-xl text-brand-bg-alt/80 max-w-3xl mx-auto leading-relaxed font-light">
+            Our distribution network proudly delivers Quality rice and ensures reliable Supply to states like {MARKETS_DATA.slice(0, 3).map(m => m.name).join(', ')}, and we are continually expanding.
           </p>
-          <div className="mt-10">
+          <div className="mt-12">
             <Link
-              to="/contact" 
-              className="inline-block bg-brand-orange text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+              to="/contact"
+              className="inline-block bg-brand-saffron text-brand-espresso font-bold py-4 px-10 rounded-full shadow-lg hover:bg-brand-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
             >
               Partner With Us
             </Link>

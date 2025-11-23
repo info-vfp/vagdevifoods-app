@@ -8,53 +8,35 @@
     <link rel="icon" href="/images/ui/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              'brand-bg': '#FDFCFB', // Cleaner off-white
-              'brand-bg-alt': '#F9F5EF', // Subtle beige for section differentiation
-              'brand-brown-dark': '#5D4037', 
-              'brand-brown-medium': '#8D6E63',
-              'brand-orange': '#FFB300', 
-              'brand-text-on-dark': '#FDFCFB', 
-              'text-heading': '#4A3B33', // Darker, slightly desaturated brown for headings
-              'text-body': '#5C504A',    // Main body text - refined from brand-text-on-light
-              'text-muted': '#A1887F',   // Lighter brown/gray for less important text
-              'brand-light': '#F5F5DC',   
-              'brand-dark': '#5D4037',
-              // Deprecating old text colors in favor of semantic ones
-              // 'brand-text-on-light': '#4E342E', 
-              // 'text-primary': '#4E342E',
-              // 'text-secondary': '#5D4037',
+              'brand-bg': '#FDFBF7', // Warm cream background
+              'brand-bg-alt': '#F5F0E6', // Darker warm beige
+              'brand-espresso': '#3E2723', // Deep rich brown
+              'brand-brown-light': '#6D4C41', // Lighter brown for text
+              'brand-gold': '#D4AF37', // Metallic gold accent
+              'brand-saffron': '#FFB300', // Vibrant saffron (kept for brand recognition but refined)
+              'brand-cream': '#FFF8E1', // Light cream for cards
+              'text-heading': '#2D1B18', // Very dark brown for headings
+              'text-body': '#4E342E',    // Readable brown for body
+              'text-muted': '#8D6E63',   // Muted brown
             },
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              serif: ['Merriweather', 'serif'],
-            },
-            fontSize: {
-              'xs': '.775rem',
-              'sm': '.875rem',
-              'base': '1rem', // 16px
-              'lg': '1.125rem', // 18px
-              'xl': '1.25rem', // 20px
-              '2xl': '1.5rem', // 24px
-              '3xl': '1.875rem', // 30px
-              '4xl': '2.5rem', // 40px
-              '5xl': '3.25rem', // 52px
-              '6xl': '4rem', // 64px
+              sans: ['Outfit', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
             },
             boxShadow: {
-              'subtle': '0 2px 10px rgba(0,0,0,0.05)',
-              'card-hover': '0 5px 20px rgba(0,0,0,0.07)',
-              'nav': '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.05)',
+              'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+              'glass-hover': '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+              'premium': '0 10px 30px -10px rgba(62, 39, 35, 0.15)',
             },
-            transitionProperty: {
-              'height': 'height',
-              'spacing': 'margin, padding',
-              'shadow': 'box-shadow',
+            backgroundImage: {
+              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+              'hero-gradient': 'linear-gradient(to bottom, rgba(253, 251, 247, 0.8), rgba(253, 251, 247, 1))',
             }
           }
         }
