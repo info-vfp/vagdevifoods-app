@@ -9,15 +9,24 @@ import type { CompanyHighlight } from '../types';
 import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Vagdevi Food Products",
-    "url": "https://info-vfp.github.io/vagdevifoods-app",
-    "logo": "https://info-vfp.github.io/vagdevifoods-app/images/ui/logo-bg-removed.png",
-    "description": "Premium quality rice and food products made with care.",
-    "sameAs": []
-  };
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Vagdevi Food Products",
+      "url": "https://info-vfp.github.io/vagdevifoods-app",
+      "logo": "https://info-vfp.github.io/vagdevifoods-app/images/ui/logo-bg-removed.png",
+      "description": "Premium quality rice and food products made with care.",
+      "sameAs": []
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Vagdevi Food Products",
+      "alternateName": "Vagdevi Foods",
+      "url": "https://info-vfp.github.io/vagdevifoods-app"
+    }
+  ];
 
   return (
     <div className="bg-brand-bg font-sans overflow-x-hidden">
