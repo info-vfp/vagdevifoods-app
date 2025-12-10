@@ -15,16 +15,16 @@ const HomePage: React.FC = () => {
     "name": "Vagdevi Food Products",
     "url": "https://info-vfp.github.io/vagdevifoods-app",
     "logo": "https://info-vfp.github.io/vagdevifoods-app/images/ui/logo-bg-removed.png",
-    "description": "Premium quality spices, powders, and food products made with care.",
+    "description": "Premium quality rice and food products made with care.",
     "sameAs": []
   };
 
   return (
     <div className="bg-brand-bg font-sans overflow-x-hidden">
       <SEO
-        title="Vagdevi Food Products - Premium Quality Spices & Foods"
-        description="Discover the authentic taste of tradition with Vagdevi Food Products. Premium quality spices, powders, and food products made with care."
-        keywords="spices, food products, rice, premium quality, Vagdevi Food Products"
+        title="Vagdevi Food Products - Premium Quality Rice & Foods"
+        description="Discover the authentic taste of tradition with Vagdevi Food Products. Premium quality rice and food products made with care."
+        keywords="food products, rice, premium quality, Vagdevi Food Products"
         structuredData={structuredData}
       />
       <HeroSection />

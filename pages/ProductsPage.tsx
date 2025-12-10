@@ -12,7 +12,7 @@ const ProductsPage: React.FC = () => {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     "name": "Our Products - Vagdevi Food Products",
-    "description": "Explore our wide range of premium spices, masalas, and food products. Fresh, authentic, and high quality.",
+    "description": "Explore our wide range of premium rice varieties and food products. Fresh, authentic, and high quality.",
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": RICE_BRANDS_DATA.map((brand, index) => ({
@@ -32,8 +32,8 @@ const ProductsPage: React.FC = () => {
     <div className="bg-brand-bg font-sans pt-12 md:pt-16"> {/* Added top padding here */}
       <SEO
         title="Our Products - Vagdevi Food Products"
-        description="Explore our wide range of premium spices, masalas, and food products. Fresh, authentic, and high quality."
-        keywords="spices, masala powders, rice products, indian spices, vagdevi products"
+        description="Explore our wide range of premium rice varieties and food products. Fresh, authentic, and high quality."
+        keywords="rice products, indian rice, vagdevi products"
         structuredData={structuredData}
       />
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
