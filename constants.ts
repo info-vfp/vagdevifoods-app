@@ -63,7 +63,13 @@ export const RICE_BRANDS_DATA: RiceBrandInfo[] = [
     description: "Surya brand offers wholesome and nutritious rice, a testament to our focus on Quality and consistent Supply. It's the Trusted choice for health-conscious consumers seeking reliability in every meal.",
     packagingImageUrls: [
       "images/products/brands/surya_pack_1.webp",
-      "images/products/brands/surya_pack_2.webp",
+      "images/products/brands/surya_blue_jsr.webp",
+      "images/products/brands/surya_darkGreen_jsr.webp",
+      "images/products/brands/surya_orange_jsr.webp",
+      "images/products/brands/surya_parrotGreen_jsr.webp",
+      "images/products/brands/surya_pink_jsr.webp",
+      "images/products/brands/surya_red_jsr.webp",
+      "images/products/brands/surya_silver_jsr.webp",
     ]
   },
   {
@@ -73,7 +79,6 @@ export const RICE_BRANDS_DATA: RiceBrandInfo[] = [
     description: "Dwaraka brand rice embodies our commitment to premium Quality and enduring Trust. Processed with utmost care and reliably Supplied, it delivers exceptional taste and texture, perfect for families who seek the best.",
     packagingImageUrls: [
       "images/products/brands/dwaraka_pack_1.webp",
-      "images/products/brands/dwaraka_pack_2.webp",
     ]
   },
 ];
@@ -115,6 +120,27 @@ export const CORE_VALUES_DATA: CompanyHighlight[] = [
     description: "Offering a diverse range of rice varieties, including JSR, HMT, BPT, and RNR, in both Steam and Double Boiled forms.",
     icon: React.createElement(BeakerIcon, { className: "h-10 w-10 text-brand-orange" })
   },
+];
+
+export const CULINARY_GUIDE_DATA = [
+  {
+    dish: "The Perfect Biryani",
+    recommendation: "Surya Brand",
+    description: "Long, aromatic grains that effectively absorb spices while remaining fluffy and separate. Essential for that authentic restaurant-style Biryani experience.",
+    icon: "🥘"
+  },
+  {
+    dish: "Softest Idlis & Crispy Dosas",
+    recommendation: "Dwaraka Brand",
+    description: "Short, thick grains optimized for fermentation. Grinds into a smooth batter that yields cloud-like Idlis and golden-brown, crispy Dosas every time.",
+    icon: "🥣"
+  },
+  {
+    dish: "Daily Wholesome Meals",
+    recommendation: "Sona Masoori (HMT)",
+    description: "Light, easily digestible, and versatile. The ideal choice for steaming, fried rice, and everyday curries. A staple for health-conscious families.",
+    icon: "🍚"
+  }
 ];
 
 export const COMPANY_STRENGTHS_DATA: CompanyHighlight[] = [

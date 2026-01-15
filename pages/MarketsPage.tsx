@@ -29,7 +29,7 @@ const MarketsPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-brand-bg font-sans pt-12 md:pt-16"> {/* Added top padding here */}
+    <div className="bg-brand-bg font-sans pt-24 md:pt-32"> {/* Increased top padding to prevent Navbar overlap */}
       <SEO
         title="Markets & Presence - Vagdevi Food Products"
         description="Find Vagdevi Food Products in markets near you. We serve customers across the region with our premium food products."

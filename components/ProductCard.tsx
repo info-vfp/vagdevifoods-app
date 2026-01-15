@@ -1,49 +1,55 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 interface ProductCardProps {
   name: string;
   description: string;
   imageUrl: string;
   details?: string[];
-  linkPath?: string; // Optional link path
-  // animationDelay prop removed as animations are removed
+  linkPath?: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ name, description, imageUrl, details, linkPath = "/contact" }) => {
   return (
-    <div
-      className="group bg-white rounded-xl shadow-premium overflow-hidden transition-all duration-500 ease-out hover:shadow-glass-hover hover:-translate-y-2 flex flex-col border border-brand-bg-alt font-sans"
+    <motion.div
+      whileHover={{ y: -10 }}
+      className="group relative bg-white/80 backdrop-blur-md rounded-2xl shadow-glass overflow-hidden flex flex-col border border-brand-bg-alt/50 font-sans h-full"
     >
-      <div className="overflow-hidden relative">
-        <div className="absolute inset-0 bg-brand-espresso/0 group-hover:bg-brand-espresso/5 transition-colors duration-500 z-10"></div>
-        <img
-          className="w-full h-64 object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
+      <div className="overflow-hidden relative h-72">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <motion.img
+          whileHover={{ scale: 1.1 }}
+          transition={{ duration: 0.7 }}
+          className="w-full h-full object-cover object-center"
           src={imageUrl}
           alt={name}
           loading="lazy"
         />
       </div>
-      <div className="p-8 flex-grow flex flex-col">
-        <h3 className="text-2xl font-serif font-bold text-brand-espresso mb-3 group-hover:text-brand-brown-light transition-colors">{name}</h3>
-        <p className="text-text-body text-base mb-6 flex-grow leading-relaxed">{description}</p>
+
+      <div className="p-8 flex-grow flex flex-col relative z-20">
+        <h3 className="text-3xl font-display font-bold text-brand-primary mb-3">{name}</h3>
+        <p className="text-text-body text-base mb-6 flex-grow leading-relaxed font-light">{description}</p>
+
         {details && details.length > 0 && (
-          <div className="mb-6">
-            <h4 className="text-xs font-bold text-brand-gold uppercase tracking-widest mb-2">Available as:</h4>
-            <ul className="flex flex-wrap gap-2">
+          <div className="mb-8">
+            <h4 className="text-xs font-bold text-brand-secondary uppercase tracking-widest mb-3">Available Varieties</h4>
+            <div className="flex flex-wrap gap-2">
               {details.map((detail, index) => (
-                <li key={index} className="text-xs font-medium bg-brand-bg-alt text-brand-brown-light px-3 py-1.5 rounded-full border border-brand-bg-alt group-hover:border-brand-gold/30 transition-colors">
+                <span key={index} className="text-xs font-medium bg-brand-bg text-brand-dark px-3 py-1.5 rounded-full border border-brand-bg-alt/80">
                   {detail}
-                </li>
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
         )}
-        <Link to={linkPath} className="mt-auto inline-flex items-center text-sm text-brand-saffron hover:text-brand-gold font-semibold tracking-wide transition-all duration-300 group/link">
+
+        <Link to={linkPath} className="mt-auto inline-flex items-center text-sm text-brand-secondary hover:text-brand-primary font-bold tracking-wide uppercase transition-colors group/link">
           View Details <span className="ml-2 transform group-hover/link:translate-x-1 transition-transform duration-300">&rarr;</span>
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

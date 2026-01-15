@@ -20,7 +20,7 @@ const AboutPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-brand-bg font-sans pt-12 md:pt-16"> {/* Added top padding here */}
+    <div className="bg-brand-bg font-sans pt-24 md:pt-32"> {/* Increased top padding to prevent Navbar overlap */}
       <SEO
         title="About Us - Vagdevi Food Products"
         description="Learn about our journey, our commitment to quality, and the tradition behind Vagdevi Food Products. Founded in 2017."
@@ -86,7 +86,7 @@ const AboutPage: React.FC = () => {
                 className="bg-brand-bg p-6 rounded-lg shadow-subtle border border-gray-200/70 hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 ease-in-out flex flex-col items-center text-center"
               >
                 <div className="flex-shrink-0 flex items-center justify-center h-14 w-14 md:h-16 md:w-16 rounded-full bg-brand-orange/10 text-brand-orange mb-5">
-                  {React.cloneElement(highlight.icon as React.ReactElement, { className: "h-7 w-7 md:h-8 md:w-8" })}
+                  {React.cloneElement(highlight.icon as React.ReactElement<{ className: string }>, { className: "h-7 w-7 md:h-8 md:w-8" })}
                 </div>
                 <h3 className="text-lg font-serif font-semibold text-text-heading mb-2">{highlight.title}</h3>
                 <p className="text-sm text-text-body flex-grow leading-relaxed">{highlight.description}</p>

@@ -3,6 +3,7 @@ import React from 'react';
 import SEO from '../components/SEO';
 import SectionTitle from '../components/SectionTitle';
 import ProductCard from '../components/ProductCard';
+import HeroCarousel from '../components/HeroCarousel';
 import { RICE_VARIETIES_DATA, RICE_BRANDS_DATA, OTHER_PRODUCTS_DATA } from '../constants';
 import type { RiceBrandInfo } from '../types';
 import { Link } from 'react-router-dom';
@@ -29,7 +30,7 @@ const ProductsPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-brand-bg font-sans pt-12 md:pt-16"> {/* Added top padding here */}
+    <div className="bg-brand-bg font-sans pt-24 md:pt-32"> {/* Increased top padding to prevent Navbar overlap */}
       <SEO
         title="Our Products - Vagdevi Food Products"
         description="Explore our wide range of premium rice varieties and food products. Fresh, authentic, and high quality."
@@ -51,18 +52,16 @@ const ProductsPage: React.FC = () => {
                 key={brand.name}
                 className={`bg-brand-bg-alt p-6 md:p-8 lg:p-10 rounded-xl shadow-subtle overflow-hidden flex flex-col lg:grid lg:grid-cols-12 lg:gap-10 items-center ${index % 2 !== 0 ? 'lg:grid-flow-row-dense' : ''}`}
               >
-                <div className={`lg:col-span-7 ${index % 2 !== 0 ? 'lg:col-start-6' : ''}`}>
-                  <div className="grid grid-cols-2 gap-4 md:gap-6">
-                    {brand.packagingImageUrls.map((url, idx) => (
-                      <img
-                        key={idx}
-                        src={url}
-                        alt={`${brand.name} packaging ${idx + 1}`}
-                        className="rounded-lg shadow-card-hover object-contain w-full h-auto max-h-80 sm:max-h-96 transition-transform duration-300 hover:scale-105"
-                        loading="lazy"
-                      />
-                    ))}
-                  </div>
+                <div className={`w-full lg:col-span-7 ${index % 2 !== 0 ? 'lg:col-start-6' : ''}`}>
+                  <HeroCarousel
+                    images={brand.packagingImageUrls.map((url, idx) => ({
+                      id: idx,
+                      url: url,
+                      alt: `${brand.name} Packaging ${idx + 1}`
+                    }))}
+                    className="h-[280px] sm:h-[400px]" // Adjusted height for product card
+                    imageClassName="max-h-[220px] sm:max-h-[320px]" // Adjusted image sizing
+                  />
                 </div>
                 <div className={`lg:col-span-5 mt-8 lg:mt-0 text-center lg:text-left ${index % 2 !== 0 ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
                   <img src={brand.logoUrl} alt={`${brand.name} Logo`} className="h-20 md:h-24 w-auto mb-5 object-contain mx-auto lg:mx-0 transition-transform duration-300 hover:scale-105" />
