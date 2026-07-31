@@ -1,119 +1,172 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import SEO from '../components/SEO';
-import HeroSection from '../components/HeroSection';
-import SectionTitle from '../components/SectionTitle';
-import ProductCard from '../components/ProductCard';
-import ScrollReveal from '../components/ScrollReveal';
-import { RICE_VARIETIES_DATA, RICE_BRANDS_DATA, CORE_VALUES_DATA, MARKETS_DATA, CULINARY_GUIDE_DATA, SHORT_COMPANY_NAME } from '../constants';
-import type { CompanyHighlight } from '../types';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
+import ScrollReveal from '../components/ScrollReveal';
+import WhatsAppIcon from '../components/WhatsAppIcon';
+import {
+  HERO_STATS, TICKER_ITEMS, PILLARS_DATA, CERTIFICATIONS,
+  SURYA_PACK_PINK_URL, SURYA_PACK_BLACK_URL, WHATSAPP_BULK_QUOTE_LINK,
+  COMPANY_CONTACT_PHONE, GEO_COORDINATES,
+} from '../constants';
+import { HOME_MILL_STEPS } from '../content/millJourney';
+import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { useLanguage } from '../context/LanguageContext';
 
 const HomePage: React.FC = () => {
+  const { lang } = useLanguage();
+  const t = MAIN_TRANSLATIONS[lang];
+
   const structuredData = [
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Vagdevi Food Products",
       "url": "https://info-vfp.github.io/vagdevifoods-app",
-      "logo": "https://info-vfp.github.io/vagdevifoods-app/images/ui/logo-bg-removed.png",
-      "description": "Premium quality rice and food products made with care.",
-      "sameAs": []
+      "logo": "https://info-vfp.github.io/vagdevifoods-app/images/logos/vagdevi_nav_logo.webp",
+      "description": "ISO 22000:2018 certified rice mill at Yadgarpally, Miryalaguda, Telangana. Bulk supply, private label and export of JSR, HMT and RNR steam and double-boiled rice.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": COMPANY_CONTACT_PHONE,
+        "contactType": "sales",
+        "areaServed": "IN",
+        "availableLanguage": ["en", "hi", "te", "ta", "kn"]
+      }
     },
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Vagdevi Food Products",
-      "alternateName": "Vagdevi Foods",
-      "url": "https://info-vfp.github.io/vagdevifoods-app"
-    }
+      "@type": "WholesaleStore",
+      "name": "Vagdevi Food Products - Rice Mill",
+      "description": "Bulk rice millers and exporters of JSR, HMT and RNR steam and double-boiled rice.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Sy. Nos. 328–333, Vijayawada Road, Yadgarpally",
+        "addressLocality": "Miryalaguda",
+        "addressRegion": "Telangana",
+        "postalCode": "508207",
+        "addressCountry": "IN"
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": GEO_COORDINATES.lat, "longitude": GEO_COORDINATES.lng },
+    },
   ];
 
   return (
-    <div className="bg-brand-bg font-sans overflow-x-hidden selection:bg-brand-secondary selection:text-white">
+    <div className="bg-brand-cream font-sans overflow-x-hidden">
       <SEO
-        title="Vagdevi Food Products - The Essence of Premium Rice"
-        description="Experience the finest rice, cultivated with care and processed for perfection. Vagdevi Food Products brings you the taste of tradition and trust."
-        keywords="premium rice, food products, Vagdevi Foods, authentic rice, Indian rice brands"
+        title="Vagdevi Food Products — Bulk Rice Millers & Exporters, Miryalaguda"
+        description="ISO 22000:2018 certified rice mill at Yadgarpally, Miryalaguda, Telangana. Bulk supply, private label and export of JSR, HMT and RNR steam and double-boiled rice. FSSAI 13618008000475 · APEDA RCMC 221976."
+        keywords="rice mill telangana, bulk rice suppliers, JSR HMT RNR rice, rice exporters miryalaguda"
         structuredData={structuredData}
       />
 
-      <HeroSection />
+      {/* Hero */}
+      <section className="relative bg-brand-dark text-white overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(85%_70%_at_78%_10%,rgba(212,175,55,0.20),transparent_62%),radial-gradient(70%_60%_at_6%_94%,rgba(238,128,34,0.13),transparent_62%)]" />
+        <div className="absolute -top-[14%] -right-[6%] w-[520px] h-[520px] rounded-full bg-brand-secondary/[.13] blur-[90px] animate-[vf-pulse_9s_ease-in-out_infinite] pointer-events-none" />
 
-      {/* Core Values Section */}
-      <section className="py-24 sm:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-brand-bg-alt/30 -skew-y-3 transform origin-top-left -z-10 scale-110"></div>
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal direction='up' width="100%">
-            <SectionTitle
-              title="Our Commitment to Excellence"
-              subtitle={`At ${SHORT_COMPANY_NAME}, we believe that true quality is a promise kept. Our operations are guided by unwavering principles that ensure every grain tells a story of purity.`}
-              textAlignment="text-center"
-            />
-          </ScrollReveal>
-
-          <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-            {CORE_VALUES_DATA.map((value: CompanyHighlight, index: number) => (
-              <ScrollReveal key={value.title} delay={index * 0.1} direction='up' className="h-full">
-                <div
-                  className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl shadow-premium hover:shadow-glass-hover transition-all duration-500 ease-out hover:-translate-y-2 border border-brand-bg-alt group h-full flex flex-col items-center text-center"
+        <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 grid lg:grid-cols-[1.12fr_.88fr] gap-12 items-center min-h-[calc(100vh-74px)]">
+          <div>
+            <ScrollReveal direction="up">
+              <div className="flex items-center gap-3 mb-7">
+                <span className="w-10 h-px bg-brand-secondary" />
+                <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-[#E8CE74]">Yadgarpally · Miryalaguda · Telangana</span>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.08}>
+              <h1 className="font-display text-[38px] sm:text-6xl lg:text-7xl leading-[1.03] tracking-tight text-white mb-6">
+                {t.heroA}<br /><span className="text-brand-secondary italic font-medium">{t.heroB}</span>
+              </h1>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.18}>
+              <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/80 max-w-xl mb-9">{t.heroSub}</p>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.28}>
+              <div className="flex flex-wrap gap-3 mb-12">
+                <a
+                  href={WHATSAPP_BULK_QUOTE_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative overflow-hidden inline-flex items-center gap-2.5 bg-brand-secondary text-brand-dark px-8 py-[19px] rounded-full text-xs font-extrabold tracking-[0.13em] uppercase shadow-[0_14px_34px_-12px_rgba(212,175,55,0.6)] transition-transform duration-300 hover:-translate-y-1"
                 >
-                  <div className="relative mb-8">
-                    <div className="absolute inset-0 bg-brand-secondary blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                    <div className="relative flex items-center justify-center h-20 w-20 rounded-full bg-brand-bg text-brand-secondary mx-auto border border-brand-secondary/20 group-hover:scale-110 transition-transform duration-500">
-                      {value.icon || <span className="text-4xl">🌾</span>}
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-display font-bold text-brand-primary mb-3">{value.title}</h3>
-                  <p className="mt-2 text-sm text-text-body leading-relaxed font-light">{value.description}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Products Section (Brands) */}
-      <section className="py-24 sm:py-32 bg-brand-bg relative overflow-hidden">
-        {/* Decorative background elements */}
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-brand-secondary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none"></div>
-
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <ScrollReveal width="100%">
-            <SectionTitle
-              title="Our Premium Collections"
-              subtitle={`Discover the distinct character of our signature brands, ${RICE_BRANDS_DATA.map(b => b.name).join(' and ')}. Crafted for those who appreciate the finer things in life.`}
-            />
-          </ScrollReveal>
-
-          <div className="mt-16 grid gap-16 md:grid-cols-2">
-            {RICE_BRANDS_DATA.map((brand, index) => (
-              <ScrollReveal key={brand.name} direction={index % 2 === 0 ? 'left' : 'right'} delay={0.2}>
-                <div
-                  className="bg-white rounded-3xl shadow-premium overflow-hidden flex flex-col items-center p-10 md:p-14 text-center hover:shadow-glass-hover transition-all duration-500 ease-out border border-brand-bg-alt/50 group h-full"
+                  {t.ctaQuote}
+                </a>
+                <Link
+                  to="/business"
+                  className="inline-flex items-center gap-2.5 border border-white/28 text-white px-8 py-[19px] rounded-full text-xs font-bold tracking-[0.13em] uppercase transition-colors duration-300 hover:bg-white/10 hover:border-brand-secondary"
                 >
-                  <div className="h-28 md:h-36 w-full flex items-center justify-center mb-6 p-6 bg-brand-bg-alt/30 rounded-2xl group-hover:bg-brand-bg-alt/50 transition-colors">
-                    <img src={brand.logoUrl} alt={`${brand.name} Logo`} className="h-full w-auto object-contain transition-transform duration-500 group-hover:scale-110 drop-shadow-sm" />
+                  {t.ctaSpecs}
+                </Link>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.38}>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/[.14] border-y border-white/[.14]">
+                {HERO_STATS.map((s) => (
+                  <div key={s.l} className="bg-brand-dark px-4 py-5">
+                    <div className="font-display text-2xl font-bold text-brand-secondary leading-none mb-1.5">{s.n}</div>
+                    <div className="text-[9.5px] font-bold tracking-[0.16em] uppercase text-white/55 leading-snug">{s.l}</div>
                   </div>
-                  <h3 className="text-4xl font-display font-bold text-brand-primary mb-2">{brand.name}</h3>
-                  <p className="text-sm text-brand-secondary font-bold tracking-[0.2em] uppercase mb-8">{brand.tagline}</p>
+                ))}
+              </div>
+            </ScrollReveal>
+          </div>
 
-                  <div className="my-2 w-full flex justify-center relative">
-                    {/* Podium Effect */}
-                    <div className="absolute bottom-0 w-48 h-12 bg-black/5 rounded-[100%] blur-xl transform scale-y-50"></div>
-                    {brand.packagingImageUrls.slice(0, 1).map((url, idx) => (
-                      <div key={idx} className="relative z-10 transition-transform duration-700 group-hover:scale-105">
-                        <img src={url} alt={`${brand.name} packaging ${idx + 1}`} className="object-contain h-72 md:h-80 w-auto drop-shadow-2xl" />
-                      </div>
-                    ))}
-                  </div>
+          <div className="relative flex items-center justify-center self-stretch py-12">
+            <div className="absolute w-[330px] h-[330px] rounded-full bg-brand-secondary/[.22] blur-[80px]" />
+            <div className="absolute bottom-[60px] w-[230px] h-[30px] rounded-full bg-black/[.55] blur-[22px]" />
+            <img
+              src={SURYA_PACK_PINK_URL}
+              alt="Vagdevi's Surya JSR Lachkari Kolam rice, 26 kg"
+              className="relative max-h-[min(64vh,560px)] max-w-full w-auto drop-shadow-[0_30px_55px_rgba(0,0,0,0.5)] animate-[vf-float_7.5s_ease-in-out_infinite]"
+            />
+          </div>
+        </div>
 
-                  <p className="text-text-body text-lg mb-8 mt-8 flex-grow px-2 leading-relaxed font-light max-w-md mx-auto">{brand.description}</p>
+        <div className="relative border-t border-white/[.13] bg-white/[.03] overflow-hidden py-4">
+          <div className="flex w-max animate-[vf-marquee_38s_linear_infinite]">
+            {[...TICKER_ITEMS, ...TICKER_ITEMS].map((w, i) => (
+              <span key={i} className="inline-flex items-center gap-6 px-6 text-[10.5px] font-bold tracking-[0.22em] uppercase text-white/45 whitespace-nowrap">
+                {w}<span className="w-1 h-1 rounded-full bg-brand-secondary" />
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                  <Link to="/products" className="inline-flex items-center px-10 py-4 border-2 border-brand-primary text-sm font-bold uppercase tracking-wider rounded-full text-brand-primary hover:bg-brand-primary hover:text-white transition-all duration-300 transform hover:scale-105">
-                    Explore {brand.name}
-                  </Link>
+      {/* 01 — The location */}
+      <section className="bg-brand-cream py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-xl mx-auto">
+          <ScrollReveal width="100%">
+            <div className="grid lg:grid-cols-2 gap-14 items-end mb-12">
+              <div>
+                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#A8842A] mb-4">01 — {t.s1kicker}</div>
+                <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-gray-900">{t.s1title}</h2>
+              </div>
+              <p className="font-serif text-xl leading-relaxed text-gray-600 pb-1">
+                Miryalaguda mills the paddy of the Nagarjuna Sagar command area — the reason Nalgonda district is called the rice bowl of Telangana. Our plant stands on Survey Nos. 328 to 333, Vijayawada Road, Yadgarpally, inside that belt, so paddy reaches the intake yard the same day it leaves the field.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal width="100%">
+            <div className="relative h-[min(56vh,500px)] overflow-hidden border border-brand-line mb-12">
+              <img src="images/mill/plant_silos.png" alt="Paddy dryers, elevators and steel silos at the Yadgarpally plant" className="w-full h-full object-cover object-[center_62%]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/[.74] via-brand-dark/[.04] to-transparent pointer-events-none" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 flex flex-wrap gap-3 items-end justify-between">
+                <div>
+                  <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#E8CE74] mb-2">The plant</div>
+                  <div className="font-display text-2xl sm:text-3xl text-white leading-tight">Sy. Nos. 328–333, Vijayawada Road</div>
+                </div>
+                <div className="text-[11px] tracking-[0.14em] text-white/70 uppercase">{GEO_COORDINATES.lat}° N &nbsp;/&nbsp; {GEO_COORDINATES.lng}° E</div>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid sm:grid-cols-3 gap-px bg-brand-line border border-brand-line">
+            {PILLARS_DATA.map((p) => (
+              <ScrollReveal key={p.t} width="100%">
+                <div className="bg-white hover:bg-[#FFFDF5] transition-colors duration-300 px-8 py-10 h-full">
+                  <div className="font-display text-sm font-bold text-brand-secondary tracking-[0.2em] mb-5">{p.i}</div>
+                  <h3 className="font-display text-2xl leading-tight text-gray-900 mb-3">{p.t}</h3>
+                  <p className="text-sm leading-relaxed text-gray-500 font-light">{p.d}</p>
                 </div>
               </ScrollReveal>
             ))}
@@ -121,89 +174,148 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Culinary Inspiration / Guide Section */}
-      <section className="py-24 sm:py-32 bg-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-bg-alt/30 -skew-x-12 transform origin-top-right z-0"></div>
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* 02 — Inside the mill */}
+      <section className="bg-white border-y border-brand-line py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
-            <SectionTitle
-              title="Find Your Perfect Match"
-              subtitle="Every dish deserves the right grain. Explore our culinary guide to elevate your favorite recipes."
-              textAlignment="text-center"
-            />
+            <div className="mb-12">
+              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#A8842A] mb-4">02 — {t.s2kicker}</div>
+              <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-gray-900 max-w-3xl">{t.s2title}</h2>
+            </div>
           </ScrollReveal>
-
-          <div className="mt-16 grid gap-8 md:grid-cols-3">
-            {CULINARY_GUIDE_DATA.map((item, index) => (
-              <ScrollReveal key={item.dish} delay={index * 0.1} direction='up' className="h-full">
-                <div className="bg-brand-bg rounded-2xl p-8 border border-brand-secondary/10 hover:border-brand-secondary/30 transition-all duration-300 hover:shadow-lg h-full flex flex-col group">
-                  <div className="text-6xl mb-6 bg-white w-20 h-20 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
-                  <h3 className="text-2xl font-display font-bold text-brand-primary mb-2">{item.dish}</h3>
-                  <p className="text-sm font-bold text-brand-secondary uppercase tracking-wider mb-4">Best With: {item.recommendation}</p>
-                  <p className="text-text-body font-light leading-relaxed flex-grow">{item.description}</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {HOME_MILL_STEPS.map((st) => (
+              <ScrollReveal key={st.n} width="100%">
+                <div>
+                  <div className="relative h-[220px] overflow-hidden bg-brand-cream border border-brand-line group">
+                    <img src={st.src} alt={st.t} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: st.pos }} />
+                  </div>
+                  <div className="flex items-baseline gap-2.5 mt-4">
+                    <span className="font-display text-sm font-bold text-brand-secondary">{st.n}</span>
+                    <h3 className="font-display text-xl text-gray-900">{st.t}</h3>
+                  </div>
+                  <p className="text-sm leading-relaxed text-gray-500 font-light mt-1.5">{st.d}</p>
                 </div>
               </ScrollReveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Popular Varieties Section */}
-      <section className="py-24 sm:py-32">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal width="100%">
-            <SectionTitle
-              title="Curated Rice Varieties"
-              subtitle="Explore our selection of premium rice varieties, processed to perfection. Each grain reflects our dedication to culinary excellence."
-            />
-          </ScrollReveal>
-
-          <div className="mt-16 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-            {RICE_VARIETIES_DATA.slice(0, 4).map((variety, index) => (
-              <ScrollReveal key={variety.name} delay={index * 0.1} direction='up' className="h-full">
-                <ProductCard
-                  name={variety.name}
-                  description={variety.description}
-                  imageUrl={variety.imageUrl}
-                  details={variety.types}
-                  linkPath="/products"
-                />
-              </ScrollReveal>
-            ))}
-          </div>
-
-          <div className="text-center mt-20">
-            <Link to="/products" className="inline-flex items-center text-lg font-bold text-brand-primary hover:text-brand-secondary group transition-all duration-300">
-              <span className="border-b-2 border-transparent group-hover:border-brand-secondary transition-all duration-300">View All Rice Varieties</span>
-              <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">&rarr;</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Market Presence Snippet */}
-      <section className="py-24 sm:py-32 bg-brand-dark text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-brand-primary via-brand-dark to-brand-primary opacity-90"></div>
-
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <ScrollReveal width="100%">
-            <h2 className="text-4xl font-display font-bold sm:text-5xl mb-6 text-white">Serving Key Markets Across India</h2>
-            <p className="mt-6 text-xl text-brand-bg-alt/80 max-w-3xl mx-auto leading-relaxed font-light">
-              Our distribution network proudly delivers Quality rice and ensures reliable Supply to states like <span className="text-brand-secondary font-medium">{MARKETS_DATA.slice(0, 3).map(m => m.name).join(', ')}</span>, and we are continually expanding.
-            </p>
-            <div className="mt-12">
+            <div className="mt-11 flex flex-wrap gap-5 items-center justify-between border-t border-brand-line pt-8">
+              <p className="font-serif text-xl leading-relaxed text-gray-600 max-w-lg">Every photograph on this site was taken inside our own mill. Walk the whole plant, stage by stage.</p>
               <Link
-                to="/contact"
-                className="inline-block bg-brand-secondary text-brand-primary font-bold py-4 px-12 rounded-full shadow-lg hover:bg-white transition-all duration-300 transform hover:scale-105 hover:shadow-xl uppercase tracking-wider"
+                to="/mill"
+                className="inline-flex items-center gap-2.5 bg-brand-dark text-white px-7 py-4 rounded-full text-[11.5px] font-extrabold tracking-[0.13em] uppercase transition-all duration-300 hover:bg-brand-secondary hover:text-brand-dark hover:-translate-y-0.5 flex-shrink-0"
               >
-                Partner With Us
+                {t.navMill} →
               </Link>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
+      {/* 03 — Our brands */}
+      <section className="relative bg-brand-dark text-white overflow-hidden py-24 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(60%_60%_at_88%_18%,rgba(212,175,55,0.15),transparent_62%)]" />
+        <div className="relative max-w-screen-xl mx-auto">
+          <ScrollReveal width="100%">
+            <div className="mb-12">
+              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-4">03 — {t.s3kicker}</div>
+              <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-white max-w-3xl">{t.s3title}</h2>
+            </div>
+          </ScrollReveal>
+          <div className="grid lg:grid-cols-2 gap-6">
+            <ScrollReveal width="100%">
+              <Link to="/surya" className="block relative overflow-hidden bg-gradient-to-br from-[#E4187C] to-[#96094D] p-9 sm:p-10 border border-white/[.14] h-full">
+                <div className="absolute -top-10 -right-10 w-56 h-56 rounded-full bg-white/[.13] blur-[44px]" />
+                <div className="relative flex justify-between items-start gap-5">
+                  <div className="max-w-xs">
+                    <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/80 mb-3.5">Consumer brand</div>
+                    <img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-[70px] w-auto mb-5 drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)]" />
+                    <p className="font-serif text-xl leading-relaxed text-white/90 mb-6">Pink for the north, black for the south. JSR Lachkari Kolam and HMT in 10, 26 and 30 kg. “Love in every bite.”</p>
+                    <span className="inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase">{t.suryaCta} →</span>
+                  </div>
+                  <img src={SURYA_PACK_BLACK_URL} alt="Surya HMT rice, black pack" className="w-32 sm:w-[135px] h-auto drop-shadow-[0_22px_40px_rgba(0,0,0,0.5)] flex-shrink-0" />
+                </div>
+              </Link>
+            </ScrollReveal>
+            <ScrollReveal width="100%">
+              <Link to="/products" className="block relative overflow-hidden bg-white/5 hover:bg-white/[.09] transition-colors duration-300 p-9 sm:p-10 border border-white/[.14] h-full">
+                <div className="relative flex justify-between items-start gap-5">
+                  <div className="max-w-xs">
+                    <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/60 mb-3.5">Household brand</div>
+                    <img src="images/logos/dwaraka_brand_logo.webp" alt="Dwaraka" className="h-[70px] w-auto mb-5" />
+                    <p className="font-serif text-xl leading-relaxed text-white/70 mb-6">Short, thick grain built for fermentation — idli and dosa batter that behaves the same way every single time.</p>
+                    <span className="inline-flex items-center gap-2 border border-white/35 text-white px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase">{t.allProducts} →</span>
+                  </div>
+                  <img src="images/products/brands/dwaraka_pack_1.webp" alt="Dwaraka pack" className="w-32 sm:w-[135px] h-auto drop-shadow-[0_22px_40px_rgba(0,0,0,0.45)] flex-shrink-0" />
+                </div>
+              </Link>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 04 — The paper trail */}
+      <section className="bg-brand-cream py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-xl mx-auto">
+          <ScrollReveal width="100%">
+            <div className="grid lg:grid-cols-[1fr_.85fr] gap-12 items-end mb-11">
+              <div>
+                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#A8842A] mb-4">04 — {t.s4kicker}</div>
+                <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-gray-900">{t.s4title}</h2>
+              </div>
+              <p className="font-serif text-xl leading-relaxed text-gray-600">Numbers you can verify before you place an order. Full-resolution copies of all three, plus lab reports and a company profile, are sent on request.</p>
+            </div>
+          </ScrollReveal>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {CERTIFICATIONS.map((c) => (
+              <ScrollReveal key={c.name} width="100%">
+                <div className="bg-white border border-brand-line flex flex-col h-full hover:shadow-[0_22px_44px_-22px_rgba(10,18,48,0.28)] transition-shadow duration-300">
+                  <div className="h-[250px] overflow-hidden bg-brand-cream border-b border-brand-line">
+                    <img src={c.src} alt={c.name} className="w-full h-full object-cover object-top" />
+                  </div>
+                  <div className="p-6 sm:p-7 flex flex-col gap-3.5 flex-1">
+                    <h3 className="font-display text-xl text-gray-900">{c.name}</h3>
+                    <div className="flex flex-col gap-1.5">
+                      <div className="flex justify-between gap-3.5"><span className="text-gray-400 uppercase font-bold text-[10px] tracking-wider">{c.numberLabel}</span><span className="text-gray-800 font-semibold text-right text-[11.5px]">{c.number}</span></div>
+                      <div className="flex justify-between gap-3.5"><span className="text-gray-400 uppercase font-bold text-[10px] tracking-wider">Valid to</span><span className="text-gray-800 font-semibold text-right text-[11.5px]">{c.validTo}</span></div>
+                    </div>
+                    <p className="text-[13.5px] leading-relaxed text-gray-500 font-light mt-auto">{c.description}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gold CTA */}
+      <section className="relative overflow-hidden bg-brand-secondary text-brand-dark py-24 px-4 sm:px-6 lg:px-8">
+        <div className="absolute -top-24 -right-16 w-[420px] h-[420px] rounded-full bg-white/[.22] blur-[60px]" />
+        <ScrollReveal width="100%">
+          <div className="relative max-w-3xl mx-auto text-center">
+            <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight mb-5">{t.ctaTitle}</h2>
+            <p className="font-serif text-xl leading-relaxed text-brand-dark/80 mb-9 max-w-xl mx-auto">One message with your variety, quantity and delivery city is enough. We reply with a price, a lab report and a dispatch date.</p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <a
+                href={WHATSAPP_BULK_QUOTE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 bg-brand-dark text-white px-8 py-[19px] rounded-full text-xs font-extrabold tracking-[0.13em] uppercase transition-all duration-300 hover:bg-[#1D9E5A] hover:-translate-y-1"
+              >
+                <WhatsAppIcon className="w-4 h-4" />
+                {t.ctaWhatsapp}
+              </a>
+              <a
+                href={`tel:+${COMPANY_CONTACT_PHONE.replace(/\D/g, '')}`}
+                className="inline-flex items-center gap-2.5 border-[1.5px] border-brand-dark/35 text-brand-dark px-8 py-[19px] rounded-full text-xs font-extrabold tracking-[0.13em] uppercase transition-colors duration-300 hover:bg-brand-dark/[.08]"
+              >
+                {COMPANY_CONTACT_PHONE}
+              </a>
+            </div>
+          </div>
+        </ScrollReveal>
+      </section>
     </div>
   );
 };

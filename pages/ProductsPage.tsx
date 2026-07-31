@@ -1,108 +1,132 @@
-
 import React from 'react';
-import SEO from '../components/SEO';
-import SectionTitle from '../components/SectionTitle';
-import ProductCard from '../components/ProductCard';
-import HeroCarousel from '../components/HeroCarousel';
-import { RICE_VARIETIES_DATA, RICE_BRANDS_DATA, OTHER_PRODUCTS_DATA } from '../constants';
-import type { RiceBrandInfo } from '../types';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
+import ScrollReveal from '../components/ScrollReveal';
+import { RICE_VARIETIES_DATA, PACK_SIZES, SURYA_SWATCHES, BYPRODUCTS_DATA, buildVarietyQuoteLink } from '../constants';
+import type { RiceVarietyInfo } from '../types';
+import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { useLanguage } from '../context/LanguageContext';
 
 const ProductsPage: React.FC = () => {
+  const { lang } = useLanguage();
+  const t = MAIN_TRANSLATIONS[lang];
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "Our Products - Vagdevi Food Products",
-    "description": "Explore our wide range of premium rice varieties and food products. Fresh, authentic, and high quality.",
-    "mainEntity": {
-      "@type": "ItemList",
-      "itemListElement": RICE_BRANDS_DATA.map((brand, index) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "item": {
-          "@type": "Product",
-          "name": brand.name,
-          "description": brand.description,
-          "image": brand.logoUrl
-        }
-      }))
-    }
+    "name": "Products - Vagdevi Food Products",
+    "description": "JSR, HMT and RNR rice varieties, plus rice bran, broken rice and husk by-products, milled at Yadgarpally, Miryalaguda.",
   };
 
   return (
-    <div className="bg-brand-bg font-sans pt-24 md:pt-32"> {/* Increased top padding to prevent Navbar overlap */}
+    <div className="bg-brand-cream font-sans">
       <SEO
-        title="Our Products - Vagdevi Food Products"
-        description="Explore our wide range of premium rice varieties and food products. Fresh, authentic, and high quality."
-        keywords="rice products, indian rice, vagdevi products"
+        title="Products - Vagdevi Food Products"
+        description="Rice, by-products and the packs they ship in. Three varieties, each available as steam or double boiled, in 10, 26 and 30 kg packs."
+        keywords="JSR rice, HMT rice, RNR rice, Sona Masoori, rice bran, broken rice, husk"
         structuredData={structuredData}
       />
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle
-          title="Our Extensive Product Range"
-          subtitle="Discover high-Quality rice brands, varieties, and by-products, all backed by our commitment to Trust and reliable Supply."
-        />
 
-        {/* Rice Brands Section */}
-        <section className="py-12 md:py-16"> {/* Adjusted padding */}
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-text-heading mb-12 md:mb-16 text-center">Our Esteemed Brands: A Testament to Quality & Trust</h2>
-          <div className="space-y-16 md:space-y-20">
-            {RICE_BRANDS_DATA.map((brand: RiceBrandInfo, index: number) => (
-              <div
-                key={brand.name}
-                className={`bg-brand-bg-alt p-6 md:p-8 lg:p-10 rounded-xl shadow-subtle overflow-hidden flex flex-col lg:grid lg:grid-cols-12 lg:gap-10 items-center ${index % 2 !== 0 ? 'lg:grid-flow-row-dense' : ''}`}
-              >
-                <div className={`w-full lg:col-span-7 ${index % 2 !== 0 ? 'lg:col-start-6' : ''}`}>
-                  <HeroCarousel
-                    images={brand.packagingImageUrls.map((url, idx) => ({
-                      id: idx,
-                      url: url,
-                      alt: `${brand.name} Packaging ${idx + 1}`
-                    }))}
-                    className="h-[280px] sm:h-[400px]" // Adjusted height for product card
-                    imageClassName="max-h-[220px] sm:max-h-[320px]" // Adjusted image sizing
-                  />
-                </div>
-                <div className={`lg:col-span-5 mt-8 lg:mt-0 text-center lg:text-left ${index % 2 !== 0 ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
-                  <img src={brand.logoUrl} alt={`${brand.name} Logo`} className="h-20 md:h-24 w-auto mb-5 object-contain mx-auto lg:mx-0 transition-transform duration-300 hover:scale-105" />
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-text-heading">{brand.name}</h3>
-                  <p className="text-md text-brand-saffron font-medium my-2">{brand.tagline}</p>
-                  <p className="text-text-body text-base leading-relaxed mb-6">{brand.description}</p>
-                  <Link
-                    to={`/contact?brand=${encodeURIComponent(brand.name)}`}
-                    className="inline-flex items-center justify-center px-8 py-3.5 border border-transparent text-base font-medium rounded-lg text-brand-espresso bg-brand-saffron hover:bg-brand-gold shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-saffron"
-                  >
-                    Enquire about {brand.name}
-                  </Link>
-                  <p className="mt-6 text-xs text-text-muted">Product packaging may vary. Images are illustrative.</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Rice Varieties Section */}
-        <section className="py-20 sm:py-28 bg-brand-bg-alt rounded-xl shadow-subtle my-12 md:my-16">
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-text-heading mb-6 text-center">Our Diverse Rice Varieties: Quality in Every Grain</h2>
-          <p className="text-center text-text-body text-base mb-12 md:mb-16 max-w-2xl mx-auto px-4 leading-relaxed">
-            All our premium rice varieties are available in both <strong>Steam Rice</strong> and <strong>Double Boiled Rice</strong> options, catering to diverse culinary preferences. Each grain promises consistent Quality and taste, ensured by our dependable Supply.
+      <section className="relative bg-brand-dark text-white overflow-hidden py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_82%_15%,rgba(212,175,55,0.18),transparent_62%)]" />
+        <div className="relative max-w-screen-xl mx-auto">
+          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navProducts}</div>
+          <h1 className="font-display text-[34px] sm:text-6xl leading-[1.05] tracking-tight max-w-3xl mb-6">{t.productsTitle}</h1>
+          <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/76 max-w-2xl">
+            Three varieties, each available as steam or double boiled, in 10, 26 and 30 kg packs — plus the by-products the mill produces along the way.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4 md:px-6">
-            {RICE_VARIETIES_DATA.map((variety) => (
-              <ProductCard
-                key={variety.name}
-                name={variety.name}
-                description={variety.description}
-                imageUrl={variety.imageUrl}
-                details={variety.types}
-                linkPath={`/contact?product=${encodeURIComponent(variety.name)}`}
-              />
+        </div>
+      </section>
+
+      <section className="bg-brand-cream py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-xl mx-auto">
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+            {RICE_VARIETIES_DATA.map((v: RiceVarietyInfo) => (
+              <ScrollReveal key={v.name} width="100%">
+                <div className="bg-white border border-brand-line flex flex-col h-full hover:shadow-[0_26px_50px_-26px_rgba(10,18,48,0.3)] transition-shadow duration-300">
+                  <div className="h-[230px] overflow-hidden border-b border-brand-line group">
+                    <img src={v.imageUrl} alt={v.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  </div>
+                  <div className="p-7 sm:p-8 flex flex-col gap-4 flex-1">
+                    <div>
+                      <h3 className="font-display text-[28px] leading-tight text-gray-900">{v.name}</h3>
+                      <div className="text-[10.5px] font-bold tracking-[0.18em] uppercase text-[#A8842A] mt-2">{v.altName}</div>
+                    </div>
+                    <p className="text-[14.5px] leading-relaxed text-gray-500 font-light">{v.description}</p>
+                    <div className="flex flex-wrap gap-2 mt-auto">
+                      {v.types.map((type) => (
+                        <span key={type} className="text-[10.5px] font-bold tracking-wider uppercase bg-brand-cream border border-brand-line text-gray-800 px-3.5 py-2">{type}</span>
+                      ))}
+                    </div>
+                    <a
+                      href={buildVarietyQuoteLink(`${v.name} / ${v.altName} rice`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark border-b-2 border-brand-secondary pb-1 self-start hover:text-[#A8842A]"
+                    >
+                      {t.enquire} →
+                    </a>
+                  </div>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
-        </section>
 
+          <ScrollReveal width="100%">
+            <h2 className="font-display text-2xl sm:text-4xl leading-tight text-gray-900 mb-7">Pack sizes &amp; brands</h2>
+          </ScrollReveal>
+          <div className="grid lg:grid-cols-[1.15fr_.85fr] gap-6 mb-20">
+            <ScrollReveal width="100%">
+              <div className="bg-white border border-brand-line p-8 sm:p-9 h-full">
+                <div className="flex flex-wrap gap-3.5 mb-7">
+                  {PACK_SIZES.map((pk) => (
+                    <div key={pk.kg} className="border border-brand-line bg-brand-cream px-6 py-5 flex-1 min-w-[120px]">
+                      <div className="font-display text-3xl text-gray-900 leading-none">{pk.kg}</div>
+                      <div className="text-[10px] font-bold tracking-[0.16em] uppercase text-[#A8842A] mt-2">{pk.use}</div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[14.5px] leading-relaxed text-gray-500 font-light">
+                  Woven PP and jute, printed to your artwork for private label, or in our own Surya and Dwaraka packs. Bulk consignments ship in 50 kg bags on request. Every pack carries a lot number that ties it back to a milling date and a lab report.
+                </p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal width="100%">
+              <Link
+                to="/surya"
+                className="flex flex-col justify-between gap-5 bg-gradient-to-br from-[#E4187C] to-[#96094D] text-white p-8 sm:p-9 relative overflow-hidden"
+              >
+                <div className="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-white/[.14] blur-[40px]" />
+                <div className="relative">
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/78 mb-4">Eight pack colours</div>
+                  <img src="images/logos/surya_brand_logo.webp" alt="Surya" className="h-[62px] w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.3)]" />
+                </div>
+                <div className="relative flex gap-2 flex-wrap">
+                  {SURYA_SWATCHES.map((sw) => (
+                    <span key={sw.n} title={sw.n} className="w-[26px] h-[26px] rounded-full border-[1.5px] border-white/60" style={{ backgroundColor: sw.c }} />
+                  ))}
+                </div>
+                <span className="relative inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase self-start">{t.suryaCta} →</span>
+              </Link>
+            </ScrollReveal>
+          </div>
 
-      </div>
+          <ScrollReveal width="100%">
+            <h2 className="font-display text-2xl sm:text-4xl leading-tight text-gray-900 mb-7">By-products</h2>
+          </ScrollReveal>
+          <div className="grid sm:grid-cols-3 gap-px bg-brand-line border border-brand-line">
+            {BYPRODUCTS_DATA.map((b) => (
+              <ScrollReveal key={b.n} width="100%">
+                <div className="bg-white hover:bg-[#FFFDF5] transition-colors duration-300 px-8 py-9 h-full">
+                  <h3 className="font-display text-2xl text-gray-900 mb-3">{b.n}</h3>
+                  <p className="text-sm leading-relaxed text-gray-500 font-light">{b.d}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

@@ -1,7 +1,7 @@
-
-import type { NavLink, RiceVarietyInfo, RiceBrandInfo, MarketInfo, CompanyHighlight } from './types';
-import { GlobeAltIcon, LightBulbIcon, ShieldCheckIcon, TruckIcon, UsersIcon, StarIcon, BeakerIcon, ChatBubbleBottomCenterTextIcon, HeartIcon, CubeTransparentIcon } from '@heroicons/react/24/outline';
-import React from 'react';
+import type {
+  NavLink, RiceVarietyInfo, RiceBrandInfo, PillarInfo, StrengthInfo,
+  CertificationInfo, ExportSpecRow, PackSizeInfo, ByProductInfo, ColourSwatch, HeroStat,
+} from './types';
 
 export const COMPANY_NAME = "Vagdevi Food Products Private Limited";
 export const SHORT_COMPANY_NAME = "Vagdevi Foods";
@@ -10,48 +10,85 @@ export const COMPANY_ADDRESS = "Yadgarpalle, Telangana 508207";
 export const COMPANY_CONTACT_EMAIL = "info@vagdevifoods.com";
 export const COMPANY_CONTACT_PHONE = "+91 90004 16808";
 export const COMPANY_CONTACT_PHONE_FORMATTED = "+91 90004-16808";
+export const COMPANY_WHATSAPP_NUMBER = "919000416808";
+
+export const FARMER_PAYMENTS_PHONE_FORMATTED = "95504 16809";
+export const FARMER_PAYMENTS_WHATSAPP_NUMBER = "919550416809";
+
+export const INCORPORATION_DATE = "15 September 2017";
+export const DIRECTORS = ['Sujatha Mujja', 'Nookala Hanmantha Reddy', 'Ranga Ranzith Kumar', 'Sridhar Ranga', 'Ranga Srikar'];
+export const IEC_NUMBER = "AAGCV1018C";
+export const GEO_COORDINATES = { lat: 16.8769, lng: 79.5974 };
+
+export const MILL_ADDRESS_LINES = ["Sy. Nos. 328–333, Vijayawada Road,", "Yadgarpally, Miryalaguda,", "Nalgonda District, Telangana 508207"];
+export const REGISTERED_OFFICE_LINES = ["1-98/1/JSIC/6F/604-B, 6th Floor,", "Jain Sadguru Capital Park, Madhapur,", "Hyderabad, Telangana 500082"];
+
+export const GOOGLE_MAPS_EMBED_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3817.9789240473942!2d79.59740769999999!3d16.876937100000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35250429b5232d%3A0x97c88d0bd3e943fd!2sVagdevi%20Food%20Products%20Private%20Limited!5e0!3m2!1sen!2sin!4v1756100292717!5m2!1sen!2sin";
+
+export const SEO_KEYWORDS = [
+  "Premium Rice Manufacturers Telangana",
+  "Export Quality Sona Masoori Rice",
+  "Bulk Rice Suppliers India",
+  "Rice Mill Private Label Services",
+  "Horeca Rice Suppliers",
+  "Steam Rice Wholesale",
+  "Double Boiled Rice Exporters",
+  "Vagdevi Food Products",
+  "Indian Rice Brands for Export"
+].join(", ");
+
+export const buildWhatsAppLink = (message: string): string =>
+  `https://wa.me/${COMPANY_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+export const buildVarietyQuoteLink = (varietyName: string): string =>
+  buildWhatsAppLink(`Hello Vagdevi Food Products, I would like a quote for ${varietyName}.\n• Steam / Double boiled: \n• Quantity: \n• Delivery city: `);
+
+export const WHATSAPP_BULK_QUOTE_LINK = buildWhatsAppLink(
+  "Hello Vagdevi Food Products, I'd like a bulk rice quote for:\n• Variety: \n• Quantity: \n• Delivery city: "
+);
+
+export const WHATSAPP_MILL_VISIT_LINK = buildWhatsAppLink(
+  "Hello Vagdevi Food Products, I would like to visit the mill at Yadgarpally.\n• Company: \n• Preferred date: \n• What I want to see: "
+);
 
 export const NAV_LOGO_URL = "images/logos/vagdevi_nav_logo.webp";
 export const FOOTER_LOGO_URL = "images/logos/vagdevi_footer_logo.webp";
 
-export const HERO_BG_URL = "images/hero/hero_bg.webp";
-export const HERO_PRODUCT_BAG_1_URL = "images/hero/hero_product_bag_dwaraka.webp";
-export const HERO_PRODUCT_BAG_2_URL = "images/hero/hero_product_bag_surya.webp";
+export const SURYA_PACK_PINK_URL = "images/products/surya/pack_pink_jsr.png";
+export const SURYA_PACK_BLACK_URL = "images/products/surya/pack_black_hmt.png";
 
 export const ABOUT_PROMOTER_IMAGE_URL = "images/illustrations/about_promoter.webp";
-export const ABOUT_PAGE_BG_ILLUSTRATION_URL = "images/illustrations/about_page_bg.webp";
-export const WHY_CHOOSE_US_BG_URL = "images/illustrations/why_choose_us_bg.webp";
-export const CONTACT_MAP_PLACEHOLDER_URL = "images/general/contact_map.webp";
-
-export const FARMER_MASCOT_URL = "images/illustrations/farmer_mascot.webp";
-export const WOMAN_FARMER_MASCOT_URL = "images/illustrations/woman_farmer_mascot.webp";
-
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", path: "/" },
   { label: "About Us", path: "/about" },
+  { label: "The Mill", path: "/mill" },
   { label: "Products", path: "/products" },
+  { label: "Exports", path: "/business" },
   { label: "Contact Us", path: "/contact" },
 ];
 
 export const RICE_VARIETIES_DATA: RiceVarietyInfo[] = [
   {
     name: "JSR",
+    altName: "Lachkari Kolam",
     types: ["Steam Rice", "Double Boiled Rice"],
     imageUrl: "images/products/varieties/jsr_rice.webp",
-    description: "A popular choice known for its excellent cooking quality and taste, suitable for various culinary preparations."
+    description: "Our largest-selling grain and the rice inside the pink Surya pack. Cooks fluffy and separate, and holds its shape in pulao and everyday meals."
   },
   {
     name: "HMT",
+    altName: "Sona Masoori · Ponni type",
     types: ["Steam Rice", "Double Boiled Rice"],
     imageUrl: "images/products/varieties/hmt_rice.webp",
-    description: "Fine grain rice cherished for its aromatic fragrance and fluffy texture upon cooking."
+    description: "Fine, light and easily digestible. Sold as the black Surya pack and preferred wherever boiled rice is the daily staple."
   },
   {
-    name: "RNR (Telangana Sona)",
+    name: "RNR",
+    altName: "Telangana Sona",
     types: ["Steam Rice", "Double Boiled Rice"],
     imageUrl: "images/products/varieties/rnr_rice.webp",
-    description: "A healthy variety with a low glycemic index, known for its distinct taste and nutritional benefits."
+    description: "A short-duration variety with a low glycaemic index, increasingly asked for by health-conscious households and institutional buyers."
   },
 ];
 
@@ -59,8 +96,8 @@ export const RICE_BRANDS_DATA: RiceBrandInfo[] = [
   {
     name: "Surya",
     logoUrl: "images/logos/surya_brand_logo.webp",
-    tagline: "Nourishing Homes, Energizing Lives.",
-    description: "Surya brand offers wholesome and nutritious rice, a testament to our focus on Quality and consistent Supply. It's the Trusted choice for health-conscious consumers seeking reliability in every meal.",
+    tagline: "Love in every bite.",
+    description: "Pink for the north, black for the south. JSR Lachkari Kolam and HMT boiled, in 10, 26 and 30 kg packs — the rice that shows up on lakhs of plates across six states.",
     packagingImageUrls: [
       "images/products/brands/surya_pack_1.webp",
       "images/products/brands/surya_blue_jsr.webp",
@@ -76,95 +113,91 @@ export const RICE_BRANDS_DATA: RiceBrandInfo[] = [
     name: "Dwaraka",
     logoUrl: "images/logos/dwaraka_brand_logo.webp",
     tagline: "The Taste of Tradition, The Promise of Quality.",
-    description: "Dwaraka brand rice embodies our commitment to premium Quality and enduring Trust. Processed with utmost care and reliably Supplied, it delivers exceptional taste and texture, perfect for families who seek the best.",
+    description: "Short, thick grain built for fermentation — idli and dosa batter that behaves the same way every single time.",
     packagingImageUrls: [
       "images/products/brands/dwaraka_pack_1.webp",
     ]
   },
 ];
 
-export const OTHER_PRODUCTS_DATA = [
-  { name: "Rice Bran", description: "Nutrient-rich byproduct, reflecting our commitment to quality in every part of the milling process. Ideal for animal feed and oil extraction.", imageUrl: "images/products/other/rice_bran.webp" },
-  { name: "Broken Rice", description: "Versatile broken grains, maintaining our quality standards, suitable for various food preparations and animal feed.", imageUrl: "images/products/other/broken_rice.webp" },
-  { name: "Husk", description: "Eco-friendly byproduct used as fuel, in construction, and for agricultural purposes, part of our sustainable supply chain.", imageUrl: "images/products/other/husk.webp" },
+export const BYPRODUCTS_DATA: ByProductInfo[] = [
+  { n: "Rice Bran", d: "Drawn off at the polishing stage and sold on for oil extraction and cattle feed." },
+  { n: "Broken Rice", d: "Graded fine and coarse, for food processing, brewing and feed applications." },
+  { n: "Husk", d: "Used as boiler fuel, in board manufacture and as a soil conditioner." },
 ];
 
-
-export const MARKETS_DATA: MarketInfo[] = [
-  { name: "Maharashtra", description: "Serving a vast network of wholesalers and retailers across Maharashtra with consistent Quality and reliable Supply." },
-  { name: "Tamil Nadu", description: "Strong presence in Tamil Nadu, meeting diverse regional rice preferences with Trusted products." },
-  { name: "Karnataka", description: "Delivering Quality rice products to key markets in Karnataka, ensuring dependable Supply." },
-  { name: "Andhra Pradesh", description: "Catering to the demands of the Andhra Pradesh rice market with reliability and Trusted Quality." },
-  { name: "Telangana", description: "Our home state, with deep market penetration and strong local Trust, backed by consistent Supply." },
-  { name: "Chhattisgarh", description: "Expanding our reach and serving the growing market in Chhattisgarh with our Quality rice." },
+export const PACK_SIZES: PackSizeInfo[] = [
+  { kg: "10 kg", use: "Retail shelf" },
+  { kg: "26 kg", use: "Household staple" },
+  { kg: "30 kg", use: "Kitchens & HoReCa" },
 ];
 
-export const CORE_VALUES_DATA: CompanyHighlight[] = [
-  {
-    title: "Uncompromising Quality",
-    description: "From paddy selection to milling, we ensure every grain meets the highest standards of purity and taste.",
-    icon: React.createElement(ShieldCheckIcon, { className: "h-10 w-10 text-brand-orange" })
-  },
-  {
-    title: "Enduring Trust",
-    description: "Building lasting relationships through transparency, integrity, and consistent delivery on our promises.",
-    icon: React.createElement(HeartIcon, { className: "h-10 w-10 text-brand-orange" })
-  },
-  {
-    title: "Dependable Supply",
-    description: "Our robust infrastructure and efficient logistics ensure a timely and reliable supply to meet market demands.",
-    icon: React.createElement(TruckIcon, { className: "h-10 w-10 text-brand-orange" })
-  },
-  {
-    title: "Rich Varieties",
-    description: "Offering a diverse range of rice varieties, including JSR, HMT, BPT, and RNR, in both Steam and Double Boiled forms.",
-    icon: React.createElement(BeakerIcon, { className: "h-10 w-10 text-brand-orange" })
-  },
+export const SURYA_SWATCHES: ColourSwatch[] = [
+  { n: "Pink · JSR", c: "#D6197B" },
+  { n: "Black · HMT", c: "#141414" },
+  { n: "Dark Green", c: "#12603A" },
+  { n: "Parrot Green", c: "#3FA935" },
+  { n: "Orange", c: "#EE7A1E" },
+  { n: "Red", c: "#C81E28" },
+  { n: "Blue", c: "#1B4F9C" },
+  { n: "Silver", c: "#B9BEC4" },
 ];
 
-export const CULINARY_GUIDE_DATA = [
-  {
-    dish: "The Perfect Biryani",
-    recommendation: "Surya Brand",
-    description: "Long, aromatic grains that effectively absorb spices while remaining fluffy and separate. Essential for that authentic restaurant-style Biryani experience.",
-    icon: "🥘"
-  },
-  {
-    dish: "Softest Idlis & Crispy Dosas",
-    recommendation: "Dwaraka Brand",
-    description: "Short, thick grains optimized for fermentation. Grinds into a smooth batter that yields cloud-like Idlis and golden-brown, crispy Dosas every time.",
-    icon: "🥣"
-  },
-  {
-    dish: "Daily Wholesome Meals",
-    recommendation: "Sona Masoori (HMT)",
-    description: "Light, easily digestible, and versatile. The ideal choice for steaming, fried rice, and everyday curries. A staple for health-conscious families.",
-    icon: "🍚"
-  }
+export const HERO_STATS: HeroStat[] = [
+  { n: "2017", l: "Incorporated" },
+  { n: "30+", l: "Years promoter experience" },
+  { n: "6", l: "States supplied" },
+  { n: "3", l: "Certifications" },
 ];
 
-export const COMPANY_STRENGTHS_DATA: CompanyHighlight[] = [
-  {
-    title: "Decades of Promoter Experience",
-    description: "Leveraging over 30 years of industry expertise to ensure Quality, build Trust, and maintain reliable Supply chains.",
-    icon: React.createElement(UsersIcon, { className: "h-8 w-8 text-brand-orange" })
-  },
-  {
-    title: "Ongoing Quality Enhancement",
-    description: "Dedicated to excellence, we constantly innovate to deliver rice of unmatched Quality, reinforcing the Trust our customers place in us.",
-    icon: React.createElement(ShieldCheckIcon, { className: "h-8 w-8 text-brand-orange" })
-  },
-  {
-    title: "Openness and Integrity",
-    description: "We uphold transparency in all operations, ensuring honesty and building enduring Trust with all stakeholders.",
-    icon: React.createElement(HeartIcon, { className: "h-8 w-8 text-brand-orange" })
-  },
-  {
-    title: "Modern Infrastructure",
-    description: "Equipped with advanced milling technology and storage for efficient product integrity and dependable Supply.",
-    icon: React.createElement(TruckIcon, { className: "h-8 w-8 text-brand-orange" })
-  },
+export const TICKER_ITEMS = [
+  "JSR / Lachkari Kolam", "HMT Sona Masoori", "RNR Telangana Sona", "Steam Rice",
+  "Double Boiled Rice", "Rice Bran", "Broken Rice", "Husk", "Private Label", "Bulk Export",
 ];
+
+export const PILLARS_DATA: PillarInfo[] = [
+  { i: "I", t: "Same-day paddy", d: "Farmers from the surrounding mandals deliver straight to our gate. Nothing sits in a trader’s godown losing moisture and character before it reaches us." },
+  { i: "II", t: "One roof, one lot", d: "Drying, milling, grading, colour sorting and packing all happen on the same premises, so a lot number stays intact from weighbridge to warehouse." },
+  { i: "III", t: "Dispatch to six states", d: "Maharashtra, Tamil Nadu, Karnataka, Andhra Pradesh, Chhattisgarh and Telangana — with the Vijayawada highway and the Miryalaguda railhead at the door." },
+];
+
+export const STRENGTHS_DATA: StrengthInfo[] = [
+  { n: "30+", t: "Promoter experience", d: "Three decades in paddy procurement and milling, carried into every purchase decision." },
+  { n: "01", t: "Single-site control", d: "Nothing is job-worked out. What we sell, we milled." },
+  { n: "06", t: "States served", d: "A distribution network that has grown outward from Telangana year on year." },
+  { n: "03", t: "Live certifications", d: "FSSAI, ISO 22000:2018 and APEDA — all current, all verifiable." },
+];
+
+export const CERTIFICATIONS: CertificationInfo[] = [
+  { name: "ISO 22000:2018", src: "images/certs/iso_22000_2018.webp", numberLabel: "Certificate", number: "HYM/UAS/FMS/9186414/001", validTo: "19 Jan 2027", description: "Food safety management covering processing, milling and export of rice and by-products. Certified since January 2018." },
+  { name: "FSSAI State Licence", src: "images/certs/fssai_licence.webp", numberLabel: "Licence no.", number: "13618008000475", validTo: "30 Dec 2028", description: "Issued by the Government of Telangana for the authorised premises at Yadgarpally, Miryalaguda." },
+  { name: "APEDA RCMC", src: "images/certs/apeda_rcmc.webp", numberLabel: "Registration", number: "221976", validTo: "31 Mar 2029", description: "Registered as a Manufacturer Exporter of rice under the Foreign Trade Policy. IEC AAGCV1018C." },
+];
+
+export const EXPORT_PROPS: PillarInfo[] = [
+  { i: "I", t: "Export-ready quality", d: "Moisture, whiteness, broken ratio and average length checked in-house, with a signed report per lot." },
+  { i: "II", t: "Private labelling", d: "Your artwork on 10, 26, 30 and 50 kg bags — the same lines that print Surya and Dwaraka." },
+  { i: "III", t: "Logistics from Miryalaguda", d: "On the Vijayawada highway with rail access, and reachable dry ports for container movement." },
+];
+
+export const EXPORT_SPECS: Record<'sona' | 'steam', ExportSpecRow[]> = {
+  sona: [
+    { p: "Moisture content", v: "13% max" },
+    { p: "Average grain length", v: "5.0 – 5.2 mm" },
+    { p: "Broken ratio", v: "under 2%" },
+    { p: "Whiteness (KETT)", v: "38 – 42" },
+    { p: "Purity", v: "99%" },
+    { p: "Crop year", v: "Current or old" },
+  ],
+  steam: [
+    { p: "Moisture content", v: "13.5% max" },
+    { p: "Average grain length", v: "4.8 – 5.0 mm" },
+    { p: "Broken ratio", v: "under 5%" },
+    { p: "Whiteness (KETT)", v: "35 – 38" },
+    { p: "Purity", v: "98%" },
+    { p: "Crop year", v: "Current" },
+  ],
+};
 
 export const SOCIAL_LINKS = [
   { name: 'YouTube', url: '#', icon: 'YT' },

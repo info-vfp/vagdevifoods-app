@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { SEO_KEYWORDS } from '../constants'; // Import centralized keywords
 
 interface SEOProps {
     title: string;
@@ -23,12 +24,17 @@ const SEO: React.FC<SEOProps> = ({
     const siteTitle = 'Vagdevi Food Products';
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 
+    // Combine page-specific keywords with global high-value B2B keywords
+    const effectiveKeywords = keywords
+        ? `${keywords}, ${SEO_KEYWORDS}`
+        : SEO_KEYWORDS;
+
     return (
         <Helmet>
             {/* Standard Metadata */}
             <title>{fullTitle}</title>
             <meta name="description" content={description} />
-            {keywords && <meta name="keywords" content={keywords} />}
+            <meta name="keywords" content={effectiveKeywords} />
             <link rel="canonical" href={url} />
 
             {/* Open Graph / Facebook */}

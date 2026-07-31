@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import WhatsAppFAB from './components/WhatsAppFAB';
+import { LanguageProvider } from './context/LanguageContext';
+import { WHATSAPP_BULK_QUOTE_LINK } from './constants';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import MillPage from './pages/MillPage';
 import ProductsPage from './pages/ProductsPage';
-import MarketsPage from './pages/MarketsPage'; // Added back for revamp
+import BusinessPage from './pages/BusinessPage';
 import ContactPage from './pages/ContactPage';
+import SuryaPage from './pages/SuryaPage';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -19,25 +24,36 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
+const MainLayout: React.FC = () => (
+  <div className="flex flex-col min-h-screen bg-brand-bg">
+    <Navbar />
+    <main className="flex-grow">
+      <Outlet />
+    </main>
+    <Footer />
+    <WhatsAppFAB link={WHATSAPP_BULK_QUOTE_LINK} />
+  </div>
+);
+
 const App: React.FC = () => {
   return (
     <HelmetProvider>
       <HashRouter>
-        <ScrollToTop />
-        <div className="flex flex-col min-h-screen bg-brand-bg">
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
+        <LanguageProvider>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/surya" element={<SuryaPage />} />
+            <Route element={<MainLayout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/mill" element={<MillPage />} />
               <Route path="/products" element={<ProductsPage />} />
-              <Route path="/markets" element={<MarketsPage />} /> {/* Route re-added */}
+              <Route path="/business" element={<BusinessPage />} />
               <Route path="/contact" element={<ContactPage />} />
-              <Route path="*" element={<HomePage />} /> {/* Fallback to HomePage for any unmatched route */}
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+              <Route path="*" element={<HomePage />} />
+            </Route>
+          </Routes>
+        </LanguageProvider>
       </HashRouter>
     </HelmetProvider>
   );
