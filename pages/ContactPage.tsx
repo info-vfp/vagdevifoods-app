@@ -135,7 +135,7 @@ const ContactPage: React.FC = () => {
         structuredData={structuredData}
       />
 
-      <section className="relative bg-brand-dark text-white overflow-hidden py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_80%_15%,rgba(212,175,55,0.18),transparent_62%)]" />
         <div className="relative max-w-screen-xl mx-auto">
           <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navContact}</div>

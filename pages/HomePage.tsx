@@ -63,7 +63,7 @@ const HomePage: React.FC = () => {
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(85%_70%_at_78%_10%,rgba(212,175,55,0.20),transparent_62%),radial-gradient(70%_60%_at_6%_94%,rgba(238,128,34,0.13),transparent_62%)]" />
         <div className="absolute -top-[14%] -right-[6%] w-[520px] h-[520px] rounded-full bg-brand-secondary/[.13] blur-[90px] animate-[vf-pulse_9s_ease-in-out_infinite] pointer-events-none" />
 
-        <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 grid lg:grid-cols-[1.12fr_.88fr] gap-12 items-center min-h-[calc(100vh-74px)]">
+        <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 grid lg:grid-cols-[1.12fr_.88fr] gap-12 items-center min-h-[calc(100dvh-74px)]">
           <div>
             <ScrollReveal direction="up">
               <div className="flex items-center gap-3 mb-7">
@@ -110,13 +110,35 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className="relative flex items-center justify-center self-stretch py-12">
-            <div className="absolute w-[330px] h-[330px] rounded-full bg-brand-secondary/[.22] blur-[80px]" />
-            <div className="absolute bottom-[60px] w-[230px] h-[30px] rounded-full bg-black/[.55] blur-[22px]" />
-            <img
-              src={SURYA_PACK_PINK_URL}
-              alt="Vagdevi's Surya JSR Lachkari Kolam rice, 26 kg"
-              className="relative max-h-[min(64vh,560px)] max-w-full w-auto drop-shadow-[0_30px_55px_rgba(0,0,0,0.5)] animate-[vf-float_7.5s_ease-in-out_infinite]"
-            />
+            <div className="absolute w-[420px] h-[420px] rounded-full bg-brand-secondary/[.20] blur-[90px]" />
+            <div className="relative flex items-end justify-center gap-3 sm:gap-6 w-full max-w-[540px] mx-auto">
+              <div className="relative flex flex-col items-center w-[46%]">
+                <div className="absolute bottom-3 w-[70%] h-[20px] rounded-full bg-black/[.5] blur-[16px]" />
+                <img
+                  src={SURYA_PACK_PINK_URL}
+                  alt="Vagdevi's Surya JSR Lachkari Kolam rice, 26 kg — pink pack"
+                  width={399}
+                  height={626}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="relative w-full h-auto drop-shadow-[0_26px_46px_rgba(0,0,0,0.5)] animate-[vf-float_7.5s_ease-in-out_infinite]"
+                />
+                <span className="mt-4 text-[10px] font-bold tracking-[0.18em] uppercase text-white/70">Pink · JSR</span>
+              </div>
+              <div className="relative flex flex-col items-center w-[46%]">
+                <div className="absolute bottom-3 w-[70%] h-[20px] rounded-full bg-black/[.5] blur-[16px]" />
+                <img
+                  src={SURYA_PACK_BLACK_URL}
+                  alt="Vagdevi's Surya HMT rice, 26 kg — black pack"
+                  width={399}
+                  height={626}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="relative w-full h-auto drop-shadow-[0_26px_46px_rgba(0,0,0,0.5)] animate-[sr-float2_9.5s_ease-in-out_infinite]"
+                />
+                <span className="mt-4 text-[10px] font-bold tracking-[0.18em] uppercase text-white/70">Black · HMT</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -132,7 +154,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* 01 — The location */}
-      <section className="bg-brand-cream py-24 px-4 sm:px-6 lg:px-8">
+      <section className="bg-brand-cream py-14 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-2 gap-14 items-end mb-12">
@@ -147,8 +169,8 @@ const HomePage: React.FC = () => {
           </ScrollReveal>
 
           <ScrollReveal width="100%">
-            <div className="relative h-[min(56vh,500px)] overflow-hidden border border-brand-line mb-12">
-              <img src="images/mill/plant_silos.png" alt="Paddy dryers, elevators and steel silos at the Yadgarpally plant" className="w-full h-full object-cover object-[center_62%]" />
+            <div className="relative h-[min(56dvh,500px)] overflow-hidden border border-brand-line mb-12">
+              <img loading="lazy" decoding="async" src="images/mill/plant_silos.webp" alt="Paddy dryers, elevators and steel silos at the Yadgarpally plant" className="w-full h-full object-cover object-[center_62%]" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/[.74] via-brand-dark/[.04] to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 flex flex-wrap gap-3 items-end justify-between">
                 <div>
@@ -175,7 +197,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* 02 — Inside the mill */}
-      <section className="bg-white border-y border-brand-line py-24 px-4 sm:px-6 lg:px-8">
+      <section className="bg-white border-y border-brand-line py-14 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
             <div className="mb-12">
@@ -188,7 +210,7 @@ const HomePage: React.FC = () => {
               <ScrollReveal key={st.n} width="100%">
                 <div>
                   <div className="relative h-[220px] overflow-hidden bg-brand-cream border border-brand-line group">
-                    <img src={st.src} alt={st.t} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: st.pos }} />
+                    <img loading="lazy" decoding="async" src={st.src} alt={st.t} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: st.pos }} />
                   </div>
                   <div className="flex items-baseline gap-2.5 mt-4">
                     <span className="font-display text-sm font-bold text-brand-secondary">{st.n}</span>
@@ -214,7 +236,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* 03 — Our brands */}
-      <section className="relative bg-brand-dark text-white overflow-hidden py-24 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-brand-dark text-white overflow-hidden py-14 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(60%_60%_at_88%_18%,rgba(212,175,55,0.15),transparent_62%)]" />
         <div className="relative max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
@@ -230,11 +252,11 @@ const HomePage: React.FC = () => {
                 <div className="relative flex justify-between items-start gap-5">
                   <div className="max-w-xs">
                     <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/80 mb-3.5">Consumer brand</div>
-                    <img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-[70px] w-auto mb-5 drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)]" />
+                    <img loading="lazy" decoding="async" src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-[70px] w-auto mb-5 drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)]" />
                     <p className="font-serif text-xl leading-relaxed text-white/90 mb-6">Pink for the north, black for the south. JSR Lachkari Kolam and HMT in 10, 26 and 30 kg. “Love in every bite.”</p>
                     <span className="inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase">{t.suryaCta} →</span>
                   </div>
-                  <img src={SURYA_PACK_BLACK_URL} alt="Surya HMT rice, black pack" className="w-32 sm:w-[135px] h-auto drop-shadow-[0_22px_40px_rgba(0,0,0,0.5)] flex-shrink-0" />
+                  <img loading="lazy" decoding="async" src={SURYA_PACK_BLACK_URL} alt="Surya HMT rice, black pack" className="w-32 sm:w-[135px] h-auto drop-shadow-[0_22px_40px_rgba(0,0,0,0.5)] flex-shrink-0" />
                 </div>
               </Link>
             </ScrollReveal>
@@ -243,11 +265,11 @@ const HomePage: React.FC = () => {
                 <div className="relative flex justify-between items-start gap-5">
                   <div className="max-w-xs">
                     <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/60 mb-3.5">Household brand</div>
-                    <img src="images/logos/dwaraka_brand_logo.webp" alt="Dwaraka" className="h-[70px] w-auto mb-5" />
+                    <img loading="lazy" decoding="async" src="images/logos/dwaraka_brand_logo.webp" alt="Dwaraka" className="h-[70px] w-auto mb-5" />
                     <p className="font-serif text-xl leading-relaxed text-white/70 mb-6">Short, thick grain built for fermentation — idli and dosa batter that behaves the same way every single time.</p>
                     <span className="inline-flex items-center gap-2 border border-white/35 text-white px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase">{t.allProducts} →</span>
                   </div>
-                  <img src="images/products/brands/dwaraka_pack_1.webp" alt="Dwaraka pack" className="w-32 sm:w-[135px] h-auto drop-shadow-[0_22px_40px_rgba(0,0,0,0.45)] flex-shrink-0" />
+                  <img loading="lazy" decoding="async" src="images/products/brands/dwaraka_pack_1.webp" alt="Dwaraka pack" className="w-32 sm:w-[135px] h-auto drop-shadow-[0_22px_40px_rgba(0,0,0,0.45)] flex-shrink-0" />
                 </div>
               </Link>
             </ScrollReveal>
@@ -256,7 +278,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* 04 — The paper trail */}
-      <section className="bg-brand-cream py-24 px-4 sm:px-6 lg:px-8">
+      <section className="bg-brand-cream py-14 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-[1fr_.85fr] gap-12 items-end mb-11">
@@ -272,7 +294,7 @@ const HomePage: React.FC = () => {
               <ScrollReveal key={c.name} width="100%">
                 <div className="bg-white border border-brand-line flex flex-col h-full hover:shadow-[0_22px_44px_-22px_rgba(10,18,48,0.28)] transition-shadow duration-300">
                   <div className="h-[250px] overflow-hidden bg-brand-cream border-b border-brand-line">
-                    <img src={c.src} alt={c.name} className="w-full h-full object-cover object-top" />
+                    <img loading="lazy" decoding="async" src={c.src} alt={c.name} className="w-full h-full object-cover object-top" />
                   </div>
                   <div className="p-6 sm:p-7 flex flex-col gap-3.5 flex-1">
                     <h3 className="font-display text-xl text-gray-900">{c.name}</h3>
@@ -290,7 +312,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Gold CTA */}
-      <section className="relative overflow-hidden bg-brand-secondary text-brand-dark py-24 px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-brand-secondary text-brand-dark py-14 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="absolute -top-24 -right-16 w-[420px] h-[420px] rounded-full bg-white/[.22] blur-[60px]" />
         <ScrollReveal width="100%">
           <div className="relative max-w-3xl mx-auto text-center">

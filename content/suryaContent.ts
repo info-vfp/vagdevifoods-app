@@ -16,7 +16,7 @@ export const SURYA_SKUS: SuryaSku[] = [
   {
     key: 'pink', tag: 'Best-seller · North', name: 'Surya Pink', short: 'Pink', variety: 'JSR · Lachkari Kolam',
     bg: 'linear-gradient(158deg,#E4187C 0%,#B00E5C 55%,#7C0740 100%)', ink: '#96094D', accent: '#FFC9E2',
-    img: 'images/products/surya/pack_pink_jsr.png',
+    img: 'images/products/surya/pack_pink_jsr.webp',
     pitch: 'The everyday cooker rice. Cooks fluffy and separate, never gluey — the grain that holds up in pulao, jeera rice and a plain dal-chawal night.',
     specs: [
       { k: 'Grain', v: 'Medium, slender' },
@@ -28,7 +28,7 @@ export const SURYA_SKUS: SuryaSku[] = [
   {
     key: 'black', tag: 'Best-seller · South', name: 'Surya Black', short: 'Black', variety: 'HMT · Ponni type, boiled',
     bg: 'linear-gradient(158deg,#3A3A3A 0%,#1E1E1E 55%,#0D0D0D 100%)', ink: '#1A1A1A', accent: '#D8D8D8',
-    img: 'images/products/surya/pack_black_hmt.png',
+    img: 'images/products/surya/pack_black_hmt.webp',
     pitch: 'Boiled rice for kitchens where rice is the meal, not the side. Soft, light and easy to digest — the one that goes with sambar, rasam and curd rice.',
     specs: [
       { k: 'Grain', v: 'Short, fine' },

@@ -16,7 +16,6 @@ export const FARMER_PAYMENTS_PHONE_FORMATTED = "95504 16809";
 export const FARMER_PAYMENTS_WHATSAPP_NUMBER = "919550416809";
 
 export const INCORPORATION_DATE = "15 September 2017";
-export const DIRECTORS = ['Sujatha Mujja', 'Nookala Hanmantha Reddy', 'Ranga Ranzith Kumar', 'Sridhar Ranga', 'Ranga Srikar'];
 export const IEC_NUMBER = "AAGCV1018C";
 export const GEO_COORDINATES = { lat: 16.8769, lng: 79.5974 };
 
@@ -54,8 +53,8 @@ export const WHATSAPP_MILL_VISIT_LINK = buildWhatsAppLink(
 export const NAV_LOGO_URL = "images/logos/vagdevi_nav_logo.webp";
 export const FOOTER_LOGO_URL = "images/logos/vagdevi_footer_logo.webp";
 
-export const SURYA_PACK_PINK_URL = "images/products/surya/pack_pink_jsr.png";
-export const SURYA_PACK_BLACK_URL = "images/products/surya/pack_black_hmt.png";
+export const SURYA_PACK_PINK_URL = "images/products/surya/pack_pink_jsr.webp";
+export const SURYA_PACK_BLACK_URL = "images/products/surya/pack_black_hmt.webp";
 
 export const ABOUT_PROMOTER_IMAGE_URL = "images/illustrations/about_promoter.webp";
 

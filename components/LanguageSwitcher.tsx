@@ -21,7 +21,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) =
       value={lang}
       onChange={(e) => setLang(e.target.value as LangCode)}
       aria-label="Language"
-      className={`appearance-none bg-white border border-brand-line rounded-full px-3.5 py-2 text-[11px] font-bold text-brand-primary cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 ${className}`}
+      className={`appearance-none bg-white border border-brand-line rounded-full px-3.5 min-h-[44px] text-[13px] sm:text-[11px] font-bold text-brand-primary cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 ${className}`}
     >
       {LANGUAGE_OPTIONS.map((opt) => (
         <option key={opt.value} value={opt.value}>{opt.label}</option>

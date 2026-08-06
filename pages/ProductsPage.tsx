@@ -27,7 +27,7 @@ const ProductsPage: React.FC = () => {
         structuredData={structuredData}
       />
 
-      <section className="relative bg-brand-dark text-white overflow-hidden py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_82%_15%,rgba(212,175,55,0.18),transparent_62%)]" />
         <div className="relative max-w-screen-xl mx-auto">
           <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navProducts}</div>
@@ -38,7 +38,7 @@ const ProductsPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-brand-cream py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="bg-brand-cream py-14 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-screen-xl mx-auto">
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
@@ -46,7 +46,7 @@ const ProductsPage: React.FC = () => {
               <ScrollReveal key={v.name} width="100%">
                 <div className="bg-white border border-brand-line flex flex-col h-full hover:shadow-[0_26px_50px_-26px_rgba(10,18,48,0.3)] transition-shadow duration-300">
                   <div className="h-[230px] overflow-hidden border-b border-brand-line group">
-                    <img src={v.imageUrl} alt={v.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img loading="lazy" decoding="async" src={v.imageUrl} alt={v.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div className="p-7 sm:p-8 flex flex-col gap-4 flex-1">
                     <div>
@@ -100,7 +100,7 @@ const ProductsPage: React.FC = () => {
                 <div className="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-white/[.14] blur-[40px]" />
                 <div className="relative">
                   <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/78 mb-4">Eight pack colours</div>
-                  <img src="images/logos/surya_brand_logo.webp" alt="Surya" className="h-[62px] w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.3)]" />
+                  <img loading="lazy" decoding="async" src="images/logos/surya_brand_logo.webp" alt="Surya" className="h-[62px] w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.3)]" />
                 </div>
                 <div className="relative flex gap-2 flex-wrap">
                   {SURYA_SWATCHES.map((sw) => (

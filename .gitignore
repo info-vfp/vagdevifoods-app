@@ -117,3 +117,6 @@ dist
 
 # macOS
 .DS_Store
+
+# Build output — produced by `npm run build`, published by CI. Never commit it.
+dist/

@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-[80] bg-brand-cream/90 backdrop-blur-md border-b border-brand-line">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-4 h-[74px]">
-        <Link to="/" className="flex items-center flex-shrink-0">
+        <Link to="/" aria-label={`${SHORT_COMPANY_NAME} — home`} className="flex items-center min-h-[44px] flex-shrink-0">
           <img src={NAV_LOGO_URL} alt={`${SHORT_COMPANY_NAME} Logo`} className="h-9 md:h-10 w-auto" />
         </Link>
 
@@ -64,7 +64,9 @@ const Navbar: React.FC = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             type="button"
-            className="p-2 rounded-md text-brand-primary hover:text-[#A8842A] focus:outline-none"
+            aria-expanded={isOpen}
+            aria-label={isOpen ? 'Close main menu' : 'Open main menu'}
+            className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-md text-brand-primary hover:text-[#A8842A] focus:outline-none focus:ring-2 focus:ring-brand-secondary/40"
           >
             <span className="sr-only">Open main menu</span>
             {!isOpen ? <Bars3Icon className="block h-7 w-7" aria-hidden="true" /> : <XMarkIcon className="block h-7 w-7" aria-hidden="true" />}

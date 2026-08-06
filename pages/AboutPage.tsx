@@ -1,7 +1,7 @@
 import React from 'react';
 import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
-import { STRENGTHS_DATA, DIRECTORS, INCORPORATION_DATE, FARMER_PAYMENTS_PHONE_FORMATTED } from '../constants';
+import { STRENGTHS_DATA, INCORPORATION_DATE, FARMER_PAYMENTS_PHONE_FORMATTED } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -30,7 +30,7 @@ const AboutPage: React.FC = () => {
         structuredData={structuredData}
       />
 
-      <section className="relative bg-brand-dark text-white overflow-hidden py-24 sm:py-28 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_80%_15%,rgba(212,175,55,0.18),transparent_62%)]" />
         <div className="relative max-w-screen-xl mx-auto">
           <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navAbout}</div>
@@ -41,12 +41,12 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-brand-cream py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="bg-brand-cream py-14 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-2 border border-brand-line bg-white mb-16">
               <div className="min-h-[320px] lg:min-h-[420px] overflow-hidden">
-                <img src="images/mill/procurement_hall.png" alt="Farmers at the paddy procurement counter" className="w-full h-full object-cover" />
+                <img loading="lazy" decoding="async" src="images/mill/procurement_hall.webp" alt="Farmers at the paddy procurement counter" className="w-full h-full object-cover" />
               </div>
               <div className="p-8 sm:p-11 flex flex-col justify-center gap-5">
                 <h2 className="font-display text-2xl sm:text-3xl leading-tight text-gray-900">It starts at a counter, not a boardroom</h2>
@@ -79,27 +79,14 @@ const AboutPage: React.FC = () => {
             ))}
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
-            <ScrollReveal width="100%">
-              <div className="bg-brand-dark text-white p-9 sm:p-11 h-full">
-                <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#E8CE74] mb-[18px]">Mission</div>
-                <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/85">
-                  To supply rice of a consistent, verifiable standard — every bag, every consignment — and to pay the farmers who grow it fairly and on time.
-                </p>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal width="100%">
-              <div className="bg-white border border-brand-line p-9 sm:p-11 h-full">
-                <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#A8842A] mb-[18px]">Board of directors</div>
-                <div className="flex flex-col gap-3">
-                  {DIRECTORS.map((d) => (
-                    <div key={d} className="font-display text-xl text-gray-900 pb-3 border-b border-[#F0EBDD]">{d}</div>
-                  ))}
-                </div>
-                <p className="text-[11px] text-gray-400 mt-4 tracking-wide">As recorded on APEDA RCMC 221976 · IEC AAGCV1018C</p>
-              </div>
-            </ScrollReveal>
-          </div>
+          <ScrollReveal width="100%">
+            <div className="bg-brand-dark text-white p-9 sm:p-14 text-center">
+              <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#E8CE74] mb-[18px]">Mission</div>
+              <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/85 max-w-2xl mx-auto">
+                To supply rice of a consistent, verifiable standard — every bag, every consignment — and to pay the farmers who grow it fairly and on time.
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </div>

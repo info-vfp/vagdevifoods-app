@@ -16,7 +16,7 @@ const SEO: React.FC<SEOProps> = ({
     title,
     description,
     keywords,
-    image = '/images/ui/logo-bg-removed.png', // Default image
+    image = '/images/logos/vagdevi_nav_logo.webp', // Default social-share image
     url = window.location.href,
     type = 'website',
     structuredData,

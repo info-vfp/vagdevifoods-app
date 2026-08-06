@@ -33,8 +33,8 @@ const BusinessPage: React.FC = () => {
         structuredData={structuredData}
       />
 
-      <section className="relative text-white overflow-hidden min-h-[62vh] flex items-end">
-        <img src="images/mill/warehouse_yard.png" alt="Warehouse and loading yard at Yadgarpally" className="absolute inset-0 w-full h-full object-cover" />
+      <section className="relative text-white overflow-hidden min-h-[62dvh] flex items-end">
+        <img src="images/mill/warehouse_yard.webp" alt="Warehouse and loading yard at Yadgarpally" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/[.94] to-brand-dark/50" />
         <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 w-full">
           <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navExports} · APEDA RCMC 221976</div>
@@ -45,7 +45,7 @@ const BusinessPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-brand-cream py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="bg-brand-cream py-14 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-screen-xl mx-auto">
 
           <div className="grid sm:grid-cols-3 gap-px bg-brand-line border border-brand-line mb-20">
@@ -63,14 +63,14 @@ const BusinessPage: React.FC = () => {
           <ScrollReveal width="100%">
             <div className="flex flex-wrap gap-5 items-end justify-between mb-6">
               <h2 className="font-display text-2xl sm:text-4xl leading-tight text-gray-900">{t.specsTitle}</h2>
-              <div className="flex gap-2">
+              <div className="flex gap-2 w-full sm:w-auto overflow-x-auto no-scrollbar">
                 {SPEC_TABS.map((tab) => {
                   const active = spec === tab.key;
                   return (
                     <button
                       key={tab.key}
                       onClick={() => setSpec(tab.key)}
-                      className={`cursor-pointer px-5 py-3 rounded-full text-[10.5px] font-extrabold tracking-[0.14em] uppercase border transition-all duration-300 ${active
+                      className={`cursor-pointer flex-shrink-0 px-5 min-h-[44px] rounded-full text-[10.5px] font-extrabold tracking-[0.14em] uppercase border transition-all duration-300 ${active
                         ? 'bg-brand-dark text-white border-brand-dark'
                         : 'bg-white text-gray-800 border-brand-line'
                         }`}
@@ -98,7 +98,7 @@ const BusinessPage: React.FC = () => {
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-2 border border-brand-line bg-white">
               <div className="min-h-[300px] lg:min-h-[400px] overflow-hidden">
-                <img src="images/mill/quality_lab.png" alt="Moisture and grain testing in the mill lab" className="w-full h-full object-cover" />
+                <img loading="lazy" decoding="async" src="images/mill/quality_lab.webp" alt="Moisture and grain testing in the mill lab" className="w-full h-full object-cover" />
               </div>
               <div className="p-8 sm:p-11 flex flex-col justify-center gap-5">
                 <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#A8842A]">Quality control</div>

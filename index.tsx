@@ -1,9 +1,7 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-// It's good practice to import global styles or fonts if not using CDN for everything,
-// but for this setup, Tailwind is via CDN in index.html.
+import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -16,4 +14,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-    

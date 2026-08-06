@@ -4,6 +4,7 @@ import { HashRouter, Routes, Route, Outlet, useLocation } from 'react-router-dom
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppFAB from './components/WhatsAppFAB';
+import MobileActionBar from './components/MobileActionBar';
 import { LanguageProvider } from './context/LanguageContext';
 import { WHATSAPP_BULK_QUOTE_LINK } from './constants';
 import HomePage from './pages/HomePage';
@@ -31,7 +32,10 @@ const MainLayout: React.FC = () => (
       <Outlet />
     </main>
     <Footer />
+    {/* Bottom padding on mobile keeps the sticky action bar from covering the footer. */}
+    <div className="h-[68px] lg:hidden" aria-hidden="true" />
     <WhatsAppFAB link={WHATSAPP_BULK_QUOTE_LINK} />
+    <MobileActionBar whatsappLink={WHATSAPP_BULK_QUOTE_LINK} />
   </div>
 );
 

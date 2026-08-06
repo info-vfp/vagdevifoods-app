@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import WhatsAppIcon from '../components/WhatsAppIcon';
 import WhatsAppFAB from '../components/WhatsAppFAB';
+import MobileActionBar from '../components/MobileActionBar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { buildWhatsAppLink } from '../constants';
 import { SURYA_TRANSLATIONS } from '../content/suryaTranslations';
@@ -42,20 +43,27 @@ const SuryaPage: React.FC = () => {
       </Helmet>
 
       <header className="sticky top-0 z-[80] bg-[#FFF8FB]/90 backdrop-blur-md border-b border-[#F6DCE8]">
-        <div className="max-w-[1300px] mx-auto px-4 sm:px-6 h-[72px] flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 text-[11px] font-bold tracking-[0.14em] uppercase text-[#8E6B7C] hover:text-[#C4136F] transition-colors flex-shrink-0">
-            ← Vagdevi Foods
+        <div className="max-w-[1300px] mx-auto px-4 sm:px-6 h-[72px] flex items-center gap-2 sm:gap-4">
+          <Link
+            to="/"
+            aria-label="Back to Vagdevi Foods"
+            className="flex items-center gap-2 min-h-[44px] text-[11px] font-bold tracking-[0.14em] uppercase text-[#8E6B7C] hover:text-[#C4136F] transition-colors flex-shrink-0"
+          >
+            <span aria-hidden="true">←</span>
+            <span className="hidden sm:inline">Vagdevi Foods</span>
           </Link>
           <Link to="/surya" className="mx-auto flex items-center">
-            <img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-11 w-auto" />
+            <img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-10 sm:h-11 w-auto" />
           </Link>
           <div className="flex items-center gap-2.5 flex-shrink-0">
             <LanguageSwitcher />
+            {/* Hidden on phones — the sticky action bar carries this same CTA down there,
+                and at 375px the full header row overflows the viewport. */}
             <a
               href={WA_DEALER_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#C4136F] hover:bg-[#1D9E5A] text-white px-[18px] py-3 rounded-full text-[11px] font-extrabold tracking-[0.11em] uppercase transition-colors duration-300"
+              className="hidden sm:inline-flex items-center gap-2 bg-[#C4136F] hover:bg-[#1D9E5A] text-white px-[18px] py-3 rounded-full text-[11px] font-extrabold tracking-[0.11em] uppercase transition-colors duration-300"
             >
               {t.navCta}
             </a>
@@ -69,7 +77,7 @@ const SuryaPage: React.FC = () => {
           <div className="absolute -top-[18%] -left-[10%] w-[640px] h-[640px] rounded-full blur-[100px] pointer-events-none animate-[sr-blob_11s_ease-in-out_infinite]" style={{ background: 'rgba(255,224,138,.3)' }} />
           <div className="absolute inset-0 opacity-[.06] pointer-events-none bg-[radial-gradient(rgba(255,255,255,0.9)_1px,transparent_1px)] bg-[length:26px_26px]" />
 
-          <div className="relative max-w-[1300px] mx-auto px-4 sm:px-6 pt-14 grid lg:grid-cols-[1.05fr_.95fr] gap-10 items-center min-h-[calc(100vh-72px)]">
+          <div className="relative max-w-[1300px] mx-auto px-4 sm:px-6 pt-14 grid lg:grid-cols-[1.05fr_.95fr] gap-10 items-center min-h-[calc(100dvh-72px)]">
             <div>
               <div className="inline-flex items-center gap-2.5 bg-white/[.16] border border-white/30 px-4 py-2.5 rounded-full mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FFE08A]" />
@@ -133,13 +141,13 @@ const SuryaPage: React.FC = () => {
               <div className="absolute bottom-[88px] w-[210px] h-[26px] rounded-full bg-black/[.42] blur-[20px]" />
               {hero === 'pink' ? (
                 <>
-                  <img src="images/products/surya/pack_pink_jsr.png" alt="Vagdevi's Surya JSR Lachkari Kolam, pink pack" className="relative z-[2] max-h-[min(62vh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
-                  <img src="images/products/surya/pack_black_hmt.png" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34vh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
+                  <img src="images/products/surya/pack_pink_jsr.webp" alt="Vagdevi's Surya JSR Lachkari Kolam, pink pack" className="relative z-[2] max-h-[min(62dvh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
+                  <img src="images/products/surya/pack_black_hmt.webp" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
                 </>
               ) : (
                 <>
-                  <img src="images/products/surya/pack_black_hmt.png" alt="Vagdevi's Surya HMT boiled rice, black pack" className="relative z-[2] max-h-[min(62vh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
-                  <img src="images/products/surya/pack_pink_jsr.png" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34vh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
+                  <img src="images/products/surya/pack_black_hmt.webp" alt="Vagdevi's Surya HMT boiled rice, black pack" className="relative z-[2] max-h-[min(62dvh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
+                  <img src="images/products/surya/pack_pink_jsr.webp" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
                 </>
               )}
             </div>
@@ -157,7 +165,7 @@ const SuryaPage: React.FC = () => {
         </section>
 
         {/* Pink vs Black */}
-        <section className="bg-[#FFF8FB] py-24 px-4 sm:px-6">
+        <section className="bg-[#FFF8FB] py-14 sm:py-24 px-4 sm:px-6">
           <div className="max-w-[1300px] mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-14">
               <div className="text-[10.5px] font-extrabold tracking-[0.26em] uppercase text-[#C4136F] mb-4">{t.pickKicker}</div>
@@ -184,7 +192,7 @@ const SuryaPage: React.FC = () => {
                   </div>
 
                   <div className="relative flex justify-center px-6 pt-6 pb-2">
-                    <img src={s.img} alt={s.name} className="h-[min(38vh,320px)] w-auto max-w-full drop-shadow-[0_24px_44px_rgba(0,0,0,0.45)] transition-transform duration-700 hover:-translate-y-2.5 hover:scale-[1.03]" />
+                    <img loading="lazy" decoding="async" src={s.img} alt={s.name} className="h-[min(38dvh,320px)] w-auto max-w-full drop-shadow-[0_24px_44px_rgba(0,0,0,0.45)] transition-transform duration-700 hover:-translate-y-2.5 hover:scale-[1.03]" />
                   </div>
 
                   <div className="relative px-9 pb-9 flex flex-col gap-5 mt-auto">
@@ -214,7 +222,7 @@ const SuryaPage: React.FC = () => {
         </section>
 
         {/* Cook it right */}
-        <section className="bg-[#2A0F1E] text-white py-24 px-4 sm:px-6 relative overflow-hidden">
+        <section className="bg-[#2A0F1E] text-white py-14 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
           <div className="absolute -top-[10%] -right-[8%] w-[520px] h-[520px] rounded-full bg-[#C4136F]/[.32] blur-[100px] animate-[sr-blob_13s_ease-in-out_infinite] pointer-events-none" />
           <div className="relative max-w-[1300px] mx-auto">
             <div className="grid lg:grid-cols-[1fr_.8fr] gap-11 items-end mb-11">
@@ -225,14 +233,14 @@ const SuryaPage: React.FC = () => {
               <p className="font-serif text-xl leading-relaxed text-white/70">{t.cookSub}</p>
             </div>
 
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex gap-2 mb-6 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
               {COOK_METHODS.map((m) => {
                 const active = m.key === methodKey;
                 return (
                   <button
                     key={m.key}
                     onClick={() => setMethodKey(m.key)}
-                    className={`cursor-pointer px-5 py-3 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase transition-all duration-300 border ${active ? 'bg-white text-[#2A0F1E] border-white' : 'bg-white/[.06] text-white/80 border-white/[.24]'
+                    className={`cursor-pointer flex-shrink-0 snap-start px-5 min-h-[44px] rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase transition-all duration-300 border ${active ? 'bg-white text-[#2A0F1E] border-white' : 'bg-white/[.06] text-white/80 border-white/[.24]'
                       }`}
                   >
                     {m.label}
@@ -277,7 +285,7 @@ const SuryaPage: React.FC = () => {
         </section>
 
         {/* The full range */}
-        <section className="bg-white py-24 px-4 sm:px-6 border-y border-[#F6DCE8]">
+        <section className="bg-white py-14 sm:py-24 px-4 sm:px-6 border-y border-[#F6DCE8]">
           <div className="max-w-[1300px] mx-auto">
             <div className="grid lg:grid-cols-[1fr_.78fr] gap-11 items-end mb-11">
               <div>
@@ -306,11 +314,11 @@ const SuryaPage: React.FC = () => {
         </section>
 
         {/* Trust strip */}
-        <section className="bg-[#FFF8FB] py-24 px-4 sm:px-6">
+        <section className="bg-[#FFF8FB] py-14 sm:py-24 px-4 sm:px-6">
           <div className="max-w-[1300px] mx-auto">
             <div className="grid lg:grid-cols-[1.05fr_.95fr] border border-[#F1E2EA] rounded-3xl overflow-hidden bg-white mb-6">
               <div className="min-h-[300px] lg:min-h-[400px] overflow-hidden">
-                <img src="images/mill/plant_silos.png" alt="The Vagdevi mill at Yadgarpally, Miryalaguda" className="w-full h-full object-cover object-[center_60%]" />
+                <img loading="lazy" decoding="async" src="images/mill/plant_silos.webp" alt="The Vagdevi mill at Yadgarpally, Miryalaguda" className="w-full h-full object-cover object-[center_60%]" />
               </div>
               <div className="p-8 sm:p-11 flex flex-col justify-center gap-5">
                 <div className="text-[10.5px] font-extrabold tracking-[0.24em] uppercase text-[#C4136F]">{t.trustKicker}</div>
@@ -343,10 +351,10 @@ const SuryaPage: React.FC = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#E4187C] to-[#7C0740] text-white py-24 px-4 sm:px-6">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#E4187C] to-[#7C0740] text-white py-14 sm:py-24 px-4 sm:px-6">
           <div className="absolute -top-24 -left-16 w-[460px] h-[460px] rounded-full bg-[#FFE08A]/25 blur-[90px] animate-[sr-blob_12s_ease-in-out_infinite] pointer-events-none" />
           <div className="relative max-w-2xl mx-auto text-center">
-            <img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-20 w-auto mx-auto mb-7 drop-shadow-[0_10px_26px_rgba(0,0,0,0.35)]" />
+            <img loading="lazy" decoding="async" src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-20 w-auto mx-auto mb-7 drop-shadow-[0_10px_26px_rgba(0,0,0,0.35)]" />
             <h2 className="font-display text-[32px] sm:text-6xl leading-[1.04] tracking-tight mb-5">{t.endTitle}</h2>
             <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/84 mb-9 max-w-lg mx-auto">{t.endSub}</p>
             <div className="flex flex-wrap gap-3 justify-center">
@@ -370,7 +378,7 @@ const SuryaPage: React.FC = () => {
       <footer className="bg-[#2A0F1E] text-white/66 py-14 px-4 sm:px-6">
         <div className="max-w-[1300px] mx-auto flex flex-wrap gap-8 items-start justify-between">
           <div className="max-w-[340px] flex flex-col gap-3.5">
-            <img src="images/logos/vagdevi_footer_logo.webp" alt="Vagdevi Food Products" className="h-[42px] w-auto brightness-0 invert opacity-85 self-start" />
+            <img loading="lazy" decoding="async" src="images/logos/vagdevi_footer_logo.webp" alt="Vagdevi Food Products" className="h-[42px] w-auto brightness-0 invert opacity-85 self-start" />
             <p className="font-serif text-lg leading-relaxed text-white/56">Surya is a brand of Vagdevi Food Products Private Limited — milled at Yadgarpally, Miryalaguda, Telangana.</p>
           </div>
           <div className="flex flex-col gap-2.5">
@@ -391,7 +399,10 @@ const SuryaPage: React.FC = () => {
         </div>
       </footer>
 
+      {/* Bottom padding on mobile keeps the sticky action bar from covering the footer. */}
+      <div className="h-[68px] lg:hidden" aria-hidden="true" />
       <WhatsAppFAB link={WA_DEALER_LINK} />
+      <MobileActionBar whatsappLink={WA_DEALER_LINK} whatsappLabel={t.navCta} />
     </div>
   );
 };

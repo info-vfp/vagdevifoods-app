@@ -1,104 +1,150 @@
-# Vagdevi Food Products Private Limited
+# Vagdevi Food Products
 
-This is the official website for Vagdevi Food Products Private Limited, a modern, responsive frontend application built with React and Vite.
+Marketing site for **Vagdevi Food Products Private Limited** — a rice mill and exporter at
+Yadgarpally, Miryalaguda, Telangana.
 
-## Live Demo
+Live at **[vagdevifoods.com](https://vagdevifoods.com)**.
 
-[Link to live demo](https://your-live-demo-url.com)
+---
 
-## Features
+## Quick reference
 
-*   **Home Page**: A welcoming home page with a hero section, company highlights, and featured products.
-*   **About Us Page**: Detailed information about the company's core values, strengths, and promoter experience.
-*   **Products Page**: A comprehensive showcase of the company's rice varieties (JSR, HMT, RNR) and brands (Dwaraka, Surya).
-*   **Contact Us Page**: An easy-to-use contact form with an embedded Google Map for location.
-*   **Markets Page**: Information on the company's key markets, including Maharashtra, Tamil Nadu, and Karnataka.
-*   **Responsive Design**: The website is fully responsive and works on all screen sizes, from mobile to desktop.
+| I want to… | Command |
+|---|---|
+| Run the site locally | `npm run dev` |
+| Check types | `npm run typecheck` |
+| Build for production | `npm run build` |
+| Preview the production build | `npm run preview` |
+| Optimize newly added images | `npm run images` |
+| Type-check **and** build (pre-flight) | `npm run check` |
+| Publish manually (fallback) | `npm run deploy` |
 
-## Technologies Used
+---
 
-*   **React**: A JavaScript library for building user interfaces.
-*   **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
-*   **Vite**: A fast build tool and development server for modern web projects.
-*   **React Router**: For declarative routing in the React application.
-*   **Heroicons**: A set of high-quality SVG icons.
-*   **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+## Getting started
 
-## Getting Started
+Requires **Node 22+**.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-*   Node.js (v18.x or later)
-*   npm (v9.x or later)
-
-### Installation
-
-1.  Clone the repository:
-    ```sh
-    git clone https://github.com/your-username/vagdevi-food-products-private-limited.git
-    ```
-2.  Navigate to the project directory:
-    ```sh
-    cd vagdevi-food-products-private-limited
-    ```
-3.  Install the dependencies:
-    ```sh
-    npm install
-    ```
-
-### Running the Development Server
-
-To run the app in development mode, run the following command:
-
-```sh
+```bash
+npm install
 npm run dev
 ```
 
-This will start the development server, and you can view the application at `http://localhost:5173`.
+The dev server runs at `http://localhost:5173`.
 
-## Project Structure
+### Environment variables
 
-The project structure is organized as follows:
+The contact form posts through [EmailJS](https://www.emailjs.com/). Create a `.env` in the
+project root:
 
 ```
-.
-├── components/       # Reusable React components (Navbar, Footer, etc.)
-├── images/           # All static image assets
-├── pages/            # Top-level page components (HomePage, AboutPage, etc.)
-├── App.tsx           # Main application component with routing
-├── constants.ts      # Centralized constants and site data
-├── index.css         # Global styles (if any)
-├── index.tsx         # Main entry point of the application
-├── package.json      # Project dependencies and scripts
-└── vite.config.ts    # Vite configuration
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
 ```
 
-## Build and Deployment
+These are read at **build time** and baked into the bundle. Without them the form renders but
+cannot send — so they must also exist as GitHub secrets for deployed builds (see below).
 
-### Building for Production
+> `.npmrc` sets `legacy-peer-deps=true`. This is deliberate: `react-helmet-async` still declares
+> React 18 as its peer maximum, but the project runs React 19. Without the flag, `npm install`
+> and `npm ci` both fail on a clean checkout.
 
-To create a production-ready build of the application, run the following command:
+---
 
-```sh
-npm run build
+## Project structure
+
+```
+pages/        One component per route (Home, About, Mill, Products, Exports, Contact, Surya)
+components/   Shared UI — Navbar, Footer, Carousel, MobileActionBar, SEO, …
+content/      Page copy and data, separated from layout (translations, mill journey, gallery)
+context/      LanguageContext — the EN/HI/TE/TA/KN switcher
+constants.ts  Company details, contact numbers, certifications, product data
+scripts/      Maintenance tooling (image optimization)
+public/       Static assets served as-is, including images/ and CNAME
 ```
 
-This will create a `dist` directory with the optimized and minified assets.
+Routing uses `HashRouter`, so URLs look like `vagdevifoods.com/#/mill`. This keeps deep links
+working on GitHub Pages without any server-side rewrite rules.
 
-### Previewing the Production Build
+---
 
-To preview the production build locally, run the following command:
+## Working with images
 
-```sh
-npm run preview
+Source photography comes off a DSLR at multiple megabytes per frame. Most visitors are on
+mobile data, so **every image must be optimized before it ships**.
+
+After dropping new photos into `public/images/`:
+
+```bash
+npm run images
 ```
 
-This will start a local server to serve the contents of the `dist` directory.
+This converts PNG/JPG to WebP, caps dimensions per folder, and deletes the originals. It is
+safe to re-run — already-optimized files are skipped.
 
-## Contact
+```bash
+npm run images -- --dry    # preview what would change
+npm run images -- --keep   # convert but keep the originals
+```
 
-Your Name - your.email@example.com
+Then reference the file with a `.webp` extension. Add `loading="lazy"` and `decoding="async"`
+to anything below the fold; leave hero images eager so they are not delayed.
 
-Project Link: [https://github.com/your-username/vagdevi-food-products-private-limited](https://github.com/your-username/vagdevi-food-products-private-limited)
+For reference, the initial pass took the image payload from **64 MB to 7.9 MB**.
+
+---
+
+## Deployment
+
+### Automatic (normal path)
+
+**Pushing to `main` deploys the site.** GitHub Actions
+([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) builds the project and pushes
+the result to the `gh-pages` branch, which GitHub Pages serves at vagdevifoods.com.
+
+```bash
+git checkout main
+git merge your-branch
+git push origin main          # deploy starts automatically
+```
+
+Watch it under the repository's **Actions** tab. A run takes roughly a minute.
+
+You can also trigger a deploy without pushing code: **Actions → Build & Deploy → Run workflow**.
+
+#### One-time setup
+
+Add the EmailJS values under **Settings → Secrets and variables → Actions**:
+
+- `VITE_EMAILJS_SERVICE_ID`
+- `VITE_EMAILJS_TEMPLATE_ID`
+- `VITE_EMAILJS_PUBLIC_KEY`
+
+Until these exist, deploys still succeed but the live contact form cannot send mail.
+
+### Manual (fallback)
+
+If Actions is unavailable, publish from your machine. This uses your local `.env`:
+
+```bash
+npm run deploy
+```
+
+`predeploy` runs `npm run check` first, so a type error or failed build blocks the release.
+
+### Notes
+
+- `dist/` is generated output and is **not** committed. Never edit it by hand.
+- `public/CNAME` is what binds the custom domain. Vite copies it into `dist/` on every build,
+  and CI fails the run if it is missing — without it GitHub Pages drops vagdevifoods.com.
+
+---
+
+## Tech stack
+
+React 19 · TypeScript · Vite 6 · Tailwind CSS 3 · React Router 6 · Framer Motion · EmailJS
+
+Tailwind is compiled at build time via PostCSS. It is deliberately **not** loaded from the CDN:
+the CDN build compiles styles in the browser, which costs an extra download and shows a flash
+of unstyled content on slow mobile connections.
