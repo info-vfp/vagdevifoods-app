@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A1230" />
+  <title>Vagdevi Food Products</title>
+  <link rel="icon" href="/images/ui/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <script type="module" crossorigin src="/assets/index-J4AvKhFB.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-weYtHlqq.css">
+</head>
+
+<body class="font-sans bg-brand-bg text-text-body antialiased">
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script>
+    // The site previously used hash routing, so links like /#/products may still exist
+    // in the wild and in search results. Rewrite them to the real path before the app
+    // boots, so those visitors land on the right page instead of the homepage.
+    (function () {
+      var h = window.location.hash;
+      if (h.indexOf('#/') === 0) {
+        var path = h.slice(1) || '/';
+        window.history.replaceState(null, '', path + window.location.search);
+        return;
+      }
+      // Each route is also written as a bare .html file so static hosts can serve
+      // extensionless URLs. If someone lands on /about.html directly, normalise it to
+      // /about so the router matches the route and the canonical URL agrees.
+      var p = window.location.pathname;
+      if (/\.html$/.test(p) && !/(^|\/)(index|404)\.html$/.test(p)) {
+        window.history.replaceState(null, '', p.replace(/\.html$/, '') + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
+</body>
+
+</html>
