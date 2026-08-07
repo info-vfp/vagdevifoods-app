@@ -44,7 +44,12 @@ VITE_EMAILJS_PUBLIC_KEY=your_public_key
 ```
 
 These are read at **build time** and baked into the bundle. Without them the form renders but
-cannot send — so they must also exist as GitHub secrets for deployed builds (see below).
+cannot send — so they must also exist as GitHub Actions **variables** for deployed builds
+(see below).
+
+> They are stored as *variables*, not secrets, on purpose: all three end up inside the client
+> bundle and are readable in the browser, so there is nothing to hide. EmailJS is designed this
+> way — the public key is meant to be public.
 
 > `.npmrc` sets `legacy-peer-deps=true`. This is deliberate: `react-helmet-async` still declares
 > React 18 as its peer maximum, but the project runs React 19. Without the flag, `npm install`
@@ -115,13 +120,19 @@ You can also trigger a deploy without pushing code: **Actions → Build & Deploy
 
 #### One-time setup
 
-Add the EmailJS values under **Settings → Secrets and variables → Actions**:
+Add the EmailJS values under **Settings → Secrets and variables → Actions → Variables tab**,
+as **repository** variables (not environment-scoped, and not secrets):
 
 - `VITE_EMAILJS_SERVICE_ID`
 - `VITE_EMAILJS_TEMPLATE_ID`
 - `VITE_EMAILJS_PUBLIC_KEY`
 
-Until these exist, deploys still succeed but the live contact form cannot send mail.
+Repository scope matters: variables attached to a GitHub *Environment* are only visible to
+jobs that declare that environment, and this workflow deliberately does not use one.
+
+If any are missing the deploy still succeeds — the site is fine, only the contact form stops
+sending — so the workflow prints a **warning** on the run rather than failing it. Check the
+Actions summary after the first deploy.
 
 ### Manual (fallback)
 

@@ -33,14 +33,28 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check EmailJS configuration
+        # Vite inlines these at build time. If they are missing the build still succeeds and
+        # the site deploys fine — but the contact form silently stops sending, which is easy
+        # to miss. Surface it as a warning on the run instead.
+        run: |
+          missing=""
+          [ -n "${{ vars.VITE_EMAILJS_SERVICE_ID }}"  ] || missing="$missing VITE_EMAILJS_SERVICE_ID"
+          [ -n "${{ vars.VITE_EMAILJS_TEMPLATE_ID }}" ] || missing="$missing VITE_EMAILJS_TEMPLATE_ID"
+          [ -n "${{ vars.VITE_EMAILJS_PUBLIC_KEY }}"  ] || missing="$missing VITE_EMAILJS_PUBLIC_KEY"
+          if [ -n "$missing" ]; then
+            echo "::warning title=Contact form will not send::Missing repository variables:$missing — add them under Settings > Secrets and variables > Actions > Variables."
+          else
+            echo "All three EmailJS variables are present."
+          fi
+
       - name: Build
-        # These are read at build time and baked into the bundle, so they must be present
-        # here or the contact form will silently fail on the live site. Add them under
-        # Settings -> Secrets and variables -> Actions.
+        # Stored as repository *variables* (not secrets): all three are embedded in the
+        # client bundle and readable in the browser, so they are not sensitive.
         env:
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          VITE_EMAILJS_SERVICE_ID: ${{ vars.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ vars.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ vars.VITE_EMAILJS_PUBLIC_KEY }}
         run: npm run build
 
       - name: Verify build output
