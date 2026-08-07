@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView, Variant } from 'framer-motion';
 
 interface ScrollRevealProps {
@@ -20,6 +20,16 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
 }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+    // Animation is a client-only enhancement.
+    //
+    // On the server `isInView` is false, so without this flag every wrapped section would
+    // be pre-rendered with `opacity: 0`. Crawlers that read the HTML but skip JS would then
+    // find the page's real content hidden — which would defeat the entire point of
+    // pre-rendering. Rendering visible until mounted also means the content stays readable
+    // if JS fails to load.
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
 
     const getVariants = (): { hidden: Variant; visible: Variant } => {
         const distance = 50;
@@ -44,9 +54,9 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
         <div ref={ref} style={{ width }} className={className}>
             <motion.div
                 variants={getVariants()}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                transition={{ duration, delay, ease: "easeOut" }}
+                initial={mounted ? 'hidden' : 'visible'}
+                animate={!mounted || isInView ? 'visible' : 'hidden'}
+                transition={{ duration, delay, ease: 'easeOut' }}
                 className="h-full"
             >
                 {children}

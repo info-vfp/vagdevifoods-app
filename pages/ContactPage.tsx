@@ -8,6 +8,8 @@ import {
   REGISTERED_OFFICE_LINES, GOOGLE_MAPS_EMBED_URL,
 } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { buildGraph, breadcrumbSchema, organizationSchema } from '../content/structuredData';
+import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import emailjs from '@emailjs/browser';
@@ -17,24 +19,11 @@ const ContactPage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "ContactPage",
-    "name": "Contact Vagdevi Food Products",
-    "description": "WhatsApp the sales desk, call, email, or visit the mill at Yadgarpally, Miryalaguda.",
-    "mainEntity": {
-      "@type": "Organization",
-      "name": "Vagdevi Food Products",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": COMPANY_CONTACT_PHONE,
-        "contactType": "customer service",
-        "email": COMPANY_CONTACT_EMAIL,
-        "areaServed": "IN",
-        "availableLanguage": ["en", "hi", "te", "ta", "kn"]
-      }
-    }
-  };
+  const structuredData = buildGraph(
+    { '@type': 'ContactPage', name: 'Contact Vagdevi Food Products', url: absoluteUrl('/contact') },
+    organizationSchema(),
+    breadcrumbSchema('/contact')
+  );
 
   const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
@@ -129,8 +118,6 @@ const ContactPage: React.FC = () => {
   return (
     <div className="bg-brand-cream font-sans">
       <SEO
-        title="Contact Us - Vagdevi Food Products"
-        description="Talk to the mill directly. WhatsApp is the fastest way to reach the sales desk, Monday to Saturday, 9 am to 6 pm IST."
         keywords="contact vagdevi foods, rice suppliers contact, food products inquiry"
         structuredData={structuredData}
       />

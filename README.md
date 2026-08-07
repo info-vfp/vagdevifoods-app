@@ -16,6 +16,7 @@ Live at **[vagdevifoods.com](https://vagdevifoods.com)**.
 | Build for production | `npm run build` |
 | Preview the production build | `npm run preview` |
 | Optimize newly added images | `npm run images` |
+| Rebuild sitemap only | `npm run sitemap` |
 | Type-check **and** build (pre-flight) | `npm run check` |
 | Publish manually (fallback) | `npm run deploy` |
 
@@ -51,10 +52,6 @@ cannot send — so they must also exist as GitHub Actions **variables** for depl
 > bundle and are readable in the browser, so there is nothing to hide. EmailJS is designed this
 > way — the public key is meant to be public.
 
-> `.npmrc` sets `legacy-peer-deps=true`. This is deliberate: `react-helmet-async` still declares
-> React 18 as its peer maximum, but the project runs React 19. Without the flag, `npm install`
-> and `npm ci` both fail on a clean checkout.
-
 ---
 
 ## Project structure
@@ -69,8 +66,24 @@ scripts/      Maintenance tooling (image optimization)
 public/       Static assets served as-is, including images/ and CNAME
 ```
 
-Routing uses `HashRouter`, so URLs look like `vagdevifoods.com/#/mill`. This keeps deep links
-working on GitHub Pages without any server-side rewrite rules.
+### Routing and pre-rendering
+
+Routes are real paths (`vagdevifoods.com/mill`), and **every route is pre-rendered to static
+HTML at build time**. `npm run build` runs four steps:
+
+1. `build:client` — the browser bundle
+2. `build:ssr` — a server bundle of the same app
+3. `prerender` — renders each route in `content/seo.ts` and writes `dist/mill.html` *and*
+   `dist/mill/index.html`, so extensionless URLs resolve at HTTP 200 on any static host
+4. `sitemap` — regenerates `sitemap.xml` from the same route list
+
+This exists because the site was previously client-rendered only: crawlers that don't run
+JavaScript received ~495 characters of empty shell, identical for every page. They now get the
+real content and per-page metadata. **Adding a route means adding it to `content/seo.ts`** —
+the router, the pre-renderer and the sitemap all read from there.
+
+Metadata uses React 19's built-in `<title>`/`<meta>` hoisting rather than a helmet library;
+see the note in `components/SEO.tsx` for why.
 
 ---
 

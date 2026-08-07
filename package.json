@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:client && npm run build:ssr && npm run prerender && npm run sitemap",
+    "build:client": "vite build",
+    "build:ssr": "vite build --ssr entry-server.tsx --outDir dist-ssr",
+    "prerender": "node scripts/prerender.mjs",
+    "sitemap": "node scripts/generate-sitemap.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "images": "node scripts/optimize-images.mjs",
@@ -21,7 +25,6 @@
     "framer-motion": "^12.26.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.25.1",
     "tailwind-merge": "^3.4.0"
   },

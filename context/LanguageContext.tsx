@@ -11,21 +11,27 @@ interface LanguageContextValue {
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
-const getInitialLang = (): LangCode => {
-  if (typeof window === 'undefined') return 'en';
-  const stored = window.localStorage.getItem(STORAGE_KEY);
-  if (stored === 'en' || stored === 'hi' || stored === 'te' || stored === 'ta' || stored === 'kn') {
-    return stored;
-  }
-  return 'en';
-};
+const isLangCode = (value: unknown): value is LangCode =>
+  value === 'en' || value === 'hi' || value === 'te' || value === 'ta' || value === 'kn';
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lang, setLangState] = useState<LangCode>(getInitialLang);
+  // Always start from 'en' so the client's first render matches the pre-rendered HTML.
+  // Reading localStorage during initialisation would produce a hydration mismatch for
+  // anyone who had previously chosen another language.
+  const [lang, setLangState] = useState<LangCode>('en');
+  const [hydrated, setHydrated] = useState(false);
 
+  // Restore the saved choice after mount, once hydration is safely done.
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, lang);
-  }, [lang]);
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (isLangCode(stored)) setLangState(stored);
+    setHydrated(true);
+  }, []);
+
+  // Don't write on the first pass, or we'd overwrite the stored value with the 'en' default.
+  useEffect(() => {
+    if (hydrated) window.localStorage.setItem(STORAGE_KEY, lang);
+  }, [lang, hydrated]);
 
   const setLang = (next: LangCode) => setLangState(next);
 

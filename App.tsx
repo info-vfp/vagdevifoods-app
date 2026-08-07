@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { HelmetProvider } from 'react-helmet-async';
-import { HashRouter, Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppFAB from './components/WhatsAppFAB';
@@ -39,28 +38,34 @@ const MainLayout: React.FC = () => (
   </div>
 );
 
-const App: React.FC = () => {
-  return (
-    <HelmetProvider>
-      <HashRouter>
-        <LanguageProvider>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/surya" element={<SuryaPage />} />
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/mill" element={<MillPage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/business" element={<BusinessPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="*" element={<HomePage />} />
-            </Route>
-          </Routes>
-        </LanguageProvider>
-      </HashRouter>
-    </HelmetProvider>
-  );
-};
+/**
+ * Routes without a router around them, so the same tree can be driven by BrowserRouter
+ * in the browser and by StaticRouter during the pre-render build.
+ */
+export const AppRoutes: React.FC = () => (
+  <LanguageProvider>
+    <ScrollToTop />
+    <Routes>
+      <Route path="/surya" element={<SuryaPage />} />
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/mill" element={<MillPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/business" element={<BusinessPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        {/* Redirect unknown paths rather than rendering Home under a wrong URL, which
+            search engines would classify as a soft 404. */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+    </Routes>
+  </LanguageProvider>
+);
+
+const App: React.FC = () => (
+  <BrowserRouter>
+    <AppRoutes />
+  </BrowserRouter>
+);
 
 export default App;

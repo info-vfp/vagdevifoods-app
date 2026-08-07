@@ -3,29 +3,22 @@ import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { STRENGTHS_DATA, INCORPORATION_DATE, FARMER_PAYMENTS_PHONE_FORMATTED } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
+import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 
 const AboutPage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "AboutPage",
-    "name": "About Vagdevi Food Products",
-    "description": "Incorporated on 15 September 2017, Vagdevi Food Products mills, packs and exports rice from a single site in Nalgonda district, Telangana.",
-    "mainEntity": {
-      "@type": "Organization",
-      "name": "Vagdevi Food Products",
-      "foundingDate": "2017-09-15",
-    }
-  };
+  const structuredData = buildGraph(
+    { '@type': 'AboutPage', name: 'About Vagdevi Food Products', url: absoluteUrl('/about'), mainEntity: { '@id': ORGANISATION_ID } },
+    breadcrumbSchema('/about')
+  );
 
   return (
     <div className="bg-brand-cream font-sans">
       <SEO
-        title="About Us - Vagdevi Food Products"
-        description="Incorporated on 15 September 2017 and run by promoters with more than thirty years in the paddy trade, Vagdevi Food Products mills, packs and exports rice from a single site in Nalgonda district."
         keywords="about vagdevi foods, rice mill telangana, board of directors, rice mill history"
         structuredData={structuredData}
       />

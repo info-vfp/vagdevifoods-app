@@ -3,6 +3,8 @@ import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import { EXPORT_PROPS, EXPORT_SPECS, buildWhatsAppLink } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
+import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 
 const SPEC_TABS: { key: 'sona' | 'steam'; label: string }[] = [
@@ -17,18 +19,14 @@ const BusinessPage: React.FC = () => {
   const t = MAIN_TRANSLATIONS[lang];
   const [spec, setSpec] = useState<'sona' | 'steam'>('sona');
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Exports - Vagdevi Food Products",
-    "description": "Registered Manufacturer Exporter of rice under APEDA RCMC 221976. Container loading at the mill, documentation from Hyderabad, and a lab report with every lot.",
-  };
+  const structuredData = buildGraph(
+    { '@type': 'WebPage', name: 'Rice exports', url: absoluteUrl('/business'), about: { '@id': ORGANISATION_ID } },
+    breadcrumbSchema('/business')
+  );
 
   return (
     <div className="bg-brand-cream font-sans">
       <SEO
-        title="Exports - Vagdevi Food Products"
-        description="A supply partner for importers, wholesalers and private-label brands. Registered as a Manufacturer Exporter of rice, APEDA RCMC 221976."
         keywords="rice exporters india, bulk rice suppliers, private label rice, export specifications rice"
         structuredData={structuredData}
       />

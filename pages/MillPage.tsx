@@ -7,6 +7,8 @@ import { WHATSAPP_MILL_VISIT_LINK } from '../constants';
 import { MILL_STAGES, MILL_MACHINERY, MILL_MOSAIC } from '../content/millJourney';
 import { MILL_GALLERY } from '../content/millGallery';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
+import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 
 const MillPage: React.FC = () => {
@@ -15,18 +17,14 @@ const MillPage: React.FC = () => {
   const [stageIndex, setStageIndex] = useState(0);
   const stage = MILL_STAGES[stageIndex];
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "The Mill - Vagdevi Food Products",
-    "description": "Every frame was shot inside the Vagdevi Food Products mill at Yadgarpally, Miryalaguda, during a working shift.",
-  };
+  const structuredData = buildGraph(
+    { '@type': 'WebPage', name: 'The Mill', url: absoluteUrl('/mill'), about: { '@id': ORGANISATION_ID } },
+    breadcrumbSchema('/mill')
+  );
 
   return (
     <div className="bg-brand-cream font-sans">
       <SEO
-        title="The Mill - Vagdevi Food Products"
-        description="Come and look at the plant before you trust it. No stock photography — every frame was shot inside our own mill at Yadgarpally, Miryalaguda, during a working shift."
         keywords="rice mill tour, rice milling process, paddy to rice journey, Yadgarpally mill"
         structuredData={structuredData}
       />

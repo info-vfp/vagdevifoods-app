@@ -5,24 +5,23 @@ import ScrollReveal from '../components/ScrollReveal';
 import { RICE_VARIETIES_DATA, PACK_SIZES, SURYA_SWATCHES, BYPRODUCTS_DATA, buildVarietyQuoteLink } from '../constants';
 import type { RiceVarietyInfo } from '../types';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { buildGraph, breadcrumbSchema, productSchemas } from '../content/structuredData';
+import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 
 const ProductsPage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Products - Vagdevi Food Products",
-    "description": "JSR, HMT and RNR rice varieties, plus rice bran, broken rice and husk by-products, milled at Yadgarpally, Miryalaguda.",
-  };
+  const structuredData = buildGraph(
+    { '@type': 'CollectionPage', name: 'Rice varieties and by-products', url: absoluteUrl('/products') },
+    ...productSchemas(),
+    breadcrumbSchema('/products')
+  );
 
   return (
     <div className="bg-brand-cream font-sans">
       <SEO
-        title="Products - Vagdevi Food Products"
-        description="Rice, by-products and the packs they ship in. Three varieties, each available as steam or double boiled, in 10, 26 and 30 kg packs."
         keywords="JSR rice, HMT rice, RNR rice, Sona Masoori, rice bran, broken rice, husk"
         structuredData={structuredData}
       />

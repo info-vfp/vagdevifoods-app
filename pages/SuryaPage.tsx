@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from '../components/SEO';
 import WhatsAppIcon from '../components/WhatsAppIcon';
 import WhatsAppFAB from '../components/WhatsAppFAB';
 import MobileActionBar from '../components/MobileActionBar';
@@ -8,6 +8,8 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import { buildWhatsAppLink } from '../constants';
 import { SURYA_TRANSLATIONS } from '../content/suryaTranslations';
 import { SURYA_SKUS, COOK_METHODS, SURYA_COLOURS, SURYA_BUYERS, SURYA_TICKER } from '../content/suryaContent';
+import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
+import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 
 type HeroPack = 'pink' | 'black';
@@ -37,10 +39,18 @@ const SuryaPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FFF8FB] text-[#2A0F1E] font-sans">
-      <Helmet>
-        <title>Vagdevi's Surya Rice — Love in Every Bite</title>
-        <meta name="description" content="Surya Rice by Vagdevi Food Products. Pink for JSR Lachkari Kolam, Black for HMT boiled. 10, 26 and 30 kg. Milled in Miryalaguda, Telangana. ₹75/kg." />
-      </Helmet>
+      <SEO
+        keywords="surya rice, surya rice brand, JSR lachkari kolam, HMT boiled rice, rice dealer telangana"
+        structuredData={buildGraph(
+          {
+            '@type': 'CollectionPage',
+            name: "Vagdevi's Surya Rice",
+            url: absoluteUrl('/surya'),
+            about: { '@id': ORGANISATION_ID },
+          },
+          breadcrumbSchema('/surya')
+        )}
+      />
 
       <header className="sticky top-0 z-[80] bg-[#FFF8FB]/90 backdrop-blur-md border-b border-[#F6DCE8]">
         <div className="max-w-[1300px] mx-auto px-4 sm:px-6 h-[72px] flex items-center gap-2 sm:gap-4">

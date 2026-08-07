@@ -10,51 +10,24 @@ import {
 } from '../constants';
 import { HOME_MILL_STEPS } from '../content/millJourney';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { buildGraph, organizationSchema, websiteSchema, breadcrumbSchema } from '../content/structuredData';
 import { useLanguage } from '../context/LanguageContext';
 
 const HomePage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
-  const structuredData = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Vagdevi Food Products",
-      "url": "https://info-vfp.github.io/vagdevifoods-app",
-      "logo": "https://info-vfp.github.io/vagdevifoods-app/images/logos/vagdevi_nav_logo.webp",
-      "description": "ISO 22000:2018 certified rice mill at Yadgarpally, Miryalaguda, Telangana. Bulk supply, private label and export of JSR, HMT and RNR steam and double-boiled rice.",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": COMPANY_CONTACT_PHONE,
-        "contactType": "sales",
-        "areaServed": "IN",
-        "availableLanguage": ["en", "hi", "te", "ta", "kn"]
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WholesaleStore",
-      "name": "Vagdevi Food Products - Rice Mill",
-      "description": "Bulk rice millers and exporters of JSR, HMT and RNR steam and double-boiled rice.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Sy. Nos. 328–333, Vijayawada Road, Yadgarpally",
-        "addressLocality": "Miryalaguda",
-        "addressRegion": "Telangana",
-        "postalCode": "508207",
-        "addressCountry": "IN"
-      },
-      "geo": { "@type": "GeoCoordinates", "latitude": GEO_COORDINATES.lat, "longitude": GEO_COORDINATES.lng },
-    },
-  ];
+  // Title/description now come from the route registry in content/seo.ts.
+  const structuredData = buildGraph(
+    organizationSchema(),
+    websiteSchema(),
+    breadcrumbSchema('/')
+  );
 
   return (
     <div className="bg-brand-cream font-sans overflow-x-hidden">
       <SEO
-        title="Vagdevi Food Products — Bulk Rice Millers & Exporters, Miryalaguda"
-        description="ISO 22000:2018 certified rice mill at Yadgarpally, Miryalaguda, Telangana. Bulk supply, private label and export of JSR, HMT and RNR steam and double-boiled rice. FSSAI 13618008000475 · APEDA RCMC 221976."
-        keywords="rice mill telangana, bulk rice suppliers, JSR HMT RNR rice, rice exporters miryalaguda"
+        keywords="rice mill telangana, bulk rice suppliers, JSR HMT RNR rice, rice exporters miryalaguda, rice mill miryalaguda, paddy procurement nalgonda"
         structuredData={structuredData}
       />
 
