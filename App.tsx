@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -6,13 +6,23 @@ import WhatsAppFAB from './components/WhatsAppFAB';
 import MobileActionBar from './components/MobileActionBar';
 import { LanguageProvider } from './context/LanguageContext';
 import { WHATSAPP_BULK_QUOTE_LINK } from './constants';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import MillPage from './pages/MillPage';
-import ProductsPage from './pages/ProductsPage';
-import BusinessPage from './pages/BusinessPage';
-import ContactPage from './pages/ContactPage';
-import SuryaPage from './pages/SuryaPage';
+
+// One chunk per route. Previously every visitor downloaded all seven pages up front —
+// someone landing on the home page was paying for the contact form's EmailJS client and the
+// whole Surya microsite before they had read a word.
+//
+// There is no visible loading state on first paint: the HTML is pre-rendered, and React
+// keeps that server markup on screen while the route's chunk arrives rather than swapping in
+// a fallback. Only a later in-app navigation can suspend, and by then the chunk is usually
+// already cached. entry-server.tsx has to use the static prerender API for this to hold —
+// see the note there.
+const HomePage = lazy(() => import('./pages/HomePage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const MillPage = lazy(() => import('./pages/MillPage'));
+const ProductsPage = lazy(() => import('./pages/ProductsPage'));
+const BusinessPage = lazy(() => import('./pages/BusinessPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const SuryaPage = lazy(() => import('./pages/SuryaPage'));
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -24,11 +34,20 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
+/**
+ * Placeholder shown while a route chunk downloads. Deliberately blank and roughly a screen
+ * tall: it only appears on an in-app navigation, where a spinner that flashes for 150ms is
+ * more distracting than empty space, and the height stops the footer jumping up the page.
+ */
+const RouteFallback: React.FC = () => <div className="min-h-[70dvh]" aria-hidden="true" />;
+
 const MainLayout: React.FC = () => (
   <div className="flex flex-col min-h-screen bg-brand-bg">
     <Navbar />
     <main className="flex-grow">
-      <Outlet />
+      <Suspense fallback={<RouteFallback />}>
+        <Outlet />
+      </Suspense>
     </main>
     <Footer />
     {/* Bottom padding on mobile keeps the sticky action bar from covering the footer. */}
@@ -46,7 +65,16 @@ export const AppRoutes: React.FC = () => (
   <LanguageProvider>
     <ScrollToTop />
     <Routes>
-      <Route path="/surya" element={<SuryaPage />} />
+      {/* The microsite renders its own chrome, so it sits outside MainLayout — and therefore
+          needs its own boundary rather than the one around the Outlet. */}
+      <Route
+        path="/surya"
+        element={
+          <Suspense fallback={<RouteFallback />}>
+            <SuryaPage />
+          </Suspense>
+        }
+      />
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />

@@ -16,6 +16,7 @@ Live at **[vagdevifoods.com](https://vagdevifoods.com)**.
 | Build for production | `npm run build` |
 | Preview the production build | `npm run preview` |
 | Optimize newly added images | `npm run images` |
+| Re-measure images after adding some | `npm run manifest` |
 | Rebuild sitemap only | `npm run sitemap` |
 | Type-check **and** build (pre-flight) | `npm run check` |
 | Publish manually (fallback) | `npm run deploy` |
@@ -58,32 +59,40 @@ cannot send — so they must also exist as GitHub Actions **variables** for depl
 
 ```
 pages/        One component per route (Home, About, Mill, Products, Exports, Contact, Surya)
-components/   Shared UI — Navbar, Footer, Carousel, MobileActionBar, SEO, …
+components/   Shared UI — Navbar, Footer, Carousel, MobileActionBar, SEO, Img, …
 content/      Page copy and data, separated from layout (translations, mill journey, gallery)
 context/      LanguageContext — the EN/HI/TE/TA/KN switcher
 constants.ts  Company details, contact numbers, certifications, product data
-scripts/      Maintenance tooling (image optimization)
+scripts/      Maintenance tooling (image optimization, image manifest, prerender, sitemap)
 public/       Static assets served as-is, including images/ and CNAME
 ```
 
 ### Routing and pre-rendering
 
 Routes are real paths (`vagdevifoods.com/mill`), and **every route is pre-rendered to static
-HTML at build time**. `npm run build` runs four steps:
+HTML at build time**. `npm run build` runs five steps:
 
-1. `build:client` — the browser bundle
-2. `build:ssr` — a server bundle of the same app
-3. `prerender` — renders each route in `content/seo.ts` and writes `dist/mill.html` *and*
+1. `manifest` — measures `public/images/` and writes `content/imageSizes.ts` (see below)
+2. `build:client` — the browser bundle
+3. `build:ssr` — a server bundle of the same app
+4. `prerender` — renders each route in `content/seo.ts` and writes `dist/mill.html` *and*
    `dist/mill/index.html`, so extensionless URLs resolve at HTTP 200 on any static host
-4. `sitemap` — regenerates `sitemap.xml` from the same route list
+5. `sitemap` — regenerates `sitemap.xml` from the same route list
 
 This exists because the site was previously client-rendered only: crawlers that don't run
 JavaScript received ~495 characters of empty shell, identical for every page. They now get the
 real content and per-page metadata. **Adding a route means adding it to `content/seo.ts`** —
 the router, the pre-renderer and the sitemap all read from there.
 
+Each route is a separate chunk (`React.lazy` in `App.tsx`), so the home page no longer ships
+the contact form's EmailJS client or the Surya microsite. That is also why `entry-server.tsx`
+uses React's `prerenderToNodeStream` rather than `renderToString` — `renderToString` cannot
+wait for a lazy chunk and would emit an empty Suspense fallback into every static page.
+
 Metadata uses React 19's built-in `<title>`/`<meta>` hoisting rather than a helmet library;
-see the note in `components/SEO.tsx` for why.
+see the note in `components/SEO.tsx` for why. `index.tsx` deletes the pre-rendered copies on
+boot so React owns exactly one of each — without that, navigating in the app would leave two
+canonicals on the page.
 
 ---
 
@@ -106,10 +115,29 @@ npm run images -- --dry    # preview what would change
 npm run images -- --keep   # convert but keep the originals
 ```
 
-Then reference the file with a `.webp` extension. Add `loading="lazy"` and `decoding="async"`
-to anything below the fold; leave hero images eager so they are not delayed.
-
 For reference, the initial pass took the image payload from **64 MB to 7.9 MB**.
+
+### Always render images with `<Img>`, not `<img>`
+
+`components/Img.tsx` reads `content/imageSizes.ts` — generated from the files on disk by
+`npm run manifest` — and fills in three things you would otherwise have to remember:
+
+- **`width`/`height`**, so the browser reserves the right box and nothing shifts as the page
+  loads
+- **`srcset`**, pointing at the 400px and 800px variants the manifest script generates for any
+  source wider than 900px, so a phone does not download a 1600px photograph for a 300px card
+- **`loading="lazy"` and `decoding="async"`** by default
+
+Two things are on you:
+
+- Pass **`sizes`** describing how wide the image actually renders — the CSS width, not the
+  file's, e.g. `sizes="(min-width: 640px) 33vw, 78vw"`. Leave it out and the browser assumes
+  the image fills the viewport and fetches a larger file than it needs.
+- Add **`loading="eager"`** (and usually `fetchPriority="high"`) to anything above the fold.
+  Lazy-loading the LCP image delays it, which is the opposite of what we want.
+
+After dropping in new photos, run `npm run images` then `npm run manifest`. Both are
+idempotent, and `manifest` runs as part of every build.
 
 ---
 
@@ -172,3 +200,18 @@ React 19 · TypeScript · Vite 6 · Tailwind CSS 3 · React Router 6 · Framer M
 Tailwind is compiled at build time via PostCSS. It is deliberately **not** loaded from the CDN:
 the CDN build compiles styles in the browser, which costs an extra download and shows a flash
 of unstyled content on slow mobile connections.
+
+There is no animation library. `ScrollReveal` and the mobile menu run on IntersectionObserver
+and CSS transitions; framer-motion is still a dependency but only `ContactPage` imports it, so
+it lands in that route's chunk instead of the shell.
+
+### Two colour rules worth knowing
+
+Tailwind's opacity scale only has **multiples of five**. `text-white/82` silently produces no
+CSS at all, and the element quietly inherits its parent's colour — on a dark panel that means
+invisible text. Use `/80`, or bracket syntax (`text-white/[0.82]`) if you really need the
+in-between value.
+
+The royal gold `brand-secondary` is legible on the navy sections and nowhere else (2.0:1 on
+cream). Gold text on a light background uses **`brand-gold-ink`**; the WhatsApp green is
+**`brand-whatsapp`**. Both exist purely to clear WCAG AA — see `tailwind.config.js`.

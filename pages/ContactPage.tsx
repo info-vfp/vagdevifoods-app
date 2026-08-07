@@ -127,7 +127,7 @@ const ContactPage: React.FC = () => {
         <div className="relative max-w-screen-xl mx-auto">
           <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navContact}</div>
           <h1 className="font-display text-[34px] sm:text-6xl leading-[1.05] tracking-tight max-w-2xl mb-6">{t.contactTitle}</h1>
-          <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/78 max-w-xl">WhatsApp is the fastest way to reach the sales desk. Monday to Saturday, 9 am to 6 pm IST.</p>
+          <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/80 max-w-xl">WhatsApp is the fastest way to reach the sales desk. Monday to Saturday, 9 am to 6 pm IST.</p>
         </div>
       </section>
 
@@ -140,7 +140,7 @@ const ContactPage: React.FC = () => {
                 href={WHATSAPP_BULK_QUOTE_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block bg-[#1D9E5A] hover:bg-[#188A4E] transition-colors duration-300 text-white p-8 flex flex-col gap-4 h-full"
+                className="block bg-brand-whatsapp hover:bg-[#076B34] transition-colors duration-300 text-white p-8 flex flex-col gap-4 h-full"
               >
                 <WhatsAppIcon className="w-8 h-8" />
                 <div>
@@ -154,14 +154,16 @@ const ContactPage: React.FC = () => {
             <ScrollReveal width="100%">
               <div className="bg-white border border-brand-line p-8 flex flex-col gap-6 h-full">
                 <div>
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#A8842A] mb-2.5">Call or email</div>
-                  <a href={`tel:+${COMPANY_WHATSAPP_NUMBER}`} className="block font-display text-2xl text-gray-900 mb-1.5 hover:text-[#A8842A]">{COMPANY_CONTACT_PHONE}</a>
-                  <a href={`mailto:${COMPANY_CONTACT_EMAIL}`} className="text-sm text-gray-600 font-medium hover:text-[#A8842A]">{COMPANY_CONTACT_EMAIL}</a>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Call or email</div>
+                  {/* These are the primary actions on the page for anyone on a phone, so each
+                      gets a full 44px row rather than only the height of its own text. */}
+                  <a href={`tel:+${COMPANY_WHATSAPP_NUMBER}`} className="flex items-center min-h-[44px] font-display text-2xl text-gray-900 hover:text-brand-gold-ink">{COMPANY_CONTACT_PHONE}</a>
+                  <a href={`mailto:${COMPANY_CONTACT_EMAIL}`} className="flex items-center min-h-[44px] text-sm text-gray-600 font-medium hover:text-brand-gold-ink">{COMPANY_CONTACT_EMAIL}</a>
                 </div>
                 <div className="border-t border-[#F0EBDD] pt-5">
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#A8842A] mb-2.5">Farmers · paddy payments</div>
-                  <a href={`https://wa.me/${FARMER_PAYMENTS_WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="font-display text-xl text-gray-900 hover:text-[#A8842A]">{FARMER_PAYMENTS_PHONE_FORMATTED}</a>
-                  <p className="text-xs text-gray-400 mt-2 leading-relaxed">Bring your pattadar passbook, bank passbook and Aadhaar copy.</p>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Farmers · paddy payments</div>
+                  <a href={`https://wa.me/${FARMER_PAYMENTS_WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-[44px] font-display text-xl text-gray-900 hover:text-brand-gold-ink">{FARMER_PAYMENTS_PHONE_FORMATTED}</a>
+                  <p className="text-xs text-gray-500 mt-2 leading-relaxed">Bring your pattadar passbook, bank passbook and Aadhaar copy.</p>
                 </div>
               </div>
             </ScrollReveal>
@@ -169,11 +171,11 @@ const ContactPage: React.FC = () => {
             <ScrollReveal width="100%">
               <div className="bg-white border border-brand-line p-8 flex flex-col gap-6 h-full">
                 <div>
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#A8842A] mb-2.5">Mill &amp; works</div>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Mill &amp; works</div>
                   <p className="text-[14.5px] leading-relaxed text-gray-700">{MILL_ADDRESS_LINES.map((line, i) => <React.Fragment key={i}>{line}<br /></React.Fragment>)}</p>
                 </div>
                 <div className="border-t border-[#F0EBDD] pt-5">
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#A8842A] mb-2.5">Registered office</div>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Registered office</div>
                   <p className="text-[14.5px] leading-relaxed text-gray-700">{REGISTERED_OFFICE_LINES.map((line, i) => <React.Fragment key={i}>{line}<br /></React.Fragment>)}</p>
                 </div>
               </div>
@@ -245,7 +247,7 @@ const ContactPage: React.FC = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                       <div className="group">
-                        <label htmlFor="name" className={labelClasses}>Full Name <span className="text-brand-secondary">*</span></label>
+                        <label htmlFor="name" className={labelClasses}>Full Name <span className="text-brand-gold-ink">*</span></label>
                         <input
                           type="text" name="name" id="name" value={formData.name} onChange={handleChange}
                           onFocus={() => setFocusedField('name')} onBlur={() => setFocusedField(null)}
@@ -256,7 +258,7 @@ const ContactPage: React.FC = () => {
                       </div>
 
                       <div className="group">
-                        <label htmlFor="email" className={labelClasses}>Email Address <span className="text-brand-secondary">*</span></label>
+                        <label htmlFor="email" className={labelClasses}>Email Address <span className="text-brand-gold-ink">*</span></label>
                         <input
                           type="email" name="email" id="email" value={formData.email} onChange={handleChange}
                           onFocus={() => setFocusedField('email')} onBlur={() => setFocusedField(null)}
@@ -269,7 +271,7 @@ const ContactPage: React.FC = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                       <div className="group">
-                        <label htmlFor="phone" className={labelClasses}>Phone Number <span className="text-gray-400 font-normal ml-1 normal-case tracking-normal">(Optional)</span></label>
+                        <label htmlFor="phone" className={labelClasses}>Phone Number <span className="text-gray-500 font-normal ml-1 normal-case tracking-normal">(Optional)</span></label>
                         <input
                           type="tel" name="phone" id="phone" value={formData.phone} onChange={handleChange}
                           onFocus={() => setFocusedField('phone')} onBlur={() => setFocusedField(null)}
@@ -279,7 +281,7 @@ const ContactPage: React.FC = () => {
                       </div>
 
                       <div className="group">
-                        <label htmlFor="company" className={labelClasses}>Company Name <span className="text-gray-400 font-normal ml-1 normal-case tracking-normal">(Optional)</span></label>
+                        <label htmlFor="company" className={labelClasses}>Company Name <span className="text-gray-500 font-normal ml-1 normal-case tracking-normal">(Optional)</span></label>
                         <input
                           type="text" name="company" id="company" value={formData.company} onChange={handleChange}
                           onFocus={() => setFocusedField('company')} onBlur={() => setFocusedField(null)}
@@ -290,7 +292,7 @@ const ContactPage: React.FC = () => {
                     </div>
 
                     <div className="group">
-                      <label htmlFor="subject" className={labelClasses}>Subject <span className="text-brand-secondary">*</span></label>
+                      <label htmlFor="subject" className={labelClasses}>Subject <span className="text-brand-gold-ink">*</span></label>
                       <input
                         type="text" name="subject" id="subject" value={formData.subject} onChange={handleChange}
                         onFocus={() => setFocusedField('subject')} onBlur={() => setFocusedField(null)}
@@ -301,7 +303,7 @@ const ContactPage: React.FC = () => {
                     </div>
 
                     <div className="group">
-                      <label htmlFor="message" className={labelClasses}>Your Message <span className="text-brand-secondary">*</span></label>
+                      <label htmlFor="message" className={labelClasses}>Your Message <span className="text-brand-gold-ink">*</span></label>
                       <textarea
                         name="message" id="message" rows={5} value={formData.message} onChange={handleChange}
                         onFocus={() => setFocusedField('message')} onBlur={() => setFocusedField(null)}

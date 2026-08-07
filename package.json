@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:client && npm run build:ssr && npm run prerender && npm run sitemap",
+    "build": "npm run manifest && npm run build:client && npm run build:ssr && npm run prerender && npm run sitemap",
+    "manifest": "node scripts/generate-image-manifest.mjs",
     "build:client": "vite build",
     "build:ssr": "vite build --ssr entry-server.tsx --outDir dist-ssr",
     "prerender": "node scripts/prerender.mjs",

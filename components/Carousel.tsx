@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Img from './Img';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 // Horizontal travel (px) required before a touch counts as a swipe rather than a tap.
@@ -50,12 +51,11 @@ const Carousel: React.FC<CarouselProps> = ({ slides, className = '' }) => {
         onTouchEnd={onTouchEnd}
         className="relative h-[320px] sm:h-[460px] lg:h-[560px] overflow-hidden bg-brand-cream border border-brand-line"
       >
-        <img
+        <Img
           key={slide.src}
           src={slide.src}
           alt={slide.caption}
-          loading="lazy"
-          decoding="async"
+          sizes="(min-width: 1024px) 1000px, 100vw"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent pointer-events-none" />
@@ -82,8 +82,10 @@ const Carousel: React.FC<CarouselProps> = ({ slides, className = '' }) => {
         </button>
       </div>
 
-      {/* The visible dot stays small, but each button carries a 44px touch area around it. */}
-      <div className="flex justify-center mt-1">
+      {/* The visible dot stays small, but each button carries a 44px touch area around it.
+          That is wider than the row can hold on a narrow phone, so it wraps rather than
+          pushing the page sideways. */}
+      <div className="flex flex-wrap justify-center mt-1">
         {slides.map((s, i) => (
           <button
             key={s.src}
@@ -91,7 +93,9 @@ const Carousel: React.FC<CarouselProps> = ({ slides, className = '' }) => {
             onClick={() => setIndex(i)}
             aria-label={`Go to photo ${i + 1}`}
             aria-current={i === index}
-            className="cursor-pointer group px-1.5 py-4 min-h-[44px] flex items-center"
+            // The dot itself is 6px, but the hit area is a full 44px square — thumbs are
+            // imprecise and these sit right next to each other.
+            className="cursor-pointer group py-4 min-h-[44px] min-w-[44px] flex items-center justify-center"
           >
             <span
               className={`block h-1.5 rounded-full transition-all duration-300 ${i === index ? 'w-6 bg-brand-secondary' : 'w-1.5 bg-brand-primary/20 group-hover:bg-brand-secondary/50'

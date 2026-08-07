@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import Img from '../components/Img';
 import ScrollReveal from '../components/ScrollReveal';
 import { RICE_VARIETIES_DATA, PACK_SIZES, SURYA_SWATCHES, BYPRODUCTS_DATA, buildVarietyQuoteLink } from '../constants';
 import type { RiceVarietyInfo } from '../types';
@@ -31,7 +32,7 @@ const ProductsPage: React.FC = () => {
         <div className="relative max-w-screen-xl mx-auto">
           <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navProducts}</div>
           <h1 className="font-display text-[34px] sm:text-6xl leading-[1.05] tracking-tight max-w-3xl mb-6">{t.productsTitle}</h1>
-          <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/76 max-w-2xl">
+          <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/80 max-w-2xl">
             Three varieties, each available as steam or double boiled, in 10, 26 and 30 kg packs — plus the by-products the mill produces along the way.
           </p>
         </div>
@@ -45,12 +46,12 @@ const ProductsPage: React.FC = () => {
               <ScrollReveal key={v.name} width="100%">
                 <div className="bg-white border border-brand-line flex flex-col h-full hover:shadow-[0_26px_50px_-26px_rgba(10,18,48,0.3)] transition-shadow duration-300">
                   <div className="h-[230px] overflow-hidden border-b border-brand-line group">
-                    <img loading="lazy" decoding="async" src={v.imageUrl} alt={v.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <Img src={v.imageUrl} alt={v.name} sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <div className="p-7 sm:p-8 flex flex-col gap-4 flex-1">
                     <div>
                       <h3 className="font-display text-[28px] leading-tight text-gray-900">{v.name}</h3>
-                      <div className="text-[10.5px] font-bold tracking-[0.18em] uppercase text-[#A8842A] mt-2">{v.altName}</div>
+                      <div className="text-[10.5px] font-bold tracking-[0.18em] uppercase text-brand-gold-ink mt-2">{v.altName}</div>
                     </div>
                     <p className="text-[14.5px] leading-relaxed text-gray-500 font-light">{v.description}</p>
                     <div className="flex flex-wrap gap-2 mt-auto">
@@ -62,9 +63,11 @@ const ProductsPage: React.FC = () => {
                       href={buildVarietyQuoteLink(`${v.name} / ${v.altName} rice`)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark border-b-2 border-brand-secondary pb-1 self-start hover:text-[#A8842A]"
+                      className="group inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark self-start hover:text-brand-gold-ink"
                     >
-                      {t.enquire} →
+                      {/* The tappable area is the whole 44px-tall anchor; the gold rule stays
+                          tight to the text so the link still reads as a link. */}
+                      <span className="border-b-2 border-brand-secondary pb-1">{t.enquire} →</span>
                     </a>
                   </div>
                 </div>
@@ -82,7 +85,7 @@ const ProductsPage: React.FC = () => {
                   {PACK_SIZES.map((pk) => (
                     <div key={pk.kg} className="border border-brand-line bg-brand-cream px-6 py-5 flex-1 min-w-[120px]">
                       <div className="font-display text-3xl text-gray-900 leading-none">{pk.kg}</div>
-                      <div className="text-[10px] font-bold tracking-[0.16em] uppercase text-[#A8842A] mt-2">{pk.use}</div>
+                      <div className="text-[10px] font-bold tracking-[0.16em] uppercase text-brand-gold-ink mt-2">{pk.use}</div>
                     </div>
                   ))}
                 </div>
@@ -98,8 +101,8 @@ const ProductsPage: React.FC = () => {
               >
                 <div className="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-white/[.14] blur-[40px]" />
                 <div className="relative">
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/78 mb-4">Eight pack colours</div>
-                  <img loading="lazy" decoding="async" src="images/logos/surya_brand_logo.webp" alt="Surya" className="h-[62px] w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.3)]" />
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/80 mb-4">Eight pack colours</div>
+                  <Img src="images/logos/surya_brand_logo.webp" alt="Surya" className="h-[62px] w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.3)]" />
                 </div>
                 <div className="relative flex gap-2 flex-wrap">
                   {SURYA_SWATCHES.map((sw) => (

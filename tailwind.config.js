@@ -17,6 +17,17 @@ export default {
         'brand-bg-alt': '#F8FAFC', // Slate 50 - Cooler than Gray to match Navy
         'brand-primary': '#1F2937', // Charcoal (Professional, High Contrast)
         'brand-secondary': '#D4AF37', // Royal Gold (Luxury, complements packaging)
+
+        // The royal gold above measures 2.0:1 on cream and 8.7:1 on navy. It is legible on the
+        // dark sections and nowhere else, so anything gold sitting on a light background uses
+        // this darker bronze instead — 4.65:1 on cream, 4.9:1 on white, clearing WCAG AA.
+        'brand-gold-ink': '#8A6D1F',
+
+        // WhatsApp green, darkened from #1D9E5A. Every use of it carries white label text, and
+        // the original measured 3.45:1 — under AA for the 13px labels on the sticky mobile
+        // bar, which is the most-tapped control on the site. This reads 4.61:1.
+        'brand-whatsapp': '#0A8742',
+
         'brand-dark': '#0A1230', // Deep Navy (matches the Claude Design redesign)
         'brand-accent': '#E5E7EB', // Gray 200 for borders
         'brand-line': '#E8E2D4', // Hairline borders between grid cells/cards

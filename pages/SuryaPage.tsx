@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import Img from '../components/Img';
 import WhatsAppIcon from '../components/WhatsAppIcon';
 import WhatsAppFAB from '../components/WhatsAppFAB';
 import MobileActionBar from '../components/MobileActionBar';
@@ -57,13 +58,13 @@ const SuryaPage: React.FC = () => {
           <Link
             to="/"
             aria-label="Back to Vagdevi Foods"
-            className="flex items-center gap-2 min-h-[44px] text-[11px] font-bold tracking-[0.14em] uppercase text-[#8E6B7C] hover:text-[#C4136F] transition-colors flex-shrink-0"
+            className="inline-flex items-center gap-2 min-h-[44px] min-w-[44px] text-[11px] font-bold tracking-[0.14em] uppercase text-[#8A6675] hover:text-[#C4136F] transition-colors flex-shrink-0"
           >
             <span aria-hidden="true">←</span>
             <span className="hidden sm:inline">Vagdevi Foods</span>
           </Link>
-          <Link to="/surya" className="mx-auto flex items-center">
-            <img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-10 sm:h-11 w-auto" />
+          <Link to="/surya" className="mx-auto flex items-center min-h-[44px]">
+            <Img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-10 sm:h-11 w-auto" loading="eager" />
           </Link>
           <div className="flex items-center gap-2.5 flex-shrink-0">
             <LanguageSwitcher />
@@ -73,7 +74,7 @@ const SuryaPage: React.FC = () => {
               href={WA_DEALER_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-2 bg-[#C4136F] hover:bg-[#1D9E5A] text-white px-[18px] py-3 rounded-full text-[11px] font-extrabold tracking-[0.11em] uppercase transition-colors duration-300"
+              className="hidden sm:inline-flex items-center gap-2 bg-[#C4136F] hover:bg-brand-whatsapp text-white px-[18px] py-3 rounded-full text-[11px] font-extrabold tracking-[0.11em] uppercase transition-colors duration-300"
             >
               {t.navCta}
             </a>
@@ -96,7 +97,7 @@ const SuryaPage: React.FC = () => {
               <h1 className="font-display text-[42px] sm:text-7xl lg:text-[88px] leading-[.98] tracking-tight text-white mb-5">
                 {t.heroA}<br /><span className="italic font-medium text-[#FFE08A]">{t.heroB}</span>
               </h1>
-              <p className="font-serif text-2xl leading-relaxed text-white/86 max-w-lg mb-8">{t.heroSub}</p>
+              <p className="font-serif text-2xl leading-relaxed text-white/85 max-w-lg mb-8">{t.heroSub}</p>
 
               <div className="flex flex-wrap gap-2.5 mb-7">
                 {(['pink', 'black'] as HeroPack[]).map((key) => {
@@ -131,7 +132,7 @@ const SuryaPage: React.FC = () => {
                     <span className="font-display text-[34px] font-bold leading-none">₹75</span>
                     <span className="text-xs font-bold tracking-wider uppercase opacity-80">/ kg</span>
                   </div>
-                  <span className="text-[10.5px] font-semibold tracking-wider uppercase text-white/62">{t.priceNote}</span>
+                  <span className="text-[10.5px] font-semibold tracking-wider uppercase text-white/65">{t.priceNote}</span>
                 </div>
               </div>
 
@@ -139,7 +140,7 @@ const SuryaPage: React.FC = () => {
                 {heroFacts.map((f) => (
                   <div key={f.l} className="px-3.5 py-[18px] transition-colors duration-700" style={{ background: heroTheme.solid }}>
                     <div className="font-display text-[23px] text-[#FFE08A] leading-none mb-1.5">{f.n}</div>
-                    <div className="text-[9.5px] font-bold tracking-[0.14em] uppercase text-white/60 leading-snug">{f.l}</div>
+                    <div className="text-[9.5px] font-bold tracking-[0.14em] uppercase text-white/85 leading-snug">{f.l}</div>
                   </div>
                 ))}
               </div>
@@ -151,13 +152,13 @@ const SuryaPage: React.FC = () => {
               <div className="absolute bottom-[88px] w-[210px] h-[26px] rounded-full bg-black/[.42] blur-[20px]" />
               {hero === 'pink' ? (
                 <>
-                  <img src="images/products/surya/pack_pink_jsr.webp" alt="Vagdevi's Surya JSR Lachkari Kolam, pink pack" className="relative z-[2] max-h-[min(62dvh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
-                  <img src="images/products/surya/pack_black_hmt.webp" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
+                  <Img src="images/products/surya/pack_pink_jsr.webp" loading="eager" fetchPriority="high" alt="Vagdevi's Surya JSR Lachkari Kolam, pink pack" className="relative z-[2] max-h-[min(62dvh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
+                  <Img src="images/products/surya/pack_black_hmt.webp" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
                 </>
               ) : (
                 <>
-                  <img src="images/products/surya/pack_black_hmt.webp" alt="Vagdevi's Surya HMT boiled rice, black pack" className="relative z-[2] max-h-[min(62dvh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
-                  <img src="images/products/surya/pack_pink_jsr.webp" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
+                  <Img src="images/products/surya/pack_black_hmt.webp" loading="eager" fetchPriority="high" alt="Vagdevi's Surya HMT boiled rice, black pack" className="relative z-[2] max-h-[min(62dvh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
+                  <Img src="images/products/surya/pack_pink_jsr.webp" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
                 </>
               )}
             </div>
@@ -202,15 +203,15 @@ const SuryaPage: React.FC = () => {
                   </div>
 
                   <div className="relative flex justify-center px-6 pt-6 pb-2">
-                    <img loading="lazy" decoding="async" src={s.img} alt={s.name} className="h-[min(38dvh,320px)] w-auto max-w-full drop-shadow-[0_24px_44px_rgba(0,0,0,0.45)] transition-transform duration-700 hover:-translate-y-2.5 hover:scale-[1.03]" />
+                    <Img src={s.img} alt={s.name} sizes="(min-width: 640px) 320px, 60vw" className="h-[min(38dvh,320px)] w-auto max-w-full drop-shadow-[0_24px_44px_rgba(0,0,0,0.45)] transition-transform duration-700 hover:-translate-y-2.5 hover:scale-[1.03]" />
                   </div>
 
                   <div className="relative px-9 pb-9 flex flex-col gap-5 mt-auto">
-                    <p className="font-serif text-xl leading-relaxed text-white/88">{s.pitch}</p>
+                    <p className="font-serif text-xl leading-relaxed text-white/90">{s.pitch}</p>
                     <div className="grid grid-cols-2 gap-px bg-white/20">
                       {s.specs.map((sp) => (
                         <div key={sp.k} className="px-4 py-3.5" style={{ background: s.key === 'pink' ? '#B00E5C' : '#1E1E1E' }}>
-                          <div className="text-[9px] font-extrabold tracking-[0.16em] uppercase text-white/50 mb-1.5">{sp.k}</div>
+                          <div className="text-[9px] font-extrabold tracking-[0.16em] uppercase text-white/85 mb-1.5">{sp.k}</div>
                           <div className="text-[13.5px] font-semibold text-white leading-snug">{sp.v}</div>
                         </div>
                       ))}
@@ -263,7 +264,7 @@ const SuryaPage: React.FC = () => {
               <div className="p-8 sm:p-10 flex flex-col gap-6 border-b lg:border-b-0 lg:border-r border-white/[.12]">
                 <div>
                   <h3 className="font-display text-[26px] sm:text-4xl leading-tight mb-3">{method.title}</h3>
-                  <p className="text-[14.5px] leading-relaxed text-white/68 font-light">{method.blurb}</p>
+                  <p className="text-[14.5px] leading-relaxed text-white/70 font-light">{method.blurb}</p>
                 </div>
                 <div className="grid grid-cols-3 gap-px bg-white/[.16]">
                   {method.dials.map((d) => (
@@ -284,11 +285,11 @@ const SuryaPage: React.FC = () => {
                     <span className="font-display text-[15px] font-bold text-[#F7A8CE] flex-shrink-0 w-[26px] pt-0.5">{st.n}</span>
                     <div>
                       <div className="text-[15px] font-semibold text-white mb-1.5">{st.t}</div>
-                      <p className="text-[13.5px] leading-relaxed text-white/62 font-light">{st.d}</p>
+                      <p className="text-[13.5px] leading-relaxed text-white/65 font-light">{st.d}</p>
                     </div>
                   </div>
                 ))}
-                <p className="text-xs text-white/40 italic mt-4">{t.cookFoot}</p>
+                <p className="text-xs text-white/60 italic mt-4">{t.cookFoot}</p>
               </div>
             </div>
           </div>
@@ -316,7 +317,7 @@ const SuryaPage: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-[13.5px] leading-relaxed text-[#7A566A] font-light">{c.d}</p>
-                  <div className="mt-auto text-[10px] font-bold tracking-[0.14em] uppercase text-[#B9A0AD]">{c.sizes}</div>
+                  <div className="mt-auto text-[10px] font-bold tracking-[0.14em] uppercase text-[#8A6B79]">{c.sizes}</div>
                 </div>
               ))}
             </div>
@@ -328,7 +329,7 @@ const SuryaPage: React.FC = () => {
           <div className="max-w-[1300px] mx-auto">
             <div className="grid lg:grid-cols-[1.05fr_.95fr] border border-[#F1E2EA] rounded-3xl overflow-hidden bg-white mb-6">
               <div className="min-h-[300px] lg:min-h-[400px] overflow-hidden">
-                <img loading="lazy" decoding="async" src="images/mill/plant_silos.webp" alt="The Vagdevi mill at Yadgarpally, Miryalaguda" className="w-full h-full object-cover object-[center_60%]" />
+                <Img src="images/mill/plant_silos.webp" sizes="(min-width: 1024px) 52vw, 100vw" alt="The Vagdevi mill at Yadgarpally, Miryalaguda" className="w-full h-full object-cover object-[center_60%]" />
               </div>
               <div className="p-8 sm:p-11 flex flex-col justify-center gap-5">
                 <div className="text-[10.5px] font-extrabold tracking-[0.24em] uppercase text-[#C4136F]">{t.trustKicker}</div>
@@ -339,8 +340,8 @@ const SuryaPage: React.FC = () => {
                     <span key={chip} className="text-[10px] font-extrabold tracking-[0.13em] uppercase text-[#7C0740] bg-[#FDF0F6] border border-[#F6DCE8] px-3.5 py-2.5 rounded-full">{chip}</span>
                   ))}
                 </div>
-                <Link to="/mill" className="text-[11px] font-extrabold tracking-[0.14em] uppercase text-[#2A0F1E] border-b-2 border-[#C4136F] pb-1 self-start hover:text-[#C4136F]">
-                  {t.trustCta} →
+                <Link to="/mill" className="inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-[#2A0F1E] self-start hover:text-[#C4136F]">
+                  <span className="border-b-2 border-[#C4136F] pb-1">{t.trustCta} →</span>
                 </Link>
               </div>
             </div>
@@ -351,7 +352,7 @@ const SuryaPage: React.FC = () => {
                   <div className="text-[10px] font-extrabold tracking-[0.18em] uppercase text-[#C4136F]">{b.who}</div>
                   <h3 className="font-display text-2xl leading-tight text-[#2A0F1E]">{b.t}</h3>
                   <p className="text-sm leading-relaxed text-[#7A566A] font-light">{b.d}</p>
-                  <a href={buildWhatsAppLink(b.waMessage)} target="_blank" rel="noopener noreferrer" className="mt-auto text-[11px] font-extrabold tracking-[0.13em] uppercase text-[#C4136F]">
+                  <a href={buildWhatsAppLink(b.waMessage)} target="_blank" rel="noopener noreferrer" className="mt-auto inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.13em] uppercase text-[#C4136F]">
                     {b.cta} →
                   </a>
                 </div>
@@ -364,9 +365,9 @@ const SuryaPage: React.FC = () => {
         <section className="relative overflow-hidden bg-gradient-to-br from-[#E4187C] to-[#7C0740] text-white py-14 sm:py-24 px-4 sm:px-6">
           <div className="absolute -top-24 -left-16 w-[460px] h-[460px] rounded-full bg-[#FFE08A]/25 blur-[90px] animate-[sr-blob_12s_ease-in-out_infinite] pointer-events-none" />
           <div className="relative max-w-2xl mx-auto text-center">
-            <img loading="lazy" decoding="async" src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-20 w-auto mx-auto mb-7 drop-shadow-[0_10px_26px_rgba(0,0,0,0.35)]" />
+            <Img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-20 w-auto mx-auto mb-7 drop-shadow-[0_10px_26px_rgba(0,0,0,0.35)]" />
             <h2 className="font-display text-[32px] sm:text-6xl leading-[1.04] tracking-tight mb-5">{t.endTitle}</h2>
-            <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/84 mb-9 max-w-lg mx-auto">{t.endSub}</p>
+            <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/85 mb-9 max-w-lg mx-auto">{t.endSub}</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <a
                 href={WA_DEALER_LINK}
@@ -385,25 +386,25 @@ const SuryaPage: React.FC = () => {
         </section>
       </main>
 
-      <footer className="bg-[#2A0F1E] text-white/66 py-14 px-4 sm:px-6">
+      <footer className="bg-[#2A0F1E] text-white/70 py-14 px-4 sm:px-6">
         <div className="max-w-[1300px] mx-auto flex flex-wrap gap-8 items-start justify-between">
           <div className="max-w-[340px] flex flex-col gap-3.5">
-            <img loading="lazy" decoding="async" src="images/logos/vagdevi_footer_logo.webp" alt="Vagdevi Food Products" className="h-[42px] w-auto brightness-0 invert opacity-85 self-start" />
-            <p className="font-serif text-lg leading-relaxed text-white/56">Surya is a brand of Vagdevi Food Products Private Limited — milled at Yadgarpally, Miryalaguda, Telangana.</p>
+            <Img src="images/logos/vagdevi_footer_logo.webp" alt="Vagdevi Food Products" className="h-[42px] w-auto brightness-0 invert opacity-85 self-start" />
+            <p className="font-serif text-lg leading-relaxed text-white/60">Surya is a brand of Vagdevi Food Products Private Limited — milled at Yadgarpally, Miryalaguda, Telangana.</p>
           </div>
           <div className="flex flex-col gap-2.5">
             <div className="text-[10px] font-extrabold tracking-[0.2em] uppercase text-[#F7A8CE] mb-1">Order &amp; enquiries</div>
-            <a href={WA_DEALER_LINK} target="_blank" rel="noopener noreferrer" className="text-sm text-white font-semibold hover:text-[#F7A8CE]">WhatsApp · +91 90004 16808</a>
-            <a href="mailto:info@vagdevifoods.com" className="text-[13.5px] text-white/66 hover:text-[#F7A8CE]">info@vagdevifoods.com</a>
+            <a href={WA_DEALER_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-[44px] text-sm text-white font-semibold hover:text-[#F7A8CE]">WhatsApp · +91 90004 16808</a>
+            <a href="mailto:info@vagdevifoods.com" className="inline-flex items-center min-h-[44px] text-[13.5px] text-white/70 hover:text-[#F7A8CE]">info@vagdevifoods.com</a>
           </div>
           <div className="flex flex-col gap-2.5">
             <div className="text-[10px] font-extrabold tracking-[0.2em] uppercase text-[#F7A8CE] mb-1">Compliance</div>
             <span className="text-[12.5px]">FSSAI 13618008000475</span>
             <span className="text-[12.5px]">ISO 22000:2018</span>
-            <Link to="/" className="text-[12.5px] text-[#F7A8CE] font-semibold hover:text-white">The mill behind Surya →</Link>
+            <Link to="/" className="inline-flex items-center min-h-[44px] text-[12.5px] text-[#F7A8CE] font-semibold hover:text-white">The mill behind Surya →</Link>
           </div>
         </div>
-        <div className="max-w-[1300px] mx-auto mt-[34px] border-t border-white/10 pt-[22px] flex flex-wrap gap-3.5 justify-between text-[11.5px] text-white/38">
+        <div className="max-w-[1300px] mx-auto mt-[34px] border-t border-white/10 pt-[22px] flex flex-wrap gap-3.5 justify-between text-[11.5px] text-white/55">
           <span>© 2026 Vagdevi Food Products Private Limited.</span>
           <span>Love in every bite.</span>
         </div>

@@ -31,7 +31,7 @@ const MobileActionBar: React.FC<MobileActionBarProps> = ({ whatsappLink, whatsap
         target="_blank"
         rel="noopener noreferrer"
         className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-2 rounded-full
-                   bg-[#1D9E5A] text-white text-[13px] font-extrabold tracking-[0.1em] uppercase
+                   bg-brand-whatsapp text-white text-[13px] font-extrabold tracking-[0.1em] uppercase
                    active:brightness-90 transition"
       >
         <WhatsAppIcon className="w-[18px] h-[18px]" />

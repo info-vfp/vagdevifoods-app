@@ -1,5 +1,6 @@
 import React from 'react';
 import SEO from '../components/SEO';
+import Img from '../components/Img';
 import ScrollReveal from '../components/ScrollReveal';
 import { STRENGTHS_DATA, INCORPORATION_DATE, FARMER_PAYMENTS_PHONE_FORMATTED } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
@@ -28,7 +29,7 @@ const AboutPage: React.FC = () => {
         <div className="relative max-w-screen-xl mx-auto">
           <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navAbout}</div>
           <h1 className="font-display text-[34px] sm:text-6xl leading-[1.05] tracking-tight max-w-3xl mb-6">{t.aboutTitle}</h1>
-          <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/76 max-w-2xl">
+          <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/80 max-w-2xl">
             Incorporated on {INCORPORATION_DATE} and run by promoters with more than thirty years in the paddy trade, Vagdevi Food Products mills, packs and exports rice from a single site in Nalgonda district.
           </p>
         </div>
@@ -39,7 +40,7 @@ const AboutPage: React.FC = () => {
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-2 border border-brand-line bg-white mb-16">
               <div className="min-h-[320px] lg:min-h-[420px] overflow-hidden">
-                <img loading="lazy" decoding="async" src="images/mill/procurement_hall.webp" alt="Farmers at the paddy procurement counter" className="w-full h-full object-cover" />
+                <Img src="images/mill/procurement_hall.webp" sizes="(min-width: 1024px) 50vw, 100vw" alt="Farmers at the paddy procurement counter" className="w-full h-full object-cover" />
               </div>
               <div className="p-8 sm:p-11 flex flex-col justify-center gap-5">
                 <h2 className="font-display text-2xl sm:text-3xl leading-tight text-gray-900">It starts at a counter, not a boardroom</h2>
@@ -50,8 +51,8 @@ const AboutPage: React.FC = () => {
                   That relationship is the whole supply chain. It is why we can tell a buyer which mandal a consignment came from, and why the grain in a 30 kg bag in Nashik behaves like the one before it.
                 </p>
                 <div className="flex flex-wrap gap-2.5 mt-1.5">
-                  <span className="text-[10.5px] font-bold tracking-[0.14em] uppercase text-[#A8842A] border border-brand-line px-4 py-2.5 rounded-full">Farmer payments · {FARMER_PAYMENTS_PHONE_FORMATTED}</span>
-                  <span className="text-[10.5px] font-bold tracking-[0.14em] uppercase text-[#A8842A] border border-brand-line px-4 py-2.5 rounded-full">Direct bank transfer</span>
+                  <span className="text-[10.5px] font-bold tracking-[0.14em] uppercase text-brand-gold-ink border border-brand-line px-4 py-2.5 rounded-full">Farmer payments · {FARMER_PAYMENTS_PHONE_FORMATTED}</span>
+                  <span className="text-[10.5px] font-bold tracking-[0.14em] uppercase text-brand-gold-ink border border-brand-line px-4 py-2.5 rounded-full">Direct bank transfer</span>
                 </div>
               </div>
             </div>
@@ -64,7 +65,7 @@ const AboutPage: React.FC = () => {
             {STRENGTHS_DATA.map((s) => (
               <ScrollReveal key={s.t} width="100%">
                 <div className="bg-white hover:bg-[#FFFDF5] transition-colors duration-300 px-7 py-8 h-full">
-                  <div className="font-display text-3xl text-brand-secondary leading-none mb-4">{s.n}</div>
+                  <div className="font-display text-3xl text-brand-gold-ink leading-none mb-4">{s.n}</div>
                   <h3 className="font-display text-lg leading-tight text-gray-900 mb-2.5">{s.t}</h3>
                   <p className="text-[13.5px] leading-relaxed text-gray-500 font-light">{s.d}</p>
                 </div>

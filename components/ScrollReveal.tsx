@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView, Variant } from 'framer-motion';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 interface ScrollRevealProps {
     children: React.ReactNode;
@@ -10,6 +9,37 @@ interface ScrollRevealProps {
     className?: string;
 }
 
+const DISTANCE = 50;
+
+const OFFSET: Record<NonNullable<ScrollRevealProps['direction']>, [number, number]> = {
+    up: [0, DISTANCE],
+    down: [0, -DISTANCE],
+    left: [DISTANCE, 0],
+    right: [-DISTANCE, 0],
+    none: [0, 0],
+};
+
+// useLayoutEffect has no meaning on the server and React warns about it there.
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+/**
+ * Fades a section in as it scrolls into view.
+ *
+ * Built on IntersectionObserver and a CSS transition rather than framer-motion. The library
+ * was the single largest thing in the main bundle — around 60KB gzipped — and it was carried
+ * on every page for this and one collapsing menu. Two transitions do not justify that on a
+ * 3G phone.
+ *
+ * Two behaviours matter and are easy to break:
+ *
+ * 1. **Server render must be visible.** Without this the pre-rendered HTML would ship at
+ *    `opacity: 0` and crawlers that read the markup but skip JS would find the page's real
+ *    content hidden, defeating the point of pre-rendering. It also keeps the site readable if
+ *    the JS never arrives.
+ * 2. **No flash for content already on screen.** The decision to hide is taken in a layout
+ *    effect, before the browser paints, and only for elements that start out of view — so the
+ *    top of the page never blinks off and back on during hydration.
+ */
 const ScrollReveal: React.FC<ScrollRevealProps> = ({
     children,
     width = 'fit-content',
@@ -18,49 +48,47 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
     direction = 'up',
     className = ''
 }) => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.3 });
+    const ref = useRef<HTMLDivElement>(null);
+    const [hidden, setHidden] = useState(false);
 
-    // Animation is a client-only enhancement.
-    //
-    // On the server `isInView` is false, so without this flag every wrapped section would
-    // be pre-rendered with `opacity: 0`. Crawlers that read the HTML but skip JS would then
-    // find the page's real content hidden — which would defeat the entire point of
-    // pre-rendering. Rendering visible until mounted also means the content stays readable
-    // if JS fails to load.
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => setMounted(true), []);
+    useIsomorphicLayoutEffect(() => {
+        const el = ref.current;
+        if (!el) return;
 
-    const getVariants = (): { hidden: Variant; visible: Variant } => {
-        const distance = 50;
-        let initialX = 0;
-        let initialY = 0;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        switch (direction) {
-            case 'up': initialY = distance; break;
-            case 'down': initialY = -distance; break;
-            case 'left': initialX = distance; break;
-            case 'right': initialX = -distance; break;
-            default: break;
-        }
+        // Already on screen at load: leave it alone rather than animating it in.
+        const { top, bottom } = el.getBoundingClientRect();
+        if (top < window.innerHeight && bottom > 0) return;
 
-        return {
-            hidden: { opacity: 0, x: initialX, y: initialY },
-            visible: { opacity: 1, x: 0, y: 0 }
-        };
-    };
+        setHidden(true);
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) return;
+                setHidden(false);
+                observer.disconnect();
+            },
+            { threshold: 0.3 }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
+    const [x, y] = OFFSET[direction];
 
     return (
-        <div ref={ref} style={{ width }} className={className}>
-            <motion.div
-                variants={getVariants()}
-                initial={mounted ? 'hidden' : 'visible'}
-                animate={!mounted || isInView ? 'visible' : 'hidden'}
-                transition={{ duration, delay, ease: 'easeOut' }}
-                className="h-full"
-            >
-                {children}
-            </motion.div>
+        <div
+            ref={ref}
+            className={className}
+            style={{
+                width,
+                opacity: hidden ? 0 : 1,
+                transform: hidden ? `translate(${x}px, ${y}px)` : 'none',
+                transition: `opacity ${duration}s ease-out ${delay}s, transform ${duration}s ease-out ${delay}s`,
+            }}
+        >
+            {children}
         </div>
     );
 };

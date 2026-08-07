@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SEO from '../components/SEO';
+import Img from '../components/Img';
 import ScrollReveal from '../components/ScrollReveal';
 import { EXPORT_PROPS, EXPORT_SPECS, buildWhatsAppLink } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
@@ -32,7 +33,7 @@ const BusinessPage: React.FC = () => {
       />
 
       <section className="relative text-white overflow-hidden min-h-[62dvh] flex items-end">
-        <img src="images/mill/warehouse_yard.webp" alt="Warehouse and loading yard at Yadgarpally" className="absolute inset-0 w-full h-full object-cover" />
+        <Img src="images/mill/warehouse_yard.webp" loading="eager" fetchPriority="high" sizes="100vw" alt="Warehouse and loading yard at Yadgarpally" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/[.94] to-brand-dark/50" />
         <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 w-full">
           <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navExports} · APEDA RCMC 221976</div>
@@ -50,7 +51,7 @@ const BusinessPage: React.FC = () => {
             {EXPORT_PROPS.map((e) => (
               <ScrollReveal key={e.t} width="100%">
                 <div className="bg-white hover:bg-[#FFFDF5] transition-colors duration-300 px-8 py-10 h-full">
-                  <div className="font-display text-sm font-bold text-brand-secondary tracking-[0.2em] mb-5">{e.i}</div>
+                  <div className="font-display text-sm font-bold text-brand-gold-ink tracking-[0.2em] mb-5">{e.i}</div>
                   <h3 className="font-display text-2xl leading-tight text-gray-900 mb-3">{e.t}</h3>
                   <p className="text-sm leading-relaxed text-gray-500 font-light">{e.d}</p>
                 </div>
@@ -85,21 +86,21 @@ const BusinessPage: React.FC = () => {
             <div className="bg-white border border-brand-line overflow-hidden mb-3.5">
               {EXPORT_SPECS[spec].map((row) => (
                 <div key={row.p} className="grid grid-cols-2 gap-5 px-6 sm:px-8 py-5 border-b border-[#F0EBDD] last:border-0 hover:bg-brand-cream transition-colors duration-300">
-                  <div className="text-[11px] font-bold tracking-[0.14em] uppercase text-gray-400 self-center">{row.p}</div>
+                  <div className="text-[11px] font-bold tracking-[0.14em] uppercase text-gray-500 self-center">{row.p}</div>
                   <div className="font-display text-xl sm:text-2xl text-gray-900 text-right">{row.v}</div>
                 </div>
               ))}
             </div>
           </ScrollReveal>
-          <p className="text-xs text-gray-400 italic mb-20">Indicative parameters. A signed lab report accompanies every shipment; custom specifications are quoted on request.</p>
+          <p className="text-xs text-gray-500 italic mb-20">Indicative parameters. A signed lab report accompanies every shipment; custom specifications are quoted on request.</p>
 
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-2 border border-brand-line bg-white">
               <div className="min-h-[300px] lg:min-h-[400px] overflow-hidden">
-                <img loading="lazy" decoding="async" src="images/mill/quality_lab.webp" alt="Moisture and grain testing in the mill lab" className="w-full h-full object-cover" />
+                <Img src="images/mill/quality_lab.webp" alt="Moisture and grain testing in the mill lab" className="w-full h-full object-cover" />
               </div>
               <div className="p-8 sm:p-11 flex flex-col justify-center gap-5">
-                <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#A8842A]">Quality control</div>
+                <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-brand-gold-ink">Quality control</div>
                 <h2 className="font-display text-2xl sm:text-3xl leading-tight text-gray-900">Every truck is sampled before it is unloaded</h2>
                 <p className="text-[15px] leading-relaxed text-gray-600 font-light">
                   A probe sample is drawn from the load at the gate and read for moisture, immature grain and foreign matter. Loads outside our band are turned back. Milled lots are checked again for whiteness, broken ratio and average length before they are stitched and stacked.
@@ -108,9 +109,10 @@ const BusinessPage: React.FC = () => {
                   href={LAB_REPORT_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark border-b-2 border-brand-secondary pb-1 self-start hover:text-[#A8842A]"
+                  className="inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark self-start hover:text-brand-gold-ink"
                 >
-                  Request a lab report →
+                  {/* Tappable area is the whole 44px anchor; the rule hugs the text. */}
+                  <span className="border-b-2 border-brand-secondary pb-1">Request a lab report →</span>
                 </a>
               </div>
             </div>

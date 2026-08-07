@@ -51,9 +51,13 @@
   to { transform: translateX(-50%); }
 }
 
-@keyframes vf-float {
-  0%, 100% { transform: translateY(0) rotate(-1.2deg); }
-  50% { transform: translateY(-20px) rotate(1.2deg); }
+/* Shared by both hero packshots. Deliberately no rotation and a small amplitude:
+   a product bag that tilts reads as unstable, and the previous version used two
+   different keyframes with opposing rotations, so the two packs wobbled against
+   each other. translate3d keeps it on the compositor. */
+@keyframes vf-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
 }
 
 @keyframes vf-sheen {
@@ -104,7 +108,12 @@
   .animate-\[sr-blob_11s_ease-in-out_infinite\],
   .animate-\[sr-blob_12s_ease-in-out_infinite\],
   .animate-\[sr-blob_13s_ease-in-out_infinite\],
-  .animate-\[sr-spin_46s_linear_infinite\] {
+  .animate-\[sr-spin_46s_linear_infinite\],
+  /* The hero packs are only ~170px wide on a phone, where the drift is fussy rather
+     than premium — and dropping it frees the device that needs the headroom most. */
+  .animate-\[vf-drift_6s_ease-in-out_infinite\],
+  .animate-\[sr-float_8s_ease-in-out_infinite\],
+  .animate-\[sr-float2_9\.5s_ease-in-out_infinite\] {
     animation: none !important;
   }
 }

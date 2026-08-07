@@ -32,7 +32,7 @@ if (!template.includes('<div id="root"></div>')) {
 const results = [];
 
 for (const route of ROUTES) {
-  const html = render(route.path);
+  const html = await render(route.path);
 
   // React 19 hoists <title>, <meta> and <link> into <head> on the client, but
   // renderToString leaves them inline in the body. Left there they would (a) not be seen
@@ -40,8 +40,12 @@ for (const route of ROUTES) {
   // server and client DOM trees would differ. Lifting them here makes both correct — and
   // means preloads are discovered early enough to actually help.
   const hoisted = [];
-  const body = html.replace(/<(title|meta|link)\b[^>]*?(?:\/>|>(?:[\s\S]*?<\/\1>)?)/g, (tag) => {
-    hoisted.push(tag);
+  const body = html.replace(/<(title|meta|link)\b[^>]*?(?:\/>|>(?:[\s\S]*?<\/\1>)?)/g, (tag, name) => {
+    // Marked so index.tsx can drop them the moment React takes over. React hoists its own
+    // copies into <head> but only dedupes against tags it rendered itself — these were moved
+    // here by this script, so without the marker every client-side navigation would leave the
+    // previous page's canonical and description sitting alongside the new one.
+    hoisted.push(tag.replace(new RegExp(`^<${name}\\b`), `<${name} data-prerendered-meta`));
     return '';
   });
 

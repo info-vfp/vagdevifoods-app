@@ -1,4 +1,4 @@
-import { renderToString } from 'react-dom/server';
+import { prerenderToNodeStream } from 'react-dom/static';
 import { StaticRouter } from 'react-router-dom/server';
 import { AppRoutes } from './App';
 
@@ -13,14 +13,24 @@ export { ROUTES, SITE_URL } from './content/seo';
  * particular AI crawlers, most of which do not execute JavaScript — receive the real page
  * text and metadata instead of an empty shell.
  *
+ * Uses `prerenderToNodeStream` rather than `renderToString` because the route components are
+ * loaded with React.lazy (see App.tsx). renderToString cannot wait for a lazy chunk: it would
+ * emit the Suspense fallback and every pre-rendered page would ship an empty shell again,
+ * undoing the whole point of this file. The static prerender API resolves the tree completely
+ * before handing back the markup.
+ *
  * Metadata tags come back embedded in this markup rather than as a separate head string:
- * React 19 hoists <title>/<meta>/<link> to <head> on the client, but renderToString leaves
- * them inline. The prerender script lifts them into <head> so the two agree.
+ * React hoists <title>/<meta>/<link> into <head> on the client, but a server render leaves
+ * them in the stream. The prerender script lifts them into <head> so the two agree.
  */
-export function render(url: string): string {
-  return renderToString(
+export async function render(url: string): Promise<string> {
+  const { prelude } = await prerenderToNodeStream(
     <StaticRouter location={url}>
       <AppRoutes />
     </StaticRouter>
   );
+
+  const chunks: Buffer[] = [];
+  for await (const chunk of prelude) chunks.push(Buffer.from(chunk));
+  return Buffer.concat(chunks).toString('utf8');
 }
