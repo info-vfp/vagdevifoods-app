@@ -175,6 +175,14 @@ If any are missing the deploy still succeeds — the site is fine, only the cont
 sending — so the workflow prints a **warning** on the run rather than failing it. Check the
 Actions summary after the first deploy.
 
+The workflow also asks EmailJS whether it recognises the public key, because *present but
+wrong* is the failure that actually bites: a stale key once shipped for weeks and every
+enquiry was silently lost, while a check for "are the variables non-empty" passed happily.
+A `404 Account not found` in the browser console means exactly that — copy the current value
+from **EmailJS → Account → General → Public Key** into the repository variable and re-run the
+workflow. The values are inlined at build time, so changing a variable does nothing until the
+site is rebuilt.
+
 ### Manual (fallback)
 
 If Actions is unavailable, publish from your machine. This uses your local `.env`:

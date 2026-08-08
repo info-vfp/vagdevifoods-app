@@ -34,19 +34,42 @@ jobs:
         run: npm ci
 
       - name: Check EmailJS configuration
-        # Vite inlines these at build time. If they are missing the build still succeeds and
-        # the site deploys fine — but the contact form silently stops sending, which is easy
-        # to miss. Surface it as a warning on the run instead.
+        # Vite inlines these at build time. If they are missing or wrong the build still
+        # succeeds and the site deploys fine — but the contact form silently stops sending,
+        # which is easy to miss. Surface it as a warning on the run instead.
+        #
+        # Present-but-wrong is the failure that actually happened: a stale public key shipped
+        # for weeks and every enquiry was lost, because the old check only tested that the
+        # variables were non-empty. So the key is now validated against EmailJS itself.
+        env:
+          SERVICE_ID: ${{ vars.VITE_EMAILJS_SERVICE_ID }}
+          TEMPLATE_ID: ${{ vars.VITE_EMAILJS_TEMPLATE_ID }}
+          PUBLIC_KEY: ${{ vars.VITE_EMAILJS_PUBLIC_KEY }}
         run: |
           missing=""
-          [ -n "${{ vars.VITE_EMAILJS_SERVICE_ID }}"  ] || missing="$missing VITE_EMAILJS_SERVICE_ID"
-          [ -n "${{ vars.VITE_EMAILJS_TEMPLATE_ID }}" ] || missing="$missing VITE_EMAILJS_TEMPLATE_ID"
-          [ -n "${{ vars.VITE_EMAILJS_PUBLIC_KEY }}"  ] || missing="$missing VITE_EMAILJS_PUBLIC_KEY"
+          [ -n "$SERVICE_ID"  ] || missing="$missing VITE_EMAILJS_SERVICE_ID"
+          [ -n "$TEMPLATE_ID" ] || missing="$missing VITE_EMAILJS_TEMPLATE_ID"
+          [ -n "$PUBLIC_KEY"  ] || missing="$missing VITE_EMAILJS_PUBLIC_KEY"
           if [ -n "$missing" ]; then
             echo "::warning title=Contact form will not send::Missing repository variables:$missing — add them under Settings > Secrets and variables > Actions > Variables."
-          else
-            echo "All three EmailJS variables are present."
+            exit 0
           fi
+
+          # Deliberately paired with an invalid service id so this can never send a real
+          # email; we only care whether EmailJS recognises the account behind the public key.
+          # "Account not found" means the key is wrong.
+          body=$(curl -s --max-time 20 -X POST 'https://api.emailjs.com/api/v1.0/email/send' \
+            -H 'Content-Type: application/json' -H 'Origin: https://vagdevifoods.com' \
+            -d "{\"service_id\":\"ci_validation_probe\",\"template_id\":\"$TEMPLATE_ID\",\"user_id\":\"$PUBLIC_KEY\",\"template_params\":{}}" || echo "probe-failed")
+
+          case "$body" in
+            *"Account not found"*)
+              echo "::warning title=Contact form will not send::EmailJS does not recognise VITE_EMAILJS_PUBLIC_KEY. Copy the current key from the EmailJS dashboard (Account > General > Public Key) and update the repository variable." ;;
+            probe-failed)
+              echo "Could not reach EmailJS to validate the key; skipping." ;;
+            *)
+              echo "EmailJS variables present and the public key resolves to an account." ;;
+          esac
 
       - name: Build
         # Stored as repository *variables* (not secrets): all three are embedded in the

@@ -74,8 +74,11 @@ const ContactPage: React.FC = () => {
     const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+    // A visitor cannot act on "check your .env file", and this is a public marketing site.
+    // Whatever is wrong with the configuration, what they need is another way to reach us.
     if (!serviceId || !templateId || !publicKey) {
-      setSubmitError("EmailJS configuration is missing. Please check your .env file.");
+      console.error('EmailJS is not configured — VITE_EMAILJS_* missing from this build.');
+      setSubmitError("We couldn't send that just now.");
       setIsSubmitting(false);
       return;
     }
@@ -96,8 +99,11 @@ const ContactPage: React.FC = () => {
         setIsSubmitted(false);
       }, 6000);
     } catch (error) {
+      // "Try again later" was actively misleading: a 404 from EmailJS means the account or
+      // template is misconfigured, and no amount of retrying will fix it — the enquiry just
+      // gets lost. Say something honest and put the mill's real channels next to it.
       console.error('EmailJS Error:', error);
-      setSubmitError("Failed to send message. Please try again later.");
+      setSubmitError("We couldn't send that just now.");
       setIsSubmitting(false);
     }
   };
@@ -238,10 +244,42 @@ const ContactPage: React.FC = () => {
                     onSubmit={handleSubmit}
                     className="space-y-8"
                   >
+                    {/* A failed send used to be a dead end — the visitor was told to try again
+                        later, which does not help when the mail provider is misconfigured, and
+                        the enquiry was simply lost. Offer the channels the mill actually runs on
+                        instead; most visitors here are on a phone with WhatsApp open anyway. */}
                     {submitError && (
-                      <div className="bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-xl text-sm flex items-center">
-                        <svg className="w-5 h-5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        {submitError}
+                      <div className="bg-red-50 border border-red-100 text-red-700 px-6 py-5 rounded-xl text-sm">
+                        <div className="flex items-start gap-3">
+                          <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                          <div>
+                            <p className="font-semibold">{submitError}</p>
+                            <p className="mt-1 text-red-600/90">Reach us directly and we will reply the same working day.</p>
+                            <div className="mt-4 flex flex-wrap gap-2.5">
+                              <a
+                                href={WHATSAPP_BULK_QUOTE_LINK}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 min-h-[44px] bg-brand-whatsapp text-white px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
+                              >
+                                <WhatsAppIcon className="w-4 h-4" />
+                                WhatsApp us
+                              </a>
+                              <a
+                                href={`tel:+${COMPANY_WHATSAPP_NUMBER}`}
+                                className="inline-flex items-center gap-2 min-h-[44px] border-[1.5px] border-brand-dark/30 text-brand-dark px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
+                              >
+                                {COMPANY_CONTACT_PHONE}
+                              </a>
+                              <a
+                                href={`mailto:${COMPANY_CONTACT_EMAIL}`}
+                                className="inline-flex items-center gap-2 min-h-[44px] border-[1.5px] border-brand-dark/30 text-brand-dark px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
+                              >
+                                Email
+                              </a>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     )}
 
