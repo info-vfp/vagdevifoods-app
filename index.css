@@ -2,6 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --- Metric-matched font fallbacks -----------------------------------------
+   The webfonts load asynchronously with `font-display: swap`, so text first
+   paints in a locally installed face and swaps when the download lands. That
+   is good for first paint and bad for stability: Playfair Display is about 7%
+   wider than Times, so the home page headline wrapped onto two lines in the
+   fallback and three in the real face — a 72px jump that shoved the whole hero
+   down and scored CLS 0.221 on desktop.
+
+   Each fallback below re-scales a local face to the webfont's own metrics, so
+   the text occupies the same box and wraps at the same points either way. The
+   numbers were measured against the loaded fonts, not guessed:
+
+     size-adjust      = webfont advance width / local face advance width
+     ascent-override  = webfont ascent  / size-adjust
+     descent-override = webfont descent / size-adjust
+
+   Several `local()` sources are listed per family because Times New Roman and
+   Arial do not exist everywhere; the first match wins, and the later entries
+   are close enough in width for the adjustment to still hold. Each fallback is
+   named directly after its webfont in tailwind.config.js. */
+
+/* 110%, not Playfair's true average width of ~108.5%. What matters here is not average
+   width but whether a heading breaks onto the same number of lines, and a sweep of the
+   two headings that change line count found exactly one value that holds for both: the
+   hero h1 needs >=110%, the "From the weighbridge…" h2 needs <=110%. Re-measure with a
+   sweep rather than nudging this by eye if the display copy changes. */
+@font-face {
+  font-family: 'Playfair Fallback';
+  src: local('Times New Roman'), local('Times'), local('Liberation Serif'), local('Noto Serif');
+  size-adjust: 110%;
+  ascent-override: 98.2%;
+  descent-override: 22.7%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Cormorant Fallback';
+  src: local('Times New Roman'), local('Times'), local('Liberation Serif'), local('Noto Serif');
+  size-adjust: 96%;
+  ascent-override: 95.8%;
+  descent-override: 30.2%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Montserrat Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Liberation Sans'), local('Roboto');
+  size-adjust: 110%;
+  ascent-override: 88.2%;
+  descent-override: 22.7%;
+  line-gap-override: 0%;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

@@ -44,10 +44,12 @@ export default {
         'brand-orange': '#D4AF37', // Compatibility alias -> Gold
       },
       fontFamily: {
-        // The Noto families are fallbacks for the Hindi / Telugu / Tamil / Kannada translations.
-        sans: ['Montserrat', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Noto Sans Telugu', 'serif'],
-        display: ['Playfair Display', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'serif'],
+        // Each webfont is followed immediately by its metric-matched fallback (defined in
+        // index.css) so the swap when the real face arrives does not reflow the page.
+        // The Noto families are for the Hindi / Telugu / Tamil / Kannada translations.
+        sans: ['Montserrat', 'Montserrat Fallback', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'Cormorant Fallback', 'Noto Sans Telugu', 'serif'],
+        display: ['Playfair Display', 'Playfair Fallback', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'serif'],
       },
       boxShadow: {
         glass: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',

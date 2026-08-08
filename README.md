@@ -205,6 +205,24 @@ There is no animation library. `ScrollReveal` and the mobile menu run on Interse
 and CSS transitions; framer-motion is still a dependency but only `ContactPage` imports it, so
 it lands in that route's chunk instead of the shell.
 
+### Fonts load late, so the fallbacks are metric-matched
+
+The webfonts are non-blocking, which means text first paints in a locally installed face and
+swaps when the download lands. Left alone that reflows the page: Playfair Display is wider than
+Times, so the home page headline wrapped onto two lines before the swap and three after — a
+72px jump that scored **CLS 0.221 on desktop**.
+
+`index.css` therefore defines `Playfair Fallback`, `Cormorant Fallback` and
+`Montserrat Fallback`, each re-scaling a local face to the webfont's metrics with
+`size-adjust` and the `*-override` descriptors. `tailwind.config.js` lists each one directly
+after its webfont.
+
+**If you change display copy, re-check these.** The values are not "roughly the average width"
+— they are tuned so headings break onto the *same number of lines* either way, and the window
+is narrow: Playfair's `110%` is the only value that holds for both the home page `h1` and the
+"From the weighbridge…" `h2`. Measure by rendering the heading at its real width and font size
+in both faces and comparing height, rather than adjusting by eye.
+
 ### Two colour rules worth knowing
 
 Tailwind's opacity scale only has **multiples of five**. `text-white/82` silently produces no
