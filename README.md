@@ -16,7 +16,7 @@ Live at **[vagdevifoods.com](https://vagdevifoods.com)**.
 | Build for production | `npm run build` |
 | Preview the production build | `npm run preview` |
 | Optimize newly added images | `npm run images` |
-| Re-measure images after adding some | `npm run manifest` |
+| Measure images + emit responsive variants | `npm run manifest` |
 | Rebuild sitemap only | `npm run sitemap` |
 | Type-check **and** build (pre-flight) | `npm run check` |
 | Publish manually (fallback) | `npm run deploy` |
@@ -52,6 +52,12 @@ cannot send — so they must also exist as GitHub Actions **variables** for depl
 > They are stored as *variables*, not secrets, on purpose: all three end up inside the client
 > bundle and are readable in the browser, so there is nothing to hide. EmailJS is designed this
 > way — the public key is meant to be public.
+
+**A failed send must never be a dead end.** When EmailJS rejects a submission the form does not
+say "try again later" — retrying cannot help if the account is misconfigured, and the enquiry
+is simply lost. It shows WhatsApp, phone and email instead, which is how most of this audience
+would rather get in touch anyway. Keep that fallback if you touch the error branch, and keep
+provider detail in `console.error` rather than on screen: visitors cannot act on ".env".
 
 ---
 
@@ -93,6 +99,22 @@ Metadata uses React 19's built-in `<title>`/`<meta>` hoisting rather than a helm
 see the note in `components/SEO.tsx` for why. `index.tsx` deletes the pre-rendered copies on
 boot so React owns exactly one of each — without that, navigating in the app would leave two
 canonicals on the page.
+
+#### Checking the pre-rendered output
+
+**`npm run preview` is the wrong tool for this.** Vite's preview server falls back to
+`index.html` for any path it does not recognise, so every route answers with the home page's
+title and the per-route files look broken when they are fine. Serve `dist/` the way GitHub
+Pages does instead — extensionless paths resolving to `<route>.html` at HTTP 200:
+
+```bash
+npx serve dist
+```
+
+Then confirm each route returns its own `<title>` and canonical, and that the body carries real
+text rather than an empty shell. The `prerender` step already prints a readable-character count
+per route on every build and warns below 1,000 characters, so a regression usually shows up
+there first.
 
 ---
 
@@ -203,15 +225,28 @@ npm run deploy
 
 ## Tech stack
 
-React 19 · TypeScript · Vite 6 · Tailwind CSS 3 · React Router 6 · Framer Motion · EmailJS
+React 19 · TypeScript · Vite 6 · Tailwind CSS 3 · React Router 6 · EmailJS
 
 Tailwind is compiled at build time via PostCSS. It is deliberately **not** loaded from the CDN:
 the CDN build compiles styles in the browser, which costs an extra download and shows a flash
 of unstyled content on slow mobile connections.
 
-There is no animation library. `ScrollReveal` and the mobile menu run on IntersectionObserver
-and CSS transitions; framer-motion is still a dependency but only `ContactPage` imports it, so
-it lands in that route's chunk instead of the shell.
+**framer-motion is still installed but is no longer part of the shell.** It was ~60KB gzipped
+carried on every page for two transitions, so `ScrollReveal` and the mobile menu were rebuilt
+on IntersectionObserver and CSS. Only `ContactPage` still imports it, which puts it in that
+route's chunk. Reaching for it in a component that loads on every page pulls the whole library
+back into the main bundle — prefer a CSS transition.
+
+### Decorative animation is disabled on phones
+
+`index.css` ends with a **motion budget**: a `@media (max-width: 768px)` block that switches
+off the marquees, blob loops, spinner and packshot drift. They composite large blurred layers
+every frame, which costs battery and causes scroll jank on the mid-range Androids most visitors
+use. The static blurs are cheap and are deliberately kept — only the animation is dropped.
+
+That block lists animations **by class name**, so a new `animate-[…]` utility is not covered
+until you add it there. A `prefers-reduced-motion` block follows it for anyone who has asked
+the OS to calm things down.
 
 ### Fonts load late, so the fallbacks are metric-matched
 
@@ -231,13 +266,32 @@ is narrow: Playfair's `110%` is the only value that holds for both the home page
 "From the weighbridge…" `h2`. Measure by rendering the heading at its real width and font size
 in both faces and comparing height, rather than adjusting by eye.
 
-### Two colour rules worth knowing
+---
 
-Tailwind's opacity scale only has **multiples of five**. `text-white/82` silently produces no
+## Accessibility
+
+The site holds **WCAG AA** and Lighthouse scores 100. Three rules keep it there.
+
+**Tailwind's opacity scale only has multiples of five.** `text-white/82` silently produces no
 CSS at all, and the element quietly inherits its parent's colour — on a dark panel that means
-invisible text. Use `/80`, or bracket syntax (`text-white/[0.82]`) if you really need the
-in-between value.
+invisible text, which is exactly how a paragraph of the Surya footer went unreadable for
+months. Use `/80`, or bracket syntax (`text-white/[0.82]`) if you really need the in-between
+value. Worth grepping for after a batch of styling changes:
 
-The royal gold `brand-secondary` is legible on the navy sections and nowhere else (2.0:1 on
-cream). Gold text on a light background uses **`brand-gold-ink`**; the WhatsApp green is
-**`brand-whatsapp`**. Both exist purely to clear WCAG AA — see `tailwind.config.js`.
+```bash
+grep -rnoE '\b[a-z-]+-(white|black|brand-[a-z]+|gray-[0-9]+)/[0-9]+\b' pages components | awk -F/ '$NF % 5 != 0'
+```
+
+**Gold is only legible on the dark sections.** The royal `brand-secondary` measures 2.0:1 on
+cream — it fails even the large-text threshold. Gold text on a light background uses
+**`brand-gold-ink`**; the WhatsApp green is **`brand-whatsapp`** (the original measured 3.45:1
+under white labels). Both exist purely to clear AA — see `tailwind.config.js`.
+
+**Every interactive element gets at least 44px.** Where a link must stay visually small, give
+the anchor `inline-flex items-center min-h-[44px]` and put the decoration on an inner `<span>`
+so the underline still hugs the text. Small icon buttons need `min-w-[44px]` too — and if that
+widens a row past the viewport, let it wrap rather than overflow.
+
+Text sitting on photography is the one thing an automated check cannot judge: the contrast
+tooling sees the section background, not the image. Those cases are scrimmed with a gradient
+and were verified against the lightest pixel actually behind the text.
