@@ -287,13 +287,24 @@ cream — it fails even the large-text threshold. Gold text on a light backgroun
 **`brand-gold-ink`**; the WhatsApp green is **`brand-whatsapp`** (the original measured 3.45:1
 under white labels). Both exist purely to clear AA — see `tailwind.config.js`.
 
-**The language switcher must stay reachable on phones.** It carries `EN / हिंदी / తెలుగు /
-தமிழ் / ಕನ್ನಡ`, and a large share of this audience reads Telugu or Hindi rather than English —
-so it is a primary control, not a setting to tuck away. It once carried `hidden sm:inline-flex`,
-which removed it below 640px (every real phone) while the mobile menu never offered one
-either, leaving the whole five-language feature unreachable for the people it exists for. It
-now renders at every width and fits down to 320px. If the mobile header ever feels crowded,
-move something else.
+**Phones get every language shown at once, not a dropdown.** A large share of this audience
+runs a rice shop in rural Telangana and reads Telugu or Hindi rather than English, so language
+is a primary control rather than a setting to tuck away. A `<select>` labelled "EN" failed them
+three ways: the label is meaningless if you cannot read Latin script, the other four are hidden
+until you know to tap it, and it assumes familiarity with a native dropdown.
+
+`components/LanguageStrip.tsx` shows all five as chips, so choosing is recognition — you see
+your own script and press it. It sits *below* the sticky header (unmissable on arrival, then
+scrolls away rather than costing 44px on every scroll), and the mobile menu carries a second
+copy for anyone already scrolled down. The standalone strip hides while the menu is open, or
+a visitor at the top sees two identical rows.
+
+Desktop keeps the compact `<select>` in the nav, where space is scarce and context is richer.
+
+Two constraints if you touch it: all five chips must fit **without horizontal scrolling at
+320px** — an option a visitor has to scroll to find is the problem this replaced — and English
+stays abbreviated to `EN` because it is the one label a Latin-script reader decodes instantly,
+which buys the width the four endonyms need.
 
 **Every interactive element gets at least 44px.** Where a link must stay visually small, give
 the anchor `inline-flex items-center min-h-[44px]` and put the decoration on an inner `<span>`

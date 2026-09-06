@@ -6,6 +6,7 @@ import { NAV_LINKS, SHORT_COMPANY_NAME, NAV_LOGO_URL, WHATSAPP_BULK_QUOTE_LINK }
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
+import LanguageStrip from './LanguageStrip';
 import WhatsAppIcon from './WhatsAppIcon';
 import type { NavLink as NavLinkType } from '../types';
 
@@ -16,7 +17,8 @@ const Navbar: React.FC = () => {
   const t = MAIN_TRANSLATIONS[lang];
 
   return (
-    <header className="sticky top-0 z-[80] bg-brand-cream/90 backdrop-blur-md border-b border-brand-line">
+    <>
+      <header className="sticky top-0 z-[80] bg-brand-cream/90 backdrop-blur-md border-b border-brand-line">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-4 h-[74px]">
         <Link to="/" aria-label={`${SHORT_COMPANY_NAME} — home`} className="flex items-center min-h-[44px] flex-shrink-0">
           <Img src={NAV_LOGO_URL} loading="eager" alt={`${SHORT_COMPANY_NAME} Logo`} className="h-9 md:h-10 w-auto" />
@@ -60,11 +62,9 @@ const Navbar: React.FC = () => {
         </div>
 
         <div className="lg:hidden flex items-center ml-auto gap-2">
-          {/* Visible at every width. This was `hidden sm:inline-flex`, which meant the
-              switcher disappeared below 640px — i.e. on every real phone — and the mobile
-              menu never carried one either, so the five languages were unreachable for
-              exactly the Telugu- and Hindi-speaking visitors they exist for. */}
-          <LanguageSwitcher />
+          {/* No language control here on purpose: a <select> reading "EN" is unreadable to
+              someone who does not read Latin script, and it hides the other four behind a
+              tap. LanguageStrip below the header shows all five outright. */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             type="button"
@@ -90,6 +90,15 @@ const Navbar: React.FC = () => {
       >
         <div className="overflow-hidden bg-brand-cream/95 backdrop-blur-xl">
           <div className="px-4 pt-4 pb-6 space-y-1 border-t border-brand-line">
+            {/* The strip under the header scrolls away with the page, so the menu — which is
+                always one tap from the sticky bar — carries the same choices. */}
+            <div className="pb-3 mb-2 border-b border-brand-line">
+              <LanguageStrip
+                className=""
+                chipClassName="bg-white border border-brand-line text-brand-primary"
+                activeChipClassName="bg-brand-dark text-white border border-brand-dark"
+              />
+            </div>
             {NAV_LINKS.map((link: NavLinkType) => (
               <Link
                 key={link.label}
@@ -124,6 +133,17 @@ const Navbar: React.FC = () => {
         </div>
       </div>
     </header>
+
+      {/* Outside <header> deliberately: the header is sticky, and pinning another 44px there
+          would cost a fourteenth of a phone screen on every scroll. Here it is unmissable on
+          arrival — when language actually gets chosen — then scrolls away.
+
+          Hidden while the menu is open, or a visitor at the top of the page would see two
+          identical language rows stacked on top of each other. */}
+      <LanguageStrip
+        className={`border-b border-brand-line bg-brand-cream ${isOpen ? 'hidden' : ''}`}
+      />
+    </>
   );
 };
 

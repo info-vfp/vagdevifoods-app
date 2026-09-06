@@ -2,6 +2,22 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type LangCode = 'en' | 'hi' | 'te' | 'ta' | 'kn';
 
+/**
+ * Every language, labelled in its own script.
+ *
+ * Lives here rather than in a component because two controls render it: the compact
+ * <select> the desktop nav uses, and the always-visible LanguageStrip on phones.
+ * The label is deliberately the endonym — a reader who cannot read Latin script
+ * recognises "తెలుగు" but gets nothing from "TE".
+ */
+export const LANGUAGE_OPTIONS: { value: LangCode; label: string }[] = [
+  { value: 'en', label: 'EN' },
+  { value: 'hi', label: 'हिंदी' },
+  { value: 'te', label: 'తెలుగు' },
+  { value: 'ta', label: 'தமிழ்' },
+  { value: 'kn', label: 'ಕನ್ನಡ' },
+];
+
 const STORAGE_KEY = 'vf_lang';
 
 interface LanguageContextValue {

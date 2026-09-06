@@ -1,13 +1,11 @@
 import React from 'react';
-import { useLanguage, LangCode } from '../context/LanguageContext';
+import { useLanguage, LANGUAGE_OPTIONS, LangCode } from '../context/LanguageContext';
 
-const LANGUAGE_OPTIONS: { value: LangCode; label: string }[] = [
-  { value: 'en', label: 'EN' },
-  { value: 'hi', label: 'हिंदी' },
-  { value: 'te', label: 'తెలుగు' },
-  { value: 'ta', label: 'தமிழ்' },
-  { value: 'kn', label: 'ಕನ್ನಡ' },
-];
+/**
+ * The compact control for the desktop nav, where horizontal space is scarce and a visitor
+ * on a laptop is far more likely to want English anyway. Phones get LanguageStrip instead —
+ * see the note there for why a <select> is the wrong shape for this audience.
+ */
 
 interface LanguageSwitcherProps {
   className?: string;

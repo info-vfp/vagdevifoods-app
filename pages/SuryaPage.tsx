@@ -6,6 +6,7 @@ import WhatsAppIcon from '../components/WhatsAppIcon';
 import WhatsAppFAB from '../components/WhatsAppFAB';
 import MobileActionBar from '../components/MobileActionBar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import LanguageStrip from '../components/LanguageStrip';
 import { buildWhatsAppLink } from '../constants';
 import { SURYA_TRANSLATIONS } from '../content/suryaTranslations';
 import { SURYA_SKUS, COOK_METHODS, SURYA_COLOURS, SURYA_BUYERS, SURYA_TICKER } from '../content/suryaContent';
@@ -67,7 +68,9 @@ const SuryaPage: React.FC = () => {
             <Img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-10 sm:h-11 w-auto" loading="eager" />
           </Link>
           <div className="flex items-center gap-2.5 flex-shrink-0">
-            <LanguageSwitcher />
+            {/* Phones get LanguageStrip under the header instead — same reasoning as the
+                main site: a dropdown labelled in Latin script hides the other four. */}
+            <LanguageSwitcher className="hidden lg:inline-flex" />
             {/* Hidden on phones — the sticky action bar carries this same CTA down there,
                 and at 375px the full header row overflows the viewport. */}
             <a
@@ -81,6 +84,12 @@ const SuryaPage: React.FC = () => {
           </div>
         </div>
       </header>
+
+      <LanguageStrip
+        className="border-b border-[#F6DCE8] bg-[#FFF8FB]"
+        chipClassName="text-[#7A4A5E] hover:bg-[#C4136F]/[.07]"
+        activeChipClassName="bg-[#C4136F] text-white"
+      />
 
       <main className="flex-1" id="top">
         {/* Hero */}
