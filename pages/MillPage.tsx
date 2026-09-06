@@ -85,7 +85,7 @@ const MillPage: React.FC = () => {
                   <div className="font-display text-5xl text-brand-secondary/90 leading-none">{stage.n}</div>
                 </div>
               </div>
-              <div className="p-8 sm:p-10 flex flex-col gap-6 border-l-0 lg:border-l border-white/[.14]">
+              <div className="p-8 sm:p-10 flex flex-col gap-6 border-s-0 lg:border-s border-white/[.14]">
                 <div>
                   <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#E8CE74] mb-3.5">{stage.where}</div>
                   <h3 className="font-display text-[26px] sm:text-4xl leading-tight mb-4">{stage.title}</h3>
@@ -95,7 +95,7 @@ const MillPage: React.FC = () => {
                   {stage.facts.map((f) => (
                     <div key={f.k} className="bg-brand-dark px-[18px] py-4 flex justify-between gap-4 items-baseline">
                       <span className="text-[9.5px] font-extrabold tracking-[0.16em] uppercase text-white/50">{f.k}</span>
-                      <span className="font-display text-lg text-white text-right">{f.v}</span>
+                      <span className="font-display text-lg text-white text-end">{f.v}</span>
                     </div>
                   ))}
                 </div>

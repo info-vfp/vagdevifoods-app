@@ -1,4 +1,5 @@
 import React from 'react';
+import Arrow from '../components/Arrow';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Img from '../components/Img';
@@ -67,7 +68,7 @@ const ProductsPage: React.FC = () => {
                     >
                       {/* The tappable area is the whole 44px-tall anchor; the gold rule stays
                           tight to the text so the link still reads as a link. */}
-                      <span className="border-b-2 border-brand-secondary pb-1">{t.enquire} →</span>
+                      <span className="border-b-2 border-brand-secondary pb-1">{t.enquire} <Arrow /></span>
                     </a>
                   </div>
                 </div>
@@ -109,7 +110,7 @@ const ProductsPage: React.FC = () => {
                     <span key={sw.n} title={sw.n} className="w-[26px] h-[26px] rounded-full border-[1.5px] border-white/60" style={{ backgroundColor: sw.c }} />
                   ))}
                 </div>
-                <span className="relative inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase self-start">{t.suryaCta} →</span>
+                <span className="relative inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase self-start">{t.suryaCta} <Arrow /></span>
               </Link>
             </ScrollReveal>
           </div>

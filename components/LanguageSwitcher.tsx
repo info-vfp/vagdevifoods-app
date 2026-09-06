@@ -29,7 +29,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) =
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right 0.7rem center',
       }}
-      className={`appearance-none bg-white border border-brand-line rounded-full pl-3.5 pr-7 min-h-[44px] text-[13px] sm:text-[11px] font-bold text-brand-primary cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 ${className}`}
+      className={`appearance-none bg-white border border-brand-line rounded-full ps-3.5 pe-7 min-h-[44px] text-[13px] sm:text-[11px] font-bold text-brand-primary cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 ${className}`}
     >
       {LANGUAGE_OPTIONS.map((opt) => (
         // React's server renderer marks the active option with a `selected` attribute,

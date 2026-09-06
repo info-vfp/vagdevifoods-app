@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type LangCode = 'en' | 'hi' | 'te' | 'ta' | 'kn';
+export type LangCode = 'en' | 'hi' | 'te' | 'ta' | 'kn' | 'or' | 'ur';
 
 /**
  * Every language, labelled in its own script.
@@ -16,7 +16,12 @@ export const LANGUAGE_OPTIONS: { value: LangCode; label: string }[] = [
   { value: 'te', label: 'తెలుగు' },
   { value: 'ta', label: 'தமிழ்' },
   { value: 'kn', label: 'ಕನ್ನಡ' },
+  { value: 'or', label: 'ଓଡ଼ିଆ' },
+  { value: 'ur', label: 'اردو' },
 ];
+
+/** Languages written right-to-left. Drives the `dir` attribute and Tailwind's rtl: variant. */
+export const RTL_LANGUAGES: ReadonlySet<LangCode> = new Set<LangCode>(['ur']);
 
 const STORAGE_KEY = 'vf_lang';
 
@@ -28,7 +33,8 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
 const isLangCode = (value: unknown): value is LangCode =>
-  value === 'en' || value === 'hi' || value === 'te' || value === 'ta' || value === 'kn';
+  value === 'en' || value === 'hi' || value === 'te' ||
+  value === 'ta' || value === 'kn' || value === 'or' || value === 'ur';
 
 /**
  * Google Fonts family names for the non-Latin scripts, keyed by language.
@@ -42,6 +48,9 @@ const SCRIPT_FONTS: Partial<Record<LangCode, string>> = {
   te: 'Noto+Sans+Telugu:wght@400;600;700',
   ta: 'Noto+Sans+Tamil:wght@400;600;700',
   kn: 'Noto+Sans+Kannada:wght@400;600;700',
+  or: 'Noto+Sans+Oriya:wght@400;600;700',
+  // Nastaliq is the script Urdu readers expect; Noto Sans Arabic would look wrong to them.
+  ur: 'Noto+Nastaliq+Urdu:wght@400;600;700',
 };
 
 const loadedScripts = new Set<LangCode>();
@@ -83,6 +92,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     ensureScriptFont(lang);
     document.documentElement.lang = lang;
+    // Urdu is right-to-left. Setting `dir` flips the logical CSS properties the layout is
+    // built from, so the page mirrors without a second stylesheet.
+    document.documentElement.dir = RTL_LANGUAGES.has(lang) ? 'rtl' : 'ltr';
   }, [lang]);
 
   const setLang = (next: LangCode) => setLangState(next);

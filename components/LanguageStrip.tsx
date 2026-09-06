@@ -33,12 +33,16 @@ const LanguageStrip: React.FC<LanguageStripProps> = ({
 
   return (
     <div className={`lg:hidden ${className}`}>
-      {/* `group` labels the row for screen readers; the buttons alone would read as five
-          unrelated words. Horizontal scroll is a safety net — all five fit at 320px. */}
+      {/* `group` labels the row for screen readers; the buttons alone would read as seven
+          unrelated words.
+
+          Wraps rather than scrolls. Seven chips fit one row from 360px up, but not at 320px —
+          and a language you have to scroll sideways to find is exactly the problem this
+          replaced, so on the narrowest phones it takes a second row instead. */}
       <div
         role="group"
         aria-label="Choose a language"
-        className="max-w-screen-xl mx-auto px-1.5 flex items-center gap-0.5 overflow-x-auto no-scrollbar"
+        className="max-w-screen-xl mx-auto px-1.5 flex flex-wrap items-center gap-0.5"
       >
         {LANGUAGE_OPTIONS.map((option) => {
           const active = option.value === lang;

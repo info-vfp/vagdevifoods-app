@@ -1,4 +1,5 @@
 import React from 'react';
+import Arrow from '../components/Arrow';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Img from '../components/Img';
@@ -35,7 +36,7 @@ const HomePage: React.FC = () => {
       {/* Hero */}
       <section className="relative bg-brand-dark text-white overflow-hidden">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(85%_70%_at_78%_10%,rgba(212,175,55,0.20),transparent_62%),radial-gradient(70%_60%_at_6%_94%,rgba(238,128,34,0.13),transparent_62%)]" />
-        <div className="absolute -top-[14%] -right-[6%] w-[520px] h-[520px] rounded-full bg-brand-secondary/[.13] blur-[90px] animate-[vf-pulse_9s_ease-in-out_infinite] pointer-events-none" />
+        <div className="absolute -top-[14%] -end-[6%] w-[520px] h-[520px] rounded-full bg-brand-secondary/[.13] blur-[90px] animate-[vf-pulse_9s_ease-in-out_infinite] pointer-events-none" />
 
         <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 grid lg:grid-cols-[1.12fr_.88fr] gap-12 items-center min-h-[calc(100dvh-74px)]">
           <div>
@@ -198,9 +199,9 @@ const HomePage: React.FC = () => {
               reading with assistive tech; only the presentation changes. Same snap-scroll
               pattern as the Mill page stage tabs. The negative margin lets the row bleed to the
               screen edge so the peek of the next card reads as "there is more this way". */}
-          {/* scroll-pl-4 matches the px-4: without it snap-start aligns each card to the raw
+          {/* scroll-ps-4 matches the px-4: without it snap-start aligns each card to the raw
               scroll-port edge and the padding is scrolled straight out of view. */}
-          <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scroll-pl-4 no-scrollbar -mx-4 px-4 pb-2 sm:mx-0 sm:px-0 sm:pb-0">
+          <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 overflow-x-auto sm:overflow-visible snap-x snap-mandatory scroll-ps-4 no-scrollbar -mx-4 px-4 pb-2 sm:mx-0 sm:px-0 sm:pb-0">
             {HOME_MILL_STEPS.map((st) => (
               <div key={st.n} className="snap-start shrink-0 w-[78%] sm:w-auto">
                 <div className="relative h-[180px] sm:h-[220px] overflow-hidden bg-brand-cream border border-brand-line group">
@@ -221,7 +222,7 @@ const HomePage: React.FC = () => {
                 to="/mill"
                 className="inline-flex items-center gap-2.5 bg-brand-dark text-white px-7 py-4 rounded-full text-[11.5px] font-extrabold tracking-[0.13em] uppercase transition-all duration-300 hover:bg-brand-secondary hover:text-brand-dark hover:-translate-y-0.5 flex-shrink-0"
               >
-                {t.navMill} →
+                {t.navMill} <Arrow />
               </Link>
             </div>
           </ScrollReveal>
@@ -247,7 +248,7 @@ const HomePage: React.FC = () => {
                     <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/80 mb-3.5">Consumer brand</div>
                     <Img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-[54px] sm:h-[70px] w-auto mb-4 sm:mb-5 drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)]" />
                     <p className="font-serif text-[17px] sm:text-xl leading-relaxed text-white/90 mb-6">Pink for the north, black for the south. JSR Lachkari Kolam and HMT in 10, 26 and 30 kg. “Love in every bite.”</p>
-                    <span className="inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase">{t.suryaCta} →</span>
+                    <span className="inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase">{t.suryaCta} <Arrow /></span>
                   </div>
                   <Img src={SURYA_PACK_BLACK_URL} alt="Surya HMT rice, black pack" sizes="(min-width: 640px) 135px, 96px" className="w-24 sm:w-[135px] h-auto drop-shadow-[0_22px_40px_rgba(0,0,0,0.5)] flex-shrink-0" />
                 </div>
@@ -260,7 +261,7 @@ const HomePage: React.FC = () => {
                     <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/60 mb-3.5">Household brand</div>
                     <Img src="images/logos/dwaraka_brand_logo.webp" alt="Dwaraka" className="h-[54px] sm:h-[70px] w-auto mb-4 sm:mb-5" />
                     <p className="font-serif text-[17px] sm:text-xl leading-relaxed text-white/70 mb-6">Short, thick grain built for fermentation — idli and dosa batter that behaves the same way every single time.</p>
-                    <span className="inline-flex items-center gap-2 border border-white/35 text-white px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase">{t.allProducts} →</span>
+                    <span className="inline-flex items-center gap-2 border border-white/35 text-white px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase">{t.allProducts} <Arrow /></span>
                   </div>
                   <Img src="images/products/brands/dwaraka_pack_1.webp" alt="Dwaraka pack" sizes="(min-width: 640px) 135px, 96px" className="w-24 sm:w-[135px] h-auto drop-shadow-[0_22px_40px_rgba(0,0,0,0.45)] flex-shrink-0" />
                 </div>
@@ -291,14 +292,14 @@ const HomePage: React.FC = () => {
             {CERTIFICATIONS.map((c) => (
               <ScrollReveal key={c.name} width="100%">
                 <div className="bg-white border border-brand-line flex flex-row sm:flex-col h-full hover:shadow-[0_22px_44px_-22px_rgba(10,18,48,0.28)] transition-shadow duration-300">
-                  <div className="w-[96px] shrink-0 sm:w-auto sm:h-[250px] overflow-hidden bg-brand-cream border-r sm:border-r-0 sm:border-b border-brand-line">
+                  <div className="w-[96px] shrink-0 sm:w-auto sm:h-[250px] overflow-hidden bg-brand-cream border-e sm:border-e-0 sm:border-b border-brand-line">
                     <Img src={c.src} alt={c.name} sizes="(min-width: 640px) 33vw, 96px" className="w-full h-full object-cover object-top" />
                   </div>
                   <div className="p-4 sm:p-7 flex flex-col gap-2.5 sm:gap-3.5 flex-1 min-w-0">
                     <h3 className="font-display text-lg sm:text-xl text-gray-900 leading-snug">{c.name}</h3>
                     <div className="flex flex-col gap-1.5">
-                      <div className="flex justify-between gap-3.5"><span className="text-gray-500 uppercase font-bold text-[10px] tracking-wider">{c.numberLabel}</span><span className="text-gray-800 font-semibold text-right text-[11.5px]">{c.number}</span></div>
-                      <div className="flex justify-between gap-3.5"><span className="text-gray-500 uppercase font-bold text-[10px] tracking-wider">Valid to</span><span className="text-gray-800 font-semibold text-right text-[11.5px]">{c.validTo}</span></div>
+                      <div className="flex justify-between gap-3.5"><span className="text-gray-500 uppercase font-bold text-[10px] tracking-wider">{c.numberLabel}</span><span className="text-gray-800 font-semibold text-end text-[11.5px]">{c.number}</span></div>
+                      <div className="flex justify-between gap-3.5"><span className="text-gray-500 uppercase font-bold text-[10px] tracking-wider">Valid to</span><span className="text-gray-800 font-semibold text-end text-[11.5px]">{c.validTo}</span></div>
                     </div>
                     <p className="text-[12.5px] sm:text-[13.5px] leading-relaxed text-gray-500 font-light mt-auto">{c.description}</p>
                   </div>

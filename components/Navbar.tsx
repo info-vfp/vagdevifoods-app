@@ -24,7 +24,7 @@ const Navbar: React.FC = () => {
           <Img src={NAV_LOGO_URL} loading="eager" alt={`${SHORT_COMPANY_NAME} Logo`} className="h-9 md:h-10 w-auto" />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-0.5 ml-auto">
+        <nav className="hidden lg:flex items-center gap-0.5 ms-auto">
           {NAV_LINKS.map((link: NavLinkType) => {
             const active = location.pathname === link.path;
             return (
@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
           </a>
         </div>
 
-        <div className="lg:hidden flex items-center ml-auto gap-2">
+        <div className="lg:hidden flex items-center ms-auto gap-2">
           {/* No language control here on purpose: a <select> reading "EN" is unreadable to
               someone who does not read Latin script, and it hides the other four behind a
               tap. LanguageStrip below the header shows all five outright. */}
@@ -106,8 +106,8 @@ const Navbar: React.FC = () => {
                 onClick={() => setIsOpen(false)}
                 className={`block px-4 py-3 rounded-xl text-base font-bold uppercase tracking-wider transition-all duration-300
                   ${location.pathname === link.path
-                    ? 'bg-brand-secondary/10 text-brand-gold-ink pl-6'
-                    : 'text-brand-primary hover:bg-brand-primary/5 hover:pl-6'
+                    ? 'bg-brand-secondary/10 text-brand-gold-ink ps-6'
+                    : 'text-brand-primary hover:bg-brand-primary/5 hover:ps-6'
                   }`}
               >
                 {link.label}
@@ -116,7 +116,7 @@ const Navbar: React.FC = () => {
             <Link
               to="/surya"
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-3 rounded-xl text-base font-bold uppercase tracking-wider text-[#C4136F] hover:bg-[#C4136F]/5 hover:pl-6 transition-all duration-300"
+              className="block px-4 py-3 rounded-xl text-base font-bold uppercase tracking-wider text-[#C4136F] hover:bg-[#C4136F]/5 hover:ps-6 transition-all duration-300"
             >
               Surya ✦
             </Link>

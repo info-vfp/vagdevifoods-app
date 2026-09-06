@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Arrow from '../components/Arrow';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Img from '../components/Img';
@@ -94,7 +95,7 @@ const SuryaPage: React.FC = () => {
       <main className="flex-1" id="top">
         {/* Hero */}
         <section className="relative overflow-hidden transition-colors duration-700" style={{ background: heroTheme.bg }}>
-          <div className="absolute -top-[18%] -left-[10%] w-[640px] h-[640px] rounded-full blur-[100px] pointer-events-none animate-[sr-blob_11s_ease-in-out_infinite]" style={{ background: 'rgba(255,224,138,.3)' }} />
+          <div className="absolute -top-[18%] -start-[10%] w-[640px] h-[640px] rounded-full blur-[100px] pointer-events-none animate-[sr-blob_11s_ease-in-out_infinite]" style={{ background: 'rgba(255,224,138,.3)' }} />
           <div className="absolute inset-0 opacity-[.06] pointer-events-none bg-[radial-gradient(rgba(255,255,255,0.9)_1px,transparent_1px)] bg-[length:26px_26px]" />
 
           <div className="relative max-w-[1300px] mx-auto px-4 sm:px-6 pt-14 grid lg:grid-cols-[1.05fr_.95fr] gap-10 items-center min-h-[calc(100dvh-72px)]">
@@ -115,7 +116,7 @@ const SuryaPage: React.FC = () => {
                     <button
                       key={key}
                       onClick={() => setHero(key)}
-                      className={`cursor-pointer flex items-center gap-2.5 px-5 py-3 pl-4 rounded-full text-xs font-extrabold tracking-wide transition-all duration-300 border-[1.5px] ${active ? 'bg-white text-[#2A0F1E] border-white' : 'bg-white/10 text-white border-white/30'
+                      className={`cursor-pointer flex items-center gap-2.5 px-5 py-3 ps-4 rounded-full text-xs font-extrabold tracking-wide transition-all duration-300 border-[1.5px] ${active ? 'bg-white text-[#2A0F1E] border-white' : 'bg-white/10 text-white border-white/30'
                         }`}
                     >
                       <span className="w-[18px] h-[18px] rounded-full border-2 border-white/85 flex-shrink-0" style={{ background: key === 'pink' ? '#E4187C' : '#1A1A1A' }} />
@@ -162,12 +163,12 @@ const SuryaPage: React.FC = () => {
               {hero === 'pink' ? (
                 <>
                   <Img src="images/products/surya/pack_pink_jsr.webp" loading="eager" fetchPriority="high" alt="Vagdevi's Surya JSR Lachkari Kolam, pink pack" className="relative z-[2] max-h-[min(62dvh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
-                  <Img src="images/products/surya/pack_black_hmt.webp" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
+                  <Img src="images/products/surya/pack_black_hmt.webp" alt="" aria-hidden="true" className="absolute end-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
                 </>
               ) : (
                 <>
                   <Img src="images/products/surya/pack_black_hmt.webp" loading="eager" fetchPriority="high" alt="Vagdevi's Surya HMT boiled rice, black pack" className="relative z-[2] max-h-[min(62dvh,520px)] max-w-[88%] w-auto drop-shadow-[0_28px_50px_rgba(0,0,0,0.42)] animate-[sr-float_8s_ease-in-out_infinite]" />
-                  <Img src="images/products/surya/pack_pink_jsr.webp" alt="" aria-hidden="true" className="absolute right-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
+                  <Img src="images/products/surya/pack_pink_jsr.webp" alt="" aria-hidden="true" className="absolute end-[2%] bottom-24 z-[1] h-[min(34dvh,270px)] w-auto opacity-40 drop-shadow-[0_18px_34px_rgba(0,0,0,0.34)] animate-[sr-float2_9.5s_ease-in-out_infinite]" />
                 </>
               )}
             </div>
@@ -196,7 +197,7 @@ const SuryaPage: React.FC = () => {
             <div className="grid lg:grid-cols-2 gap-6">
               {SURYA_SKUS.map((s) => (
                 <div key={s.key} className="rounded-[28px] overflow-hidden relative flex flex-col transition-shadow duration-300 hover:shadow-[0_34px_66px_-30px_rgba(42,15,30,0.5)]" style={{ background: s.bg }}>
-                  <div className="absolute -top-[60px] -right-[60px] w-[260px] h-[260px] rounded-full bg-white/10 blur-[48px]" />
+                  <div className="absolute -top-[60px] -end-[60px] w-[260px] h-[260px] rounded-full bg-white/10 blur-[48px]" />
                   <div className="relative px-9 pt-9 flex justify-between items-start gap-4">
                     <div>
                       <div className="inline-flex items-center gap-2 bg-white/[.16] border border-white/[.26] px-3.5 py-1.5 rounded-full mb-[18px]">
@@ -205,7 +206,7 @@ const SuryaPage: React.FC = () => {
                       <h3 className="font-display text-[30px] sm:text-4xl leading-[1.02] text-white mb-2">{s.name}</h3>
                       <div className="text-[11px] font-bold tracking-[0.16em] uppercase" style={{ color: s.accent }}>{s.variety}</div>
                     </div>
-                    <div className="text-right flex-shrink-0">
+                    <div className="text-end flex-shrink-0">
                       <div className="font-display text-3xl text-white leading-none">₹1,950</div>
                       <div className="text-[10px] font-bold tracking-[0.12em] uppercase text-white/60 mt-1.5">26 kg bag</div>
                     </div>
@@ -232,7 +233,7 @@ const SuryaPage: React.FC = () => {
                       className="inline-flex items-center justify-center gap-2.5 bg-white px-6 py-4 rounded-full text-[11.5px] font-extrabold tracking-[0.12em] uppercase transition-transform duration-300 hover:-translate-y-0.5"
                       style={{ color: s.ink }}
                     >
-                      {t.orderOn} {s.short} →
+                      {t.orderOn} {s.short} <Arrow />
                     </a>
                   </div>
                 </div>
@@ -243,7 +244,7 @@ const SuryaPage: React.FC = () => {
 
         {/* Cook it right */}
         <section className="bg-[#2A0F1E] text-white py-14 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
-          <div className="absolute -top-[10%] -right-[8%] w-[520px] h-[520px] rounded-full bg-[#C4136F]/[.32] blur-[100px] animate-[sr-blob_13s_ease-in-out_infinite] pointer-events-none" />
+          <div className="absolute -top-[10%] -end-[8%] w-[520px] h-[520px] rounded-full bg-[#C4136F]/[.32] blur-[100px] animate-[sr-blob_13s_ease-in-out_infinite] pointer-events-none" />
           <div className="relative max-w-[1300px] mx-auto">
             <div className="grid lg:grid-cols-[1fr_.8fr] gap-11 items-end mb-11">
               <div>
@@ -270,7 +271,7 @@ const SuryaPage: React.FC = () => {
             </div>
 
             <div className="grid lg:grid-cols-[.95fr_1.05fr] bg-white/5 border border-white/[.14] rounded-3xl overflow-hidden">
-              <div className="p-8 sm:p-10 flex flex-col gap-6 border-b lg:border-b-0 lg:border-r border-white/[.12]">
+              <div className="p-8 sm:p-10 flex flex-col gap-6 border-b lg:border-b-0 lg:border-e border-white/[.12]">
                 <div>
                   <h3 className="font-display text-[26px] sm:text-4xl leading-tight mb-3">{method.title}</h3>
                   <p className="text-[14.5px] leading-relaxed text-white/70 font-light">{method.blurb}</p>
@@ -350,7 +351,7 @@ const SuryaPage: React.FC = () => {
                   ))}
                 </div>
                 <Link to="/mill" className="inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-[#2A0F1E] self-start hover:text-[#C4136F]">
-                  <span className="border-b-2 border-[#C4136F] pb-1">{t.trustCta} →</span>
+                  <span className="border-b-2 border-[#C4136F] pb-1">{t.trustCta} <Arrow /></span>
                 </Link>
               </div>
             </div>
@@ -362,7 +363,7 @@ const SuryaPage: React.FC = () => {
                   <h3 className="font-display text-2xl leading-tight text-[#2A0F1E]">{b.t}</h3>
                   <p className="text-sm leading-relaxed text-[#7A566A] font-light">{b.d}</p>
                   <a href={buildWhatsAppLink(b.waMessage)} target="_blank" rel="noopener noreferrer" className="mt-auto inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.13em] uppercase text-[#C4136F]">
-                    {b.cta} →
+                    {b.cta} <Arrow />
                   </a>
                 </div>
               ))}
@@ -410,7 +411,7 @@ const SuryaPage: React.FC = () => {
             <div className="text-[10px] font-extrabold tracking-[0.2em] uppercase text-[#F7A8CE] mb-1">Compliance</div>
             <span className="text-[12.5px]">FSSAI 13618008000475</span>
             <span className="text-[12.5px]">ISO 22000:2018</span>
-            <Link to="/" className="inline-flex items-center min-h-[44px] text-[12.5px] text-[#F7A8CE] font-semibold hover:text-white">The mill behind Surya →</Link>
+            <Link to="/" className="inline-flex items-center min-h-[44px] text-[12.5px] text-[#F7A8CE] font-semibold hover:text-white">The mill behind Surya <Arrow /></Link>
           </div>
         </div>
         <div className="max-w-[1300px] mx-auto mt-[34px] border-t border-white/10 pt-[22px] flex flex-wrap gap-3.5 justify-between text-[11.5px] text-white/55">

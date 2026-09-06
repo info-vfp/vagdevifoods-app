@@ -96,7 +96,7 @@ export const RICE_BRANDS_DATA: RiceBrandInfo[] = [
     name: "Surya",
     logoUrl: "images/logos/surya_brand_logo.webp",
     tagline: "Love in every bite.",
-    description: "Pink for the north, black for the south. JSR Lachkari Kolam and HMT boiled, in 10, 26 and 30 kg packs — the rice that shows up on lakhs of plates across six states.",
+    description: "Pink for the north, black for the south. JSR Lachkari Kolam and HMT boiled, in 10, 26 and 30 kg packs — the rice that shows up on lakhs of plates across seven states.",
     packagingImageUrls: [
       "images/products/brands/surya_pack_1.webp",
       "images/products/brands/surya_blue_jsr.webp",
@@ -145,7 +145,7 @@ export const SURYA_SWATCHES: ColourSwatch[] = [
 export const HERO_STATS: HeroStat[] = [
   { n: "2017", l: "Incorporated" },
   { n: "30+", l: "Years promoter experience" },
-  { n: "6", l: "States supplied" },
+  { n: "7", l: "States supplied" },
   { n: "3", l: "Certifications" },
 ];
 
@@ -157,7 +157,7 @@ export const TICKER_ITEMS = [
 export const PILLARS_DATA: PillarInfo[] = [
   { i: "I", t: "Same-day paddy", d: "Farmers from the surrounding mandals deliver straight to our gate. Nothing sits in a trader’s godown losing moisture and character before it reaches us." },
   { i: "II", t: "One roof, one lot", d: "Drying, milling, grading, colour sorting and packing all happen on the same premises, so a lot number stays intact from weighbridge to warehouse." },
-  { i: "III", t: "Dispatch to six states", d: "Maharashtra, Tamil Nadu, Karnataka, Andhra Pradesh, Chhattisgarh and Telangana — with the Vijayawada highway and the Miryalaguda railhead at the door." },
+  { i: "III", t: "Dispatch to seven states", d: "Maharashtra, Tamil Nadu, Karnataka, Andhra Pradesh, Chhattisgarh, Telangana and Odisha — with the Vijayawada highway and the Miryalaguda railhead at the door." },
 ];
 
 export const STRENGTHS_DATA: StrengthInfo[] = [

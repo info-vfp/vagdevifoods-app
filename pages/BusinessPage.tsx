@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Arrow from '../components/Arrow';
 import SEO from '../components/SEO';
 import Img from '../components/Img';
 import ScrollReveal from '../components/ScrollReveal';
@@ -87,7 +88,7 @@ const BusinessPage: React.FC = () => {
               {EXPORT_SPECS[spec].map((row) => (
                 <div key={row.p} className="grid grid-cols-2 gap-5 px-6 sm:px-8 py-5 border-b border-[#F0EBDD] last:border-0 hover:bg-brand-cream transition-colors duration-300">
                   <div className="text-[11px] font-bold tracking-[0.14em] uppercase text-gray-500 self-center">{row.p}</div>
-                  <div className="font-display text-xl sm:text-2xl text-gray-900 text-right">{row.v}</div>
+                  <div className="font-display text-xl sm:text-2xl text-gray-900 text-end">{row.v}</div>
                 </div>
               ))}
             </div>
@@ -112,7 +113,7 @@ const BusinessPage: React.FC = () => {
                   className="inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark self-start hover:text-brand-gold-ink"
                 >
                   {/* Tappable area is the whole 44px anchor; the rule hugs the text. */}
-                  <span className="border-b-2 border-brand-secondary pb-1">Request a lab report →</span>
+                  <span className="border-b-2 border-brand-secondary pb-1">Request a lab report <Arrow /></span>
                 </a>
               </div>
             </div>

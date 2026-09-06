@@ -292,7 +292,7 @@ const ContactPage: React.FC = () => {
                           className={inputClasses('name')}
                           placeholder="John Doe"
                         />
-                        {errors.name && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full mr-2"></span>{errors.name}</p>}
+                        {errors.name && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full me-2"></span>{errors.name}</p>}
                       </div>
 
                       <div className="group">
@@ -303,13 +303,13 @@ const ContactPage: React.FC = () => {
                           className={inputClasses('email')}
                           placeholder="john@example.com"
                         />
-                        {errors.email && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full mr-2"></span>{errors.email}</p>}
+                        {errors.email && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full me-2"></span>{errors.email}</p>}
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                       <div className="group">
-                        <label htmlFor="phone" className={labelClasses}>Phone Number <span className="text-gray-500 font-normal ml-1 normal-case tracking-normal">(Optional)</span></label>
+                        <label htmlFor="phone" className={labelClasses}>Phone Number <span className="text-gray-500 font-normal ms-1 normal-case tracking-normal">(Optional)</span></label>
                         <input
                           type="tel" name="phone" id="phone" value={formData.phone} onChange={handleChange}
                           onFocus={() => setFocusedField('phone')} onBlur={() => setFocusedField(null)}
@@ -319,7 +319,7 @@ const ContactPage: React.FC = () => {
                       </div>
 
                       <div className="group">
-                        <label htmlFor="company" className={labelClasses}>Company Name <span className="text-gray-500 font-normal ml-1 normal-case tracking-normal">(Optional)</span></label>
+                        <label htmlFor="company" className={labelClasses}>Company Name <span className="text-gray-500 font-normal ms-1 normal-case tracking-normal">(Optional)</span></label>
                         <input
                           type="text" name="company" id="company" value={formData.company} onChange={handleChange}
                           onFocus={() => setFocusedField('company')} onBlur={() => setFocusedField(null)}
@@ -337,7 +337,7 @@ const ContactPage: React.FC = () => {
                         className={inputClasses('subject')}
                         placeholder="Inquiry about Rice Supply"
                       />
-                      {errors.subject && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full mr-2"></span>{errors.subject}</p>}
+                      {errors.subject && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full me-2"></span>{errors.subject}</p>}
                     </div>
 
                     <div className="group">
@@ -348,7 +348,7 @@ const ContactPage: React.FC = () => {
                         className={`${inputClasses('message')} resize-none`}
                         placeholder="Tell us how we can help you..."
                       ></textarea>
-                      {errors.message && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full mr-2"></span>{errors.message}</p>}
+                      {errors.message && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full me-2"></span>{errors.message}</p>}
                     </div>
 
                     <div className="pt-4">
@@ -358,7 +358,7 @@ const ContactPage: React.FC = () => {
                         <span className="relative z-10 flex items-center">
                           {isSubmitting ? (
                             <>
-                              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <svg className="animate-spin -ms-1 me-3 h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                               </svg>
@@ -367,7 +367,7 @@ const ContactPage: React.FC = () => {
                           ) : (
                             <>
                               Send Message
-                              <PaperAirplaneIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                              <PaperAirplaneIcon className="ms-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                             </>
                           )}
                         </span>

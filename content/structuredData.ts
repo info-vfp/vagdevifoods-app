@@ -31,6 +31,7 @@ export const STATES_SERVED = [
   'Andhra Pradesh',
   'Chhattisgarh',
   'Telangana',
+  'Odisha',
 ];
 
 const POSTAL_ADDRESS = {

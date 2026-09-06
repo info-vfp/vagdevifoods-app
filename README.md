@@ -301,10 +301,45 @@ a visitor at the top sees two identical rows.
 
 Desktop keeps the compact `<select>` in the nav, where space is scarce and context is richer.
 
-Two constraints if you touch it: all five chips must fit **without horizontal scrolling at
-320px** — an option a visitor has to scroll to find is the problem this replaced — and English
-stays abbreviated to `EN` because it is the one label a Latin-script reader decodes instantly,
-which buys the width the four endonyms need.
+The rule if you touch it: **no language may be hidden behind a scroll** — an option a visitor
+has to find by scrolling sideways is the problem this replaced. Seven chips fit one row from
+360px up; at 320px the strip wraps to a second row rather than scrolling. English stays
+abbreviated to `EN` because it is the one label a Latin-script reader decodes instantly, which
+buys width for the six endonyms.
+
+### Urdu is right-to-left
+
+`LanguageContext` sets `document.documentElement.dir` from `RTL_LANGUAGES`, and the layout is
+built from **logical** CSS properties so it mirrors on its own. That only works if you keep it
+that way:
+
+| Don't | Do |
+|---|---|
+| `ml-*` / `mr-*` | `ms-*` / `me-*` |
+| `pl-*` / `pr-*` | `ps-*` / `pe-*` |
+| `text-left` / `text-right` | `text-start` / `text-end` |
+| `border-l` / `border-r` | `border-s` / `border-e` |
+| `left-[…]` / `right-[…]` | `start-[…]` / `end-[…]` |
+| `scroll-pl-*` | `scroll-ps-*` |
+
+A physical property does not flip, so it silently breaks Urdu while looking fine in English.
+Worth grepping after a batch of styling work:
+
+```bash
+grep -rnP '(?<![-\w])(ml|mr|pl|pr)-[0-9.]+|(?<![-\w])text-(left|right)\b|(?<![-\w])border-(l|r)(?![-\w])|(?<![-\w])-?(left|right)-\[' pages components
+```
+
+Directional glyphs need help too: a literal arrow keeps pointing the same way under RTL and
+ends up aimed back at the text it should lead away from. Use `components/Arrow.tsx`, which
+carries `rtl:-scale-x-100`.
+
+### The Odia and Urdu copy is machine-translated
+
+Both were produced with Gemini and **have not been checked by a native speaker**. The blocks
+are commented as such in `content/mainTranslations.ts` and `content/suryaTranslations.ts`.
+Treat them as a working draft: they are structurally correct and preserve brand, certification
+and place names, but wording nobody has reviewed is a real risk on a page carrying compliance
+claims. The other five languages predate this and are not affected.
 
 **Every interactive element gets at least 44px.** Where a link must stay visually small, give
 the anchor `inline-flex items-center min-h-[44px]` and put the decoration on an inner `<span>`
