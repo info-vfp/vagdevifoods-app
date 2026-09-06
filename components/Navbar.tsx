@@ -60,7 +60,11 @@ const Navbar: React.FC = () => {
         </div>
 
         <div className="lg:hidden flex items-center ml-auto gap-2">
-          <LanguageSwitcher className="hidden sm:inline-flex" />
+          {/* Visible at every width. This was `hidden sm:inline-flex`, which meant the
+              switcher disappeared below 640px — i.e. on every real phone — and the mobile
+              menu never carried one either, so the five languages were unreachable for
+              exactly the Telugu- and Hindi-speaking visitors they exist for. */}
+          <LanguageSwitcher />
           <button
             onClick={() => setIsOpen(!isOpen)}
             type="button"

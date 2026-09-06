@@ -287,6 +287,14 @@ cream — it fails even the large-text threshold. Gold text on a light backgroun
 **`brand-gold-ink`**; the WhatsApp green is **`brand-whatsapp`** (the original measured 3.45:1
 under white labels). Both exist purely to clear AA — see `tailwind.config.js`.
 
+**The language switcher must stay reachable on phones.** It carries `EN / हिंदी / తెలుగు /
+தமிழ் / ಕನ್ನಡ`, and a large share of this audience reads Telugu or Hindi rather than English —
+so it is a primary control, not a setting to tuck away. It once carried `hidden sm:inline-flex`,
+which removed it below 640px (every real phone) while the mobile menu never offered one
+either, leaving the whole five-language feature unreachable for the people it exists for. It
+now renders at every width and fits down to 320px. If the mobile header ever feels crowded,
+move something else.
+
 **Every interactive element gets at least 44px.** Where a link must stay visually small, give
 the anchor `inline-flex items-center min-h-[44px]` and put the decoration on an inner `<span>`
 so the underline still hugs the text. Small icon buttons need `min-w-[44px]` too — and if that
