@@ -99,7 +99,7 @@ export const organizationSchema = () => ({
     credentialCategory: 'certification',
     name: c.name,
     identifier: c.number,
-    validUntil: c.validTo,
+    validUntil: c.validToISO,
   })),
   identifier: [
     { '@type': 'PropertyValue', name: 'IEC', value: IEC_NUMBER },
@@ -112,7 +112,7 @@ export const organizationSchema = () => ({
       telephone: COMPANY_CONTACT_PHONE,
       contactType: 'sales',
       areaServed: 'IN',
-      availableLanguage: ['English', 'Hindi', 'Telugu', 'Tamil', 'Kannada'],
+      availableLanguage: ['English', 'Hindi', 'Telugu', 'Tamil', 'Kannada', 'Odia', 'Urdu'],
     },
   ],
   sameAs: [`https://wa.me/${COMPANY_WHATSAPP_NUMBER}`],

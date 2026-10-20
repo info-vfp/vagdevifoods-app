@@ -31,9 +31,8 @@ if (!template.includes('<div id="root"></div>')) {
 
 const results = [];
 
-for (const route of ROUTES) {
-  const html = await render(route.path);
-
+/** Turns one server render into a complete HTML document built on the template. */
+function toDocument(html) {
   // React 19 hoists <title>, <meta> and <link> into <head> on the client, but
   // renderToString leaves them inline in the body. Left there they would (a) not be seen
   // by crawlers that only read <head>, and (b) cause a hydration mismatch, because the
@@ -52,10 +51,14 @@ for (const route of ROUTES) {
   // The template ships a static placeholder title; the route's own title replaces it.
   const hasTitle = hoisted.some((t) => t.startsWith('<title'));
 
-  const page = template
+  return template
     .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
     .replace(hasTitle ? /<title>[\s\S]*?<\/title>\s*/ : /(?!)/, '')
     .replace('</head>', `  ${hoisted.join('\n    ')}\n  </head>`);
+}
+
+for (const route of ROUTES) {
+  const page = toDocument(await render(route.path));
 
   if (route.path === '/') {
     await writeFile(path.join(DIST, 'index.html'), page);
@@ -81,10 +84,11 @@ for (const route of ROUTES) {
   results.push({ route: route.path, kb: Math.round(page.length / 1024), textChars });
 }
 
-// GitHub Pages serves 404.html for any unmatched path. Handing it the app shell means a
-// mistyped URL still boots the site (which then redirects) rather than showing GitHub's
-// own 404 page.
-await writeFile(path.join(DIST, '404.html'), template);
+// GitHub Pages serves 404.html, with an HTTP 404 status, for any unmatched path. Rendering the
+// app's own not-found page into it means a stale link shows the site's navigation straight
+// away — even before the JavaScript arrives — rather than GitHub's generic page. Any path the
+// router does not know will do; this one can never be a real route.
+await writeFile(path.join(DIST, '404.html'), toDocument(await render('/__not-found__')));
 
 console.log('\nPre-rendered routes:');
 console.log('  ' + 'route'.padEnd(14) + 'size'.padStart(7) + 'readable text'.padStart(16));

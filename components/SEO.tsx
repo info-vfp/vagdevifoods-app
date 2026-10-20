@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { SEO_KEYWORDS } from '../constants';
-import { SITE_NAME, absoluteUrl, getRouteMeta } from '../content/seo';
+import { SITE_NAME, DEFAULT_SHARE_IMAGE, absoluteUrl, getRouteMeta } from '../content/seo';
 
 interface SEOProps {
     /** Overrides the title from the route registry. Usually omit and let the registry win. */
@@ -11,6 +11,8 @@ interface SEOProps {
     image?: string;
     type?: string;
     structuredData?: object;
+    /** Keep this page out of search results (the 404 page). */
+    noindex?: boolean;
 }
 
 /**
@@ -37,6 +39,7 @@ const SEO: React.FC<SEOProps> = ({
     image,
     type = 'website',
     structuredData,
+    noindex = false,
 }) => {
     const { pathname } = useLocation();
     // Normalise "/mill/" -> "/mill" so the canonical never varies by trailing slash.
@@ -45,7 +48,10 @@ const SEO: React.FC<SEOProps> = ({
 
     const resolvedTitle = title ?? meta?.title ?? SITE_NAME;
     const resolvedDescription = description ?? meta?.description ?? '';
-    const resolvedImage = absoluteUrl(image ?? meta?.image ?? '/images/logos/vagdevi_nav_logo.webp');
+    // Every route has its own 1200×630 JPEG share card in public/og/. JPEG rather than WebP
+    // because WhatsApp — this business's main channel — does not reliably preview WebP.
+    const resolvedImage = absoluteUrl(image ?? meta?.image ?? DEFAULT_SHARE_IMAGE);
+    const imageAlt = meta?.imageAlt ?? `${SITE_NAME} — rice mill at Yadgarpally, Miryalaguda, Telangana`;
     const canonical = absoluteUrl(path);
 
     const fullTitle = resolvedTitle === SITE_NAME ? resolvedTitle : `${resolvedTitle} | ${SITE_NAME}`;
@@ -56,8 +62,8 @@ const SEO: React.FC<SEOProps> = ({
             <title>{fullTitle}</title>
             <meta name="description" content={resolvedDescription} />
             <meta name="keywords" content={effectiveKeywords} />
-            <link rel="canonical" href={canonical} />
-            <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+            {!noindex && <link rel="canonical" href={canonical} />}
+            <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 
             {/* Geographic signals for local search */}
             <meta name="geo.region" content="IN-TG" />
@@ -70,6 +76,10 @@ const SEO: React.FC<SEOProps> = ({
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={resolvedDescription} />
             <meta property="og:image" content={resolvedImage} />
+            <meta property="og:image:type" content="image/jpeg" />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:image:alt" content={imageAlt} />
             <meta property="og:url" content={canonical} />
             <meta property="og:site_name" content={SITE_NAME} />
             <meta property="og:locale" content="en_IN" />
@@ -79,6 +89,7 @@ const SEO: React.FC<SEOProps> = ({
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={resolvedDescription} />
             <meta name="twitter:image" content={resolvedImage} />
+            <meta name="twitter:image:alt" content={imageAlt} />
 
             {/* JSON-LD is valid in the body, so it does not need hoisting. */}
             {structuredData && (

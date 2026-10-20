@@ -1,12 +1,14 @@
 import React from 'react';
 import { PhoneIcon } from '@heroicons/react/24/solid';
 import WhatsAppIcon from './WhatsAppIcon';
-import { COMPANY_CONTACT_PHONE } from '../constants';
+import { COMPANY_CONTACT_PHONE, COMPANY_TEL_HREF } from '../constants';
+import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { useLanguage } from '../context/LanguageContext';
 
 interface MobileActionBarProps {
   /** WhatsApp deep link, pre-filled with a message appropriate to the page. */
   whatsappLink: string;
-  /** Label for the WhatsApp button — translated by the caller. */
+  /** Label for the WhatsApp button — translated by the caller. Defaults to "WhatsApp". */
   whatsappLabel?: string;
 }
 
@@ -17,8 +19,9 @@ interface MobileActionBarProps {
  * permanent, thumb-reachable placement rather than a single small floating bubble.
  * Hidden from large screens, where the header CTA and the floating button already cover it.
  */
-const MobileActionBar: React.FC<MobileActionBarProps> = ({ whatsappLink, whatsappLabel = 'WhatsApp' }) => {
-  const telHref = `tel:+${COMPANY_CONTACT_PHONE.replace(/\D/g, '')}`;
+const MobileActionBar: React.FC<MobileActionBarProps> = ({ whatsappLink, whatsappLabel }) => {
+  const { lang } = useLanguage();
+  const t = MAIN_TRANSLATIONS[lang];
 
   return (
     <div
@@ -35,17 +38,17 @@ const MobileActionBar: React.FC<MobileActionBarProps> = ({ whatsappLink, whatsap
                    active:brightness-90 transition"
       >
         <WhatsAppIcon className="w-[18px] h-[18px]" />
-        {whatsappLabel}
+        {whatsappLabel ?? t.wa}
       </a>
       <a
-        href={telHref}
-        aria-label={`Call ${COMPANY_CONTACT_PHONE}`}
+        href={COMPANY_TEL_HREF}
+        aria-label={`${t.call} ${COMPANY_CONTACT_PHONE}`}
         className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-2 rounded-full
                    bg-brand-dark text-white text-[13px] font-extrabold tracking-[0.1em] uppercase
                    active:brightness-125 transition"
       >
         <PhoneIcon className="w-[18px] h-[18px]" />
-        Call
+        {t.call}
       </a>
     </div>
   );

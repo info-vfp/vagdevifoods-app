@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguage, LANGUAGE_OPTIONS, LangCode } from '../context/LanguageContext';
+import { useLanguage, LANGUAGE_OPTIONS, LangCode, RTL_LANGUAGES } from '../context/LanguageContext';
 
 /**
  * The compact control for the desktop nav, where horizontal space is scarce and a visitor
@@ -27,7 +27,9 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className = '' }) =
         backgroundImage:
           "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231F2937' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'right 0.7rem center',
+        // background-position has no logical keyword, so the chevron follows `pe-7` (the end
+        // padding) by hand. Pinned to the right it sat on top of the label in Urdu.
+        backgroundPosition: `${RTL_LANGUAGES.has(lang) ? 'left' : 'right'} 0.7rem center`,
       }}
       className={`appearance-none bg-white border border-brand-line rounded-full ps-3.5 pe-7 min-h-[44px] text-[13px] sm:text-[11px] font-bold text-brand-primary cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 ${className}`}
     >

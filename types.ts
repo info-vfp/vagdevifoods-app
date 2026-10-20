@@ -1,6 +1,7 @@
 
 export interface NavLink {
-  label: string;
+  /** Key into MainTranslation for the visible label. */
+  labelKey: 'navHome' | 'navAbout' | 'navMill' | 'navProducts' | 'navExports' | 'navContact';
   path: string;
 }
 
@@ -38,6 +39,8 @@ export interface CertificationInfo {
   numberLabel: string;
   number: string;
   validTo: string;
+  /** The same date in ISO 8601, for structured data. */
+  validToISO: string;
   description: string;
 }
 

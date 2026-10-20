@@ -118,6 +118,13 @@
   55%, 100% { transform: translateX(360%) skewX(-18deg); }
 }
 
+/* Contact form <-> "message sent" swap. A plain fade: the form used to scale in as well,
+   which is motion for its own sake on the page where people are trying to type. */
+@keyframes vf-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 @keyframes vf-pulse {
   0%, 100% { opacity: .3; transform: scale(1); }
   50% { opacity: .7; transform: scale(1.07); }

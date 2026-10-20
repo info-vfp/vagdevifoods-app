@@ -77,7 +77,7 @@ const HomePage: React.FC = () => {
                 {HERO_STATS.map((s) => (
                   <div key={s.l} className="bg-brand-dark px-4 py-5">
                     <div className="font-display text-2xl font-bold text-brand-secondary leading-none mb-1.5">{s.n}</div>
-                    <div className="text-[9.5px] font-bold tracking-[0.16em] uppercase text-white/55 leading-snug">{s.l}</div>
+                    <div className="text-[10.5px] font-bold tracking-[0.16em] uppercase text-white/55 leading-snug">{s.l}</div>
                   </div>
                 ))}
               </div>
@@ -255,7 +255,7 @@ const HomePage: React.FC = () => {
               </Link>
             </ScrollReveal>
             <ScrollReveal width="100%">
-              <Link to="/products" className="block relative overflow-hidden bg-white/5 hover:bg-white/[.09] transition-colors duration-300 p-6 sm:p-10 border border-white/[.14] h-full">
+              <Link to="/products#brands" className="block relative overflow-hidden bg-white/5 hover:bg-white/[.09] transition-colors duration-300 p-6 sm:p-10 border border-white/[.14] h-full">
                 <div className="relative flex justify-between items-start gap-5">
                   <div className="max-w-xs">
                     <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/60 mb-3.5">Household brand</div>

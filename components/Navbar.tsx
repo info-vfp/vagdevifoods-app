@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Img from './Img';
 import { Link, useLocation } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -16,6 +16,14 @@ const Navbar: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
+  // Escape closes the open menu, as it does for any disclosure a keyboard user can open.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen]);
+
   return (
     <>
       <header className="sticky top-0 z-[80] bg-brand-cream/90 backdrop-blur-md border-b border-brand-line">
@@ -29,14 +37,15 @@ const Navbar: React.FC = () => {
             const active = location.pathname === link.path;
             return (
               <Link
-                key={link.label}
+                key={link.path}
                 to={link.path}
+                aria-current={active ? 'page' : undefined}
                 className={`px-3 py-2 text-[11.5px] font-bold uppercase tracking-wider border-b-2 transition-colors duration-300 whitespace-nowrap ${active
                   ? 'text-brand-gold-ink border-brand-secondary'
                   : 'text-brand-primary border-transparent hover:text-brand-gold-ink'
                   }`}
               >
-                {link.label}
+                {t[link.labelKey]}
               </Link>
             );
           })}
@@ -69,10 +78,10 @@ const Navbar: React.FC = () => {
             onClick={() => setIsOpen(!isOpen)}
             type="button"
             aria-expanded={isOpen}
-            aria-label={isOpen ? 'Close main menu' : 'Open main menu'}
+            aria-controls="mobile-menu"
+            aria-label={isOpen ? t.menuClose : t.menuOpen}
             className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-md text-brand-primary hover:text-brand-gold-ink focus:outline-none focus:ring-2 focus:ring-brand-secondary/40"
           >
-            <span className="sr-only">Open main menu</span>
             {!isOpen ? <Bars3Icon className="block h-7 w-7" aria-hidden="true" /> : <XMarkIcon className="block h-7 w-7" aria-hidden="true" />}
           </button>
         </div>
@@ -83,6 +92,7 @@ const Navbar: React.FC = () => {
           transition has something to run on; `inert` keeps it out of the tab order and away
           from screen readers while it is closed. */}
       <div
+        id="mobile-menu"
         className={`lg:hidden grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
           isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
         }`}
@@ -101,16 +111,17 @@ const Navbar: React.FC = () => {
             </div>
             {NAV_LINKS.map((link: NavLinkType) => (
               <Link
-                key={link.label}
+                key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
+                aria-current={location.pathname === link.path ? 'page' : undefined}
                 className={`block px-4 py-3 rounded-xl text-base font-bold uppercase tracking-wider transition-all duration-300
                   ${location.pathname === link.path
                     ? 'bg-brand-secondary/10 text-brand-gold-ink ps-6'
                     : 'text-brand-primary hover:bg-brand-primary/5 hover:ps-6'
                   }`}
               >
-                {link.label}
+                {t[link.labelKey]}
               </Link>
             ))}
             <Link

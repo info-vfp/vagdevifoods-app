@@ -64,13 +64,13 @@ provider detail in `console.error` rather than on screen: visitors cannot act on
 ## Project structure
 
 ```
-pages/        One component per route (Home, About, Mill, Products, Exports, Contact, Surya)
+pages/        One component per route (Home, About, Mill, Products, Exports, Contact, Surya, NotFound)
 components/   Shared UI — Navbar, Footer, Carousel, MobileActionBar, SEO, Img, …
 content/      Page copy and data, separated from layout (translations, mill journey, gallery)
 context/      LanguageContext — the EN/HI/TE/TA/KN switcher
 constants.ts  Company details, contact numbers, certifications, product data
 scripts/      Maintenance tooling (image optimization, image manifest, prerender, sitemap)
-public/       Static assets served as-is, including images/ and CNAME
+public/       Static assets served as-is: images/, og/ (share cards), icons/, CNAME
 ```
 
 ### Routing and pre-rendering
@@ -215,6 +215,21 @@ npm run deploy
 
 `predeploy` runs `npm run check` first, so a type error or failed build blocks the release.
 
+### Share cards and icons
+
+Every route has a **1200×630 JPEG share card** in `public/og/`, set as its `og:image` in
+`content/seo.ts`. WhatsApp is how most links to this site get passed around, and it previews
+JPEG reliably where it does not WebP — the previous cards were a portrait packshot and a
+transparent logo, which rendered as a sliver or a blank square.
+
+`public/icons/` holds the favicon PNG, the iOS home-screen icon and the web-manifest icons,
+cut from the V-chevron in the logo.
+
+Both folders sit **outside `public/images/` on purpose**: `npm run images` converts every PNG
+and JPEG in there to WebP and deletes the original, which would break both. The cards are
+static artwork — if a page's headline changes materially, regenerate its card (same layout:
+brand-navy scrim over a mill photograph, logo top-left, the page's headline in Playfair).
+
 ### Notes
 
 - `dist/` is generated output and is **not** committed. Never edit it by hand.
@@ -231,11 +246,14 @@ Tailwind is compiled at build time via PostCSS. It is deliberately **not** loade
 the CDN build compiles styles in the browser, which costs an extra download and shows a flash
 of unstyled content on slow mobile connections.
 
-**framer-motion is still installed but is no longer part of the shell.** It was ~60KB gzipped
-carried on every page for two transitions, so `ScrollReveal` and the mobile menu were rebuilt
-on IntersectionObserver and CSS. Only `ContactPage` still imports it, which puts it in that
-route's chunk. Reaching for it in a component that loads on every page pulls the whole library
-back into the main bundle — prefer a CSS transition.
+**framer-motion has been removed.** It was ~60KB gzipped for a handful of transitions:
+`ScrollReveal` and the mobile menu were rebuilt on IntersectionObserver and CSS first, and the
+contact form's fade was the last use. Dropping it took the contact page's JavaScript from 45KB
+to 4.5KB gzipped. Prefer a CSS transition or keyframe (see `vf-fade-in` in `index.css`) over
+adding an animation library back.
+
+The EmailJS client is also loaded only when the contact form is submitted, not with the page —
+most visitors use WhatsApp and never need it.
 
 ### Decorative animation is disabled on phones
 
@@ -301,6 +319,12 @@ a visitor at the top sees two identical rows.
 
 Desktop keeps the compact `<select>` in the nav, where space is scarce and context is richer.
 
+**The chrome follows the language too.** Nav links (header, mobile menu, footer), the footer
+headings and hours, the sticky bar's Call button and the skip link all read from
+`MAIN_TRANSLATIONS` — `NAV_LINKS` carries a `labelKey`, not a label. Switching to Telugu used
+to translate the headline and leave every control a visitor navigates by in English. The
+longest set (Tamil) still fits the desktop nav at 1024px; re-check that if you add a link.
+
 The rule if you touch it: **no language may be hidden behind a scroll** — an option a visitor
 has to find by scrolling sideways is the problem this replaced. Seven chips fit one row from
 360px up; at 320px the strip wraps to a second row rather than scrolling. English stays
@@ -335,7 +359,9 @@ carries `rtl:-scale-x-100`.
 
 ### The Odia and Urdu copy is machine-translated
 
-Both were produced with Gemini and **have not been checked by a native speaker**. The blocks
+Both were produced with Gemini and **have not been checked by a native speaker**. The same
+goes for the short chrome labels (Call, Explore, Skip to content…) in all six non-English
+languages, which were added later and are marked as such in the file. The blocks
 are commented as such in `content/mainTranslations.ts` and `content/suryaTranslations.ts`.
 Treat them as a working draft: they are structurally correct and preserve brand, certification
 and place names, but wording nobody has reviewed is a real risk on a page carrying compliance
@@ -345,6 +371,19 @@ claims. The other five languages predate this and are not affected.
 the anchor `inline-flex items-center min-h-[44px]` and put the decoration on an inner `<span>`
 so the underline still hugs the text. Small icon buttons need `min-w-[44px]` too — and if that
 widens a row past the viewport, let it wrap rather than overflow.
+
+**Keyboard and screen-reader basics are wired in, keep them that way:** a skip link is the
+first tab stop on every page; nav links carry `aria-current="page"`; the pill toggles (export
+spec tabs, mill stages, Surya pack and cooking method, contact-form topics) carry
+`aria-pressed`; contact-form errors are tied to their fields with `aria-invalid` /
+`aria-describedby` and the first one receives focus; the mill carousel answers the arrow keys.
+
+### Unknown URLs get a real 404 page
+
+GitHub Pages serves `404.html` with an HTTP 404 status for any path it does not have, and the
+pre-render writes the app's own not-found page into it (`pages/NotFoundPage.tsx`, `noindex`).
+A stale link — the site used hash URLs, and once had a `/markets` page — now shows every page
+and the WhatsApp desk one tap away, instead of silently dropping the visitor on the home page.
 
 Text sitting on photography is the one thing an automated check cannot judge: the contrast
 tooling sees the section background, not the image. Those cases are scrimmed with a gradient

@@ -8,7 +8,10 @@ import WhatsAppFAB from '../components/WhatsAppFAB';
 import MobileActionBar from '../components/MobileActionBar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import LanguageStrip from '../components/LanguageStrip';
-import { buildWhatsAppLink } from '../constants';
+import SkipLink from '../components/SkipLink';
+import {
+  buildWhatsAppLink, COMPANY_NAME, COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE, COMPANY_TEL_HREF,
+} from '../constants';
 import { SURYA_TRANSLATIONS } from '../content/suryaTranslations';
 import { SURYA_SKUS, COOK_METHODS, SURYA_COLOURS, SURYA_BUYERS, SURYA_TICKER } from '../content/suryaContent';
 import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
@@ -42,6 +45,7 @@ const SuryaPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FFF8FB] text-[#2A0F1E] font-sans">
+      <SkipLink target="top" />
       <SEO
         keywords="surya rice, surya rice brand, JSR lachkari kolam, HMT boiled rice, rice dealer telangana"
         structuredData={buildGraph(
@@ -62,7 +66,7 @@ const SuryaPage: React.FC = () => {
             aria-label="Back to Vagdevi Foods"
             className="inline-flex items-center gap-2 min-h-[44px] min-w-[44px] text-[11px] font-bold tracking-[0.14em] uppercase text-[#8A6675] hover:text-[#C4136F] transition-colors flex-shrink-0"
           >
-            <span aria-hidden="true">←</span>
+            <span aria-hidden="true" className="inline-block rtl:-scale-x-100">←</span>
             <span className="hidden sm:inline">Vagdevi Foods</span>
           </Link>
           <Link to="/surya" className="mx-auto flex items-center min-h-[44px]">
@@ -92,7 +96,7 @@ const SuryaPage: React.FC = () => {
         activeChipClassName="bg-[#C4136F] text-white"
       />
 
-      <main className="flex-1" id="top">
+      <main className="flex-1 focus:outline-none" id="top" tabIndex={-1}>
         {/* Hero */}
         <section className="relative overflow-hidden transition-colors duration-700" style={{ background: heroTheme.bg }}>
           <div className="absolute -top-[18%] -start-[10%] w-[640px] h-[640px] rounded-full blur-[100px] pointer-events-none animate-[sr-blob_11s_ease-in-out_infinite]" style={{ background: 'rgba(255,224,138,.3)' }} />
@@ -115,6 +119,8 @@ const SuryaPage: React.FC = () => {
                   return (
                     <button
                       key={key}
+                      type="button"
+                      aria-pressed={active}
                       onClick={() => setHero(key)}
                       className={`cursor-pointer flex items-center gap-2.5 px-5 py-3 ps-4 rounded-full text-xs font-extrabold tracking-wide transition-all duration-300 border-[1.5px] ${active ? 'bg-white text-[#2A0F1E] border-white' : 'bg-white/10 text-white border-white/30'
                         }`}
@@ -150,7 +156,7 @@ const SuryaPage: React.FC = () => {
                 {heroFacts.map((f) => (
                   <div key={f.l} className="px-3.5 py-[18px] transition-colors duration-700" style={{ background: heroTheme.solid }}>
                     <div className="font-display text-[23px] text-[#FFE08A] leading-none mb-1.5">{f.n}</div>
-                    <div className="text-[9.5px] font-bold tracking-[0.14em] uppercase text-white/85 leading-snug">{f.l}</div>
+                    <div className="text-[10.5px] font-bold tracking-[0.14em] uppercase text-white/85 leading-snug">{f.l}</div>
                   </div>
                 ))}
               </div>
@@ -201,7 +207,7 @@ const SuryaPage: React.FC = () => {
                   <div className="relative px-9 pt-9 flex justify-between items-start gap-4">
                     <div>
                       <div className="inline-flex items-center gap-2 bg-white/[.16] border border-white/[.26] px-3.5 py-1.5 rounded-full mb-[18px]">
-                        <span className="text-[9.5px] font-extrabold tracking-[0.18em] uppercase text-white">{s.tag}</span>
+                        <span className="text-[10.5px] font-extrabold tracking-[0.18em] uppercase text-white">{s.tag}</span>
                       </div>
                       <h3 className="font-display text-[30px] sm:text-4xl leading-[1.02] text-white mb-2">{s.name}</h3>
                       <div className="text-[11px] font-bold tracking-[0.16em] uppercase" style={{ color: s.accent }}>{s.variety}</div>
@@ -221,7 +227,7 @@ const SuryaPage: React.FC = () => {
                     <div className="grid grid-cols-2 gap-px bg-white/20">
                       {s.specs.map((sp) => (
                         <div key={sp.k} className="px-4 py-3.5" style={{ background: s.key === 'pink' ? '#B00E5C' : '#1E1E1E' }}>
-                          <div className="text-[9px] font-extrabold tracking-[0.16em] uppercase text-white/85 mb-1.5">{sp.k}</div>
+                          <div className="text-[10.5px] font-extrabold tracking-[0.16em] uppercase text-white/85 mb-1.5">{sp.k}</div>
                           <div className="text-[13.5px] font-semibold text-white leading-snug">{sp.v}</div>
                         </div>
                       ))}
@@ -260,6 +266,8 @@ const SuryaPage: React.FC = () => {
                 return (
                   <button
                     key={m.key}
+                    type="button"
+                    aria-pressed={active}
                     onClick={() => setMethodKey(m.key)}
                     className={`cursor-pointer flex-shrink-0 snap-start px-5 min-h-[44px] rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase transition-all duration-300 border ${active ? 'bg-white text-[#2A0F1E] border-white' : 'bg-white/[.06] text-white/80 border-white/[.24]'
                       }`}
@@ -280,7 +288,7 @@ const SuryaPage: React.FC = () => {
                   {method.dials.map((d) => (
                     <div key={d.k} className="bg-[#2A0F1E] px-4 py-5">
                       <div className="font-display text-2xl text-[#FFE08A] leading-none mb-2">{d.v}</div>
-                      <div className="text-[9.5px] font-bold tracking-[0.14em] uppercase text-white/55 leading-snug">{d.k}</div>
+                      <div className="text-[10.5px] font-bold tracking-[0.14em] uppercase text-white/55 leading-snug">{d.k}</div>
                     </div>
                   ))}
                 </div>
@@ -323,7 +331,7 @@ const SuryaPage: React.FC = () => {
                     <span className="w-[34px] h-[34px] rounded-full flex-shrink-0 shadow-[0_6px_14px_-6px_rgba(0,0,0,0.5)]" style={{ background: c.hex }} />
                     <div>
                       <div className="font-display text-xl text-[#2A0F1E] leading-tight">{c.name}</div>
-                      <div className="text-[9.5px] font-extrabold tracking-[0.16em] uppercase text-[#C4136F] mt-1">{c.variety}</div>
+                      <div className="text-[10.5px] font-extrabold tracking-[0.16em] uppercase text-[#C4136F] mt-1">{c.variety}</div>
                     </div>
                   </div>
                   <p className="text-[13.5px] leading-relaxed text-[#7A566A] font-light">{c.d}</p>
@@ -373,7 +381,7 @@ const SuryaPage: React.FC = () => {
 
         {/* Final CTA */}
         <section className="relative overflow-hidden bg-gradient-to-br from-[#E4187C] to-[#7C0740] text-white py-14 sm:py-24 px-4 sm:px-6">
-          <div className="absolute -top-24 -left-16 w-[460px] h-[460px] rounded-full bg-[#FFE08A]/25 blur-[90px] animate-[sr-blob_12s_ease-in-out_infinite] pointer-events-none" />
+          <div className="absolute -top-24 -start-16 w-[460px] h-[460px] rounded-full bg-[#FFE08A]/25 blur-[90px] animate-[sr-blob_12s_ease-in-out_infinite] pointer-events-none" />
           <div className="relative max-w-2xl mx-auto text-center">
             <Img src="images/logos/surya_brand_logo.webp" alt="Vagdevi's Surya" className="h-20 w-auto mx-auto mb-7 drop-shadow-[0_10px_26px_rgba(0,0,0,0.35)]" />
             <h2 className="font-display text-[32px] sm:text-6xl leading-[1.04] tracking-tight mb-5">{t.endTitle}</h2>
@@ -388,8 +396,8 @@ const SuryaPage: React.FC = () => {
                 <WhatsAppIcon className="w-4 h-4" />
                 {t.endCta}
               </a>
-              <a href="tel:+919000416808" className="inline-flex items-center gap-2.5 border-[1.5px] border-white/40 text-white px-8 py-5 rounded-full text-xs font-extrabold tracking-[0.12em] uppercase transition-colors duration-300 hover:bg-white/10">
-                +91 90004 16808
+              <a href={COMPANY_TEL_HREF} className="inline-flex items-center gap-2.5 border-[1.5px] border-white/40 text-white px-8 py-5 rounded-full text-xs font-extrabold tracking-[0.12em] uppercase transition-colors duration-300 hover:bg-white/10">
+                {COMPANY_CONTACT_PHONE}
               </a>
             </div>
           </div>
@@ -404,8 +412,8 @@ const SuryaPage: React.FC = () => {
           </div>
           <div className="flex flex-col gap-2.5">
             <div className="text-[10px] font-extrabold tracking-[0.2em] uppercase text-[#F7A8CE] mb-1">Order &amp; enquiries</div>
-            <a href={WA_DEALER_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-[44px] text-sm text-white font-semibold hover:text-[#F7A8CE]">WhatsApp · +91 90004 16808</a>
-            <a href="mailto:info@vagdevifoods.com" className="inline-flex items-center min-h-[44px] text-[13.5px] text-white/70 hover:text-[#F7A8CE]">info@vagdevifoods.com</a>
+            <a href={WA_DEALER_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-[44px] text-sm text-white font-semibold hover:text-[#F7A8CE]">WhatsApp · {COMPANY_CONTACT_PHONE}</a>
+            <a href={`mailto:${COMPANY_CONTACT_EMAIL}`} className="inline-flex items-center min-h-[44px] text-[13.5px] text-white/70 hover:text-[#F7A8CE]">{COMPANY_CONTACT_EMAIL}</a>
           </div>
           <div className="flex flex-col gap-2.5">
             <div className="text-[10px] font-extrabold tracking-[0.2em] uppercase text-[#F7A8CE] mb-1">Compliance</div>
@@ -415,7 +423,7 @@ const SuryaPage: React.FC = () => {
           </div>
         </div>
         <div className="max-w-[1300px] mx-auto mt-[34px] border-t border-white/10 pt-[22px] flex flex-wrap gap-3.5 justify-between text-[11.5px] text-white/55">
-          <span>© 2026 Vagdevi Food Products Private Limited.</span>
+          <span>© {new Date().getFullYear()} {COMPANY_NAME}.</span>
           <span>Love in every bite.</span>
         </div>
       </footer>

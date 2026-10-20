@@ -10,7 +10,13 @@
        pre-rendered page, not just the home page. -->
   <meta name="google-site-verification" content="jnAnouV6ZA3SBJZeqkzSW6R59qSDto-m3Nl9HsvMTww" />
   <title>Vagdevi Food Products</title>
-  <link rel="icon" href="/images/ui/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/ui/favicon.ico" sizes="any">
+  <!-- The V-chevron from the logo, square, for browsers that prefer PNG and for home-screen
+       shortcuts. Kept in /icons rather than /images: `npm run images` turns every PNG under
+       /images into WebP, which iOS does not accept as a touch icon. -->
+  <link rel="icon" href="/icons/favicon-48.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!--
