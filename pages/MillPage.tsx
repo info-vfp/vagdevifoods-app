@@ -61,6 +61,8 @@ const MillPage: React.FC = () => {
                 return (
                   <button
                     key={s.n}
+                    type="button"
+                    aria-pressed={active}
                     onClick={() => setStageIndex(i)}
                     className={`cursor-pointer flex-shrink-0 snap-start flex items-center gap-2 px-[18px] min-h-[44px] rounded-full text-[10.5px] font-extrabold tracking-[0.12em] uppercase transition-all duration-300 border ${active
                       ? 'bg-brand-secondary text-brand-dark border-brand-secondary'
@@ -81,7 +83,7 @@ const MillPage: React.FC = () => {
             <div className="grid lg:grid-cols-[1.35fr_.65fr] border border-white/[.16] overflow-hidden bg-white/[.04]">
               <div className="relative min-h-[320px] lg:min-h-[520px] overflow-hidden bg-[#060B1C]">
                 <Img src={stage.src} alt={stage.title} sizes="(min-width: 1024px) 830px, 100vw" className="w-full h-full object-cover" style={{ objectPosition: stage.pos }} />
-                <div className="absolute left-0 bottom-0 p-7 bg-gradient-to-t from-[#060B1C]/90 to-transparent w-full">
+                <div className="absolute start-0 bottom-0 p-7 bg-gradient-to-t from-[#060B1C]/90 to-transparent w-full">
                   <div className="font-display text-5xl text-brand-secondary/90 leading-none">{stage.n}</div>
                 </div>
               </div>
@@ -94,7 +96,7 @@ const MillPage: React.FC = () => {
                 <div className="mt-auto flex flex-col gap-px bg-white/[.16]">
                   {stage.facts.map((f) => (
                     <div key={f.k} className="bg-brand-dark px-[18px] py-4 flex justify-between gap-4 items-baseline">
-                      <span className="text-[9.5px] font-extrabold tracking-[0.16em] uppercase text-white/50">{f.k}</span>
+                      <span className="text-[10.5px] font-extrabold tracking-[0.16em] uppercase text-white/50">{f.k}</span>
                       <span className="font-display text-lg text-white text-end">{f.v}</span>
                     </div>
                   ))}

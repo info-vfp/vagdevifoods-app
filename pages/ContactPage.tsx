@@ -3,7 +3,7 @@ import SEO from '../components/SEO';
 import ScrollReveal from '../components/ScrollReveal';
 import WhatsAppIcon from '../components/WhatsAppIcon';
 import {
-  COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE, COMPANY_WHATSAPP_NUMBER, WHATSAPP_BULK_QUOTE_LINK,
+  COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE, COMPANY_TEL_HREF, WHATSAPP_BULK_QUOTE_LINK,
   FARMER_PAYMENTS_PHONE_FORMATTED, FARMER_PAYMENTS_WHATSAPP_NUMBER, MILL_ADDRESS_LINES,
   REGISTERED_OFFICE_LINES, GOOGLE_MAPS_EMBED_URL,
 } from '../constants';
@@ -12,8 +12,25 @@ import { buildGraph, breadcrumbSchema, organizationSchema } from '../content/str
 import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
-import emailjs from '@emailjs/browser';
-import { motion, AnimatePresence } from 'framer-motion';
+
+// Field names double as the EmailJS template's variables — renaming one silently drops it
+// from the email the sales desk receives.
+interface FormFields {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  subject: string;
+  message: string;
+}
+
+const EMPTY_FORM: FormFields = { name: '', email: '', phone: '', company: '', subject: '', message: '' };
+
+/** Order the fields appear in, so validation can focus the first one that needs fixing. */
+const FIELD_ORDER: (keyof FormFields)[] = ['name', 'email', 'phone', 'company', 'subject', 'message'];
+
+/** The enquiries the sales desk actually gets, as one-tap starting points for the subject. */
+const ENQUIRY_TOPICS = ['Bulk quote', 'Private label', 'Export enquiry', 'Become a dealer', 'Mill visit', 'Lab report / samples'];
 
 const ContactPage: React.FC = () => {
   const { lang } = useLanguage();
@@ -26,41 +43,44 @@ const ContactPage: React.FC = () => {
   );
 
   const form = useRef<HTMLFormElement>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    subject: '',
-    message: '',
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState<FormFields>(EMPTY_FORM);
+  const [errors, setErrors] = useState<Partial<Record<keyof FormFields, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const validate = () => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    const newErrors: Partial<Record<keyof FormFields, string>> = {};
+    if (!formData.name.trim()) newErrors.name = 'Please enter your name.';
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Please enter an email address so we can reply.';
     } else if (!/\S+@\S+\.\S/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = 'That email address does not look right — check it for a typo.';
     }
-    if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    if (!formData.subject.trim()) newErrors.subject = 'Pick a topic above, or write one in.';
+    if (!formData.message.trim()) newErrors.message = 'Add a line or two — variety, quantity and city is plenty.';
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    // Send keyboard and screen-reader users straight to the first thing that needs fixing,
+    // rather than leaving them on a submit button that silently did nothing.
+    const first = FIELD_ORDER.find((f) => newErrors[f]);
+    if (first) document.getElementById(first)?.focus();
+    return !first;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (errors[e.target.name]) {
-      setErrors({ ...errors, [e.target.name]: '' });
-    }
+    const name = e.target.name as keyof FormFields;
+    setFormData({ ...formData, [name]: e.target.value });
+    if (errors[name]) setErrors({ ...errors, [name]: '' });
     if (submitError) setSubmitError(null);
+  };
+
+  // Topic chips fill the subject field rather than replacing it with a <select>, so the
+  // EmailJS template — which reads `subject` — keeps working unchanged, and anyone whose
+  // enquiry fits none of them can still type their own.
+  const pickTopic = (topic: string) => {
+    setFormData({ ...formData, subject: topic });
+    if (errors.subject) setErrors({ ...errors, subject: '' });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -84,6 +104,9 @@ const ContactPage: React.FC = () => {
     }
 
     try {
+      // Loaded on submit rather than with the page: most visitors use WhatsApp and never
+      // send the form, so they should not download the mail client either.
+      const { default: emailjs } = await import('@emailjs/browser');
       await emailjs.sendForm(
         serviceId,
         templateId,
@@ -93,11 +116,7 @@ const ContactPage: React.FC = () => {
 
       setIsSubmitting(false);
       setIsSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', company: '', subject: '', message: '' });
-
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 6000);
+      setFormData(EMPTY_FORM);
     } catch (error) {
       // "Try again later" was actively misleading: a 404 from EmailJS means the account or
       // template is misconfigured, and no amount of retrying will fix it — the enquiry just
@@ -108,18 +127,29 @@ const ContactPage: React.FC = () => {
     }
   };
 
-  const inputClasses = (fieldName: string) => `
-    block w-full px-6 py-4 bg-brand-cream/50 border rounded-xl transition-all duration-300 ease-out font-medium
+  const inputClasses = (fieldName: keyof FormFields) => `
+    block w-full px-5 py-4 bg-brand-cream/60 border transition-colors duration-200 font-medium
+    text-brand-dark placeholder:text-gray-500 focus:outline-none focus:bg-white
     ${errors[fieldName]
-      ? 'border-red-300 focus:ring-red-200 focus:border-red-400'
-      : focusedField === fieldName
-        ? 'border-brand-secondary ring-2 ring-brand-secondary/20 shadow-lg scale-[1.01]'
-        : 'border-brand-line hover:border-brand-secondary/50'
+      ? 'border-red-700 focus:ring-2 focus:ring-red-700/20'
+      : 'border-brand-line hover:border-brand-gold-ink/50 focus:border-brand-gold-ink focus:ring-2 focus:ring-brand-secondary/25'
     }
-    text-brand-dark placeholder-brand-dark/40 focus:outline-none
   `;
 
-  const labelClasses = "block text-sm font-bold text-brand-dark mb-2 tracking-wide uppercase";
+  // Wires a field to its error message: announced on focus, and flagged as invalid.
+  const fieldA11y = (fieldName: keyof FormFields) => ({
+    'aria-invalid': errors[fieldName] ? true : undefined,
+    'aria-describedby': errors[fieldName] ? `${fieldName}-error` : undefined,
+  });
+
+  const fieldError = (fieldName: keyof FormFields) =>
+    errors[fieldName] ? (
+      <p id={`${fieldName}-error`} className="mt-2 text-[13px] text-red-700 font-medium">{errors[fieldName]}</p>
+    ) : null;
+
+  const labelClasses = "block text-[11px] font-extrabold text-gray-800 mb-2.5 tracking-[0.16em] uppercase";
+  const optional = <span className="text-gray-500 font-medium ms-1 normal-case tracking-normal text-xs">(optional)</span>;
+  const required = <span className="text-brand-gold-ink" aria-hidden="true">*</span>;
 
   return (
     <div className="bg-brand-cream font-sans">
@@ -163,7 +193,7 @@ const ContactPage: React.FC = () => {
                   <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Call or email</div>
                   {/* These are the primary actions on the page for anyone on a phone, so each
                       gets a full 44px row rather than only the height of its own text. */}
-                  <a href={`tel:+${COMPANY_WHATSAPP_NUMBER}`} className="flex items-center min-h-[44px] font-display text-2xl text-gray-900 hover:text-brand-gold-ink">{COMPANY_CONTACT_PHONE}</a>
+                  <a href={COMPANY_TEL_HREF} className="flex items-center min-h-[44px] font-display text-2xl text-gray-900 hover:text-brand-gold-ink">{COMPANY_CONTACT_PHONE}</a>
                   <a href={`mailto:${COMPANY_CONTACT_EMAIL}`} className="flex items-center min-h-[44px] text-sm text-gray-600 font-medium hover:text-brand-gold-ink">{COMPANY_CONTACT_EMAIL}</a>
                 </div>
                 <div className="border-t border-[#F0EBDD] pt-5">
@@ -205,177 +235,171 @@ const ContactPage: React.FC = () => {
           </ScrollReveal>
 
           <ScrollReveal width="100%">
-            <div className="bg-white rounded-3xl shadow-premium p-8 md:p-12 border border-brand-line relative overflow-hidden max-w-4xl mx-auto">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-secondary via-[#E8CE74] to-brand-secondary"></div>
-
-              <div className="mb-10">
-                <h3 className="text-3xl font-display font-bold text-brand-dark mb-3">Send a Message</h3>
-                <p className="text-gray-500 font-light">Prefer email? Fill out the form below and we'll get back to you within 24 hours.</p>
+            <div className="bg-white border border-brand-line p-7 sm:p-12 max-w-4xl mx-auto">
+              <div className="mb-9">
+                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-gold-ink mb-4">Prefer email?</div>
+                <h2 className="font-display text-3xl sm:text-4xl leading-tight text-gray-900 mb-3">Send the details and we will reply in writing.</h2>
+                <p className="text-[15px] leading-relaxed text-gray-600 font-light">We answer within one working day. For a price today, WhatsApp is faster.</p>
               </div>
 
-              <AnimatePresence mode="wait">
-                {isSubmitted ? (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    className="bg-green-50/50 border border-green-100 rounded-3xl p-12 text-center"
+              {isSubmitted ? (
+                <div role="status" className="border border-brand-line bg-brand-cream p-8 sm:p-12 text-center animate-[vf-fade-in_0.4s_ease-out]">
+                  <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-brand-dark mb-6">
+                    <svg className="h-8 w-8 text-brand-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <h3 className="font-display text-2xl sm:text-3xl text-gray-900 mb-3">Message sent.</h3>
+                  <p className="text-[15px] text-gray-600 mb-8 max-w-md mx-auto">Thank you. The sales desk will reply within one working day — usually sooner.</p>
+                  <button
+                    type="button"
+                    onClick={() => setIsSubmitted(false)}
+                    className="inline-flex items-center min-h-[44px] px-6 rounded-full border-[1.5px] border-brand-dark/30 text-brand-dark text-[11px] font-extrabold tracking-[0.13em] uppercase hover:bg-brand-dark/5 transition-colors duration-300"
                   >
-                    <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 shadow-sm">
-                      <svg className="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <h4 className="text-2xl font-display font-bold text-green-800 mb-3">Message Sent!</h4>
-                    <p className="text-green-700 mb-8 max-w-md mx-auto">Thank you for reaching out. Our team will review your message and get back to you shortly.</p>
-                    <button
-                      onClick={() => setIsSubmitted(false)}
-                      className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-bold rounded-xl text-green-700 bg-green-100 hover:bg-green-200 transition-colors duration-300 uppercase tracking-wide"
-                    >
-                      Send another message
-                    </button>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    ref={form}
-                    onSubmit={handleSubmit}
-                    className="space-y-8"
-                  >
-                    {/* A failed send used to be a dead end — the visitor was told to try again
-                        later, which does not help when the mail provider is misconfigured, and
-                        the enquiry was simply lost. Offer the channels the mill actually runs on
-                        instead; most visitors here are on a phone with WhatsApp open anyway. */}
-                    {submitError && (
-                      <div className="bg-red-50 border border-red-100 text-red-700 px-6 py-5 rounded-xl text-sm">
-                        <div className="flex items-start gap-3">
-                          <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                          <div>
-                            <p className="font-semibold">{submitError}</p>
-                            <p className="mt-1 text-red-600/90">Reach us directly and we will reply the same working day.</p>
-                            <div className="mt-4 flex flex-wrap gap-2.5">
-                              <a
-                                href={WHATSAPP_BULK_QUOTE_LINK}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 min-h-[44px] bg-brand-whatsapp text-white px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
-                              >
-                                <WhatsAppIcon className="w-4 h-4" />
-                                WhatsApp us
-                              </a>
-                              <a
-                                href={`tel:+${COMPANY_WHATSAPP_NUMBER}`}
-                                className="inline-flex items-center gap-2 min-h-[44px] border-[1.5px] border-brand-dark/30 text-brand-dark px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
-                              >
-                                {COMPANY_CONTACT_PHONE}
-                              </a>
-                              <a
-                                href={`mailto:${COMPANY_CONTACT_EMAIL}`}
-                                className="inline-flex items-center gap-2 min-h-[44px] border-[1.5px] border-brand-dark/30 text-brand-dark px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
-                              >
-                                Email
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                      <div className="group">
-                        <label htmlFor="name" className={labelClasses}>Full Name <span className="text-brand-gold-ink">*</span></label>
-                        <input
-                          type="text" name="name" id="name" value={formData.name} onChange={handleChange}
-                          onFocus={() => setFocusedField('name')} onBlur={() => setFocusedField(null)}
-                          className={inputClasses('name')}
-                          placeholder="John Doe"
-                        />
-                        {errors.name && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full me-2"></span>{errors.name}</p>}
-                      </div>
-
-                      <div className="group">
-                        <label htmlFor="email" className={labelClasses}>Email Address <span className="text-brand-gold-ink">*</span></label>
-                        <input
-                          type="email" name="email" id="email" value={formData.email} onChange={handleChange}
-                          onFocus={() => setFocusedField('email')} onBlur={() => setFocusedField(null)}
-                          className={inputClasses('email')}
-                          placeholder="john@example.com"
-                        />
-                        {errors.email && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full me-2"></span>{errors.email}</p>}
+                    Send another message
+                  </button>
+                </div>
+              ) : (
+                <form
+                  ref={form}
+                  onSubmit={handleSubmit}
+                  noValidate
+                  className="space-y-7 animate-[vf-fade-in_0.4s_ease-out]"
+                >
+                  {/* A failed send used to be a dead end — the visitor was told to try again
+                      later, which does not help when the mail provider is misconfigured, and
+                      the enquiry was simply lost. Offer the channels the mill actually runs on
+                      instead; most visitors here are on a phone with WhatsApp open anyway. */}
+                  {submitError && (
+                    <div role="alert" className="bg-red-50 border border-red-200 text-red-800 px-6 py-5 text-sm">
+                      <p className="font-semibold">{submitError}</p>
+                      <p className="mt-1">Reach us directly and we will reply the same working day.</p>
+                      <div className="mt-4 flex flex-wrap gap-2.5">
+                        <a
+                          href={WHATSAPP_BULK_QUOTE_LINK}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 min-h-[44px] bg-brand-whatsapp text-white px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
+                        >
+                          <WhatsAppIcon className="w-4 h-4" />
+                          WhatsApp us
+                        </a>
+                        <a
+                          href={COMPANY_TEL_HREF}
+                          className="inline-flex items-center gap-2 min-h-[44px] border-[1.5px] border-brand-dark/30 text-brand-dark px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
+                        >
+                          {COMPANY_CONTACT_PHONE}
+                        </a>
+                        <a
+                          href={`mailto:${COMPANY_CONTACT_EMAIL}`}
+                          className="inline-flex items-center gap-2 min-h-[44px] border-[1.5px] border-brand-dark/30 text-brand-dark px-5 rounded-full text-[11px] font-extrabold tracking-[0.12em] uppercase"
+                        >
+                          Email
+                        </a>
                       </div>
                     </div>
+                  )}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                      <div className="group">
-                        <label htmlFor="phone" className={labelClasses}>Phone Number <span className="text-gray-500 font-normal ms-1 normal-case tracking-normal">(Optional)</span></label>
-                        <input
-                          type="tel" name="phone" id="phone" value={formData.phone} onChange={handleChange}
-                          onFocus={() => setFocusedField('phone')} onBlur={() => setFocusedField(null)}
-                          className={inputClasses('phone')}
-                          placeholder="+91 98765 43210"
-                        />
-                      </div>
-
-                      <div className="group">
-                        <label htmlFor="company" className={labelClasses}>Company Name <span className="text-gray-500 font-normal ms-1 normal-case tracking-normal">(Optional)</span></label>
-                        <input
-                          type="text" name="company" id="company" value={formData.company} onChange={handleChange}
-                          onFocus={() => setFocusedField('company')} onBlur={() => setFocusedField(null)}
-                          className={inputClasses('company')}
-                          placeholder="Your Company Ltd."
-                        />
-                      </div>
-                    </div>
-
-                    <div className="group">
-                      <label htmlFor="subject" className={labelClasses}>Subject <span className="text-brand-gold-ink">*</span></label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+                    <div>
+                      <label htmlFor="name" className={labelClasses}>Your name {required}</label>
                       <input
-                        type="text" name="subject" id="subject" value={formData.subject} onChange={handleChange}
-                        onFocus={() => setFocusedField('subject')} onBlur={() => setFocusedField(null)}
-                        className={inputClasses('subject')}
-                        placeholder="Inquiry about Rice Supply"
+                        type="text" name="name" id="name" autoComplete="name" value={formData.name} onChange={handleChange}
+                        className={inputClasses('name')} placeholder="e.g. Ramesh Reddy" {...fieldA11y('name')}
                       />
-                      {errors.subject && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full me-2"></span>{errors.subject}</p>}
+                      {fieldError('name')}
                     </div>
+                    <div>
+                      <label htmlFor="email" className={labelClasses}>Email {required}</label>
+                      <input
+                        type="email" name="email" id="email" autoComplete="email" inputMode="email" value={formData.email} onChange={handleChange}
+                        className={inputClasses('email')} placeholder="you@company.com" {...fieldA11y('email')}
+                      />
+                      {fieldError('email')}
+                    </div>
+                  </div>
 
-                    <div className="group">
-                      <label htmlFor="message" className={labelClasses}>Your Message <span className="text-brand-gold-ink">*</span></label>
-                      <textarea
-                        name="message" id="message" rows={5} value={formData.message} onChange={handleChange}
-                        onFocus={() => setFocusedField('message')} onBlur={() => setFocusedField(null)}
-                        className={`${inputClasses('message')} resize-none`}
-                        placeholder="Tell us how we can help you..."
-                      ></textarea>
-                      {errors.message && <p className="mt-2 text-xs text-red-500 font-medium flex items-center"><span className="w-1 h-1 bg-red-500 rounded-full me-2"></span>{errors.message}</p>}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+                    <div>
+                      <label htmlFor="phone" className={labelClasses}>Phone / WhatsApp {optional}</label>
+                      <input
+                        type="tel" name="phone" id="phone" autoComplete="tel" value={formData.phone} onChange={handleChange}
+                        className={inputClasses('phone')} placeholder="+91 98765 43210"
+                      />
                     </div>
+                    <div>
+                      <label htmlFor="company" className={labelClasses}>Company {optional}</label>
+                      <input
+                        type="text" name="company" id="company" autoComplete="organization" value={formData.company} onChange={handleChange}
+                        className={inputClasses('company')} placeholder="e.g. Sri Lakshmi Traders"
+                      />
+                    </div>
+                  </div>
 
-                    <div className="pt-4">
-                      <button type="submit"
-                        disabled={isSubmitting}
-                        className="w-full sm:w-auto min-w-[200px] flex items-center justify-center px-8 py-5 border border-transparent text-lg font-bold rounded-xl text-brand-dark bg-brand-secondary hover:bg-brand-dark hover:text-white shadow-lg hover:shadow-premium transform transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-brand-secondary/30 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none group relative overflow-hidden uppercase tracking-wider">
-                        <span className="relative z-10 flex items-center">
-                          {isSubmitting ? (
-                            <>
-                              <svg className="animate-spin -ms-1 me-3 h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                              </svg>
-                              Sending...
-                            </>
-                          ) : (
-                            <>
-                              Send Message
-                              <PaperAirplaneIcon className="ms-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                            </>
-                          )}
-                        </span>
-                      </button>
+                  <div>
+                    <label htmlFor="subject" className={labelClasses}>What is it about? {required}</label>
+                    <div role="group" aria-label="Common topics" className="flex flex-wrap gap-2 mb-3">
+                      {ENQUIRY_TOPICS.map((topic) => {
+                        const active = formData.subject === topic;
+                        return (
+                          <button
+                            key={topic}
+                            type="button"
+                            aria-pressed={active}
+                            onClick={() => pickTopic(topic)}
+                            className={`min-h-[44px] px-4 rounded-full border text-[11px] font-extrabold tracking-[0.1em] uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary/50 ${active
+                              ? 'bg-brand-dark text-white border-brand-dark'
+                              : 'bg-white text-gray-800 border-brand-line hover:border-brand-gold-ink/60'
+                              }`}
+                          >
+                            {topic}
+                          </button>
+                        );
+                      })}
                     </div>
-                  </motion.form>
-                )}
-              </AnimatePresence>
+                    <input
+                      type="text" name="subject" id="subject" value={formData.subject} onChange={handleChange}
+                      className={inputClasses('subject')} placeholder="Or type your own topic" {...fieldA11y('subject')}
+                    />
+                    {fieldError('subject')}
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className={labelClasses}>Details {required}</label>
+                    <textarea
+                      name="message" id="message" rows={5} value={formData.message} onChange={handleChange}
+                      className={`${inputClasses('message')} resize-y`}
+                      placeholder="Variety, quantity, packing and delivery city — whatever you know so far."
+                      {...fieldA11y('message')}
+                    ></textarea>
+                    {fieldError('message')}
+                  </div>
+
+                  <div className="pt-2 flex flex-wrap items-center gap-5">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex items-center justify-center gap-2.5 min-w-[220px] bg-brand-dark text-white px-8 py-[19px] rounded-full text-xs font-extrabold tracking-[0.13em] uppercase transition-all duration-300 hover:bg-brand-secondary hover:text-brand-dark hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-secondary/40 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-brand-dark disabled:hover:text-white"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <svg className="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Sending…
+                        </>
+                      ) : (
+                        <>
+                          Send message
+                          <PaperAirplaneIcon className="h-4 w-4 rtl:-scale-x-100" aria-hidden="true" />
+                        </>
+                      )}
+                    </button>
+                    <p className="text-xs text-gray-500"><span className="text-brand-gold-ink" aria-hidden="true">*</span> Required</p>
+                  </div>
+                </form>
+              )}
             </div>
           </ScrollReveal>
         </div>

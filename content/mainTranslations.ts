@@ -11,6 +11,10 @@ export interface MainTranslation {
   journeyKicker: string; journeyTitle: string; machineryKicker: string; machineryTitle: string; machinerySub: string;
   visitTitle: string; visitSub: string; visitCta: string;
   contactTitle: string;
+  // Site chrome — nav, footer and the sticky action bar — so switching language does not
+  // leave the controls a visitor navigates by stuck in English.
+  call: string; explore: string; compliance: string; getInTouch: string; hours: string;
+  skip: string; menuOpen: string; menuClose: string;
 }
 
 export const MAIN_TRANSLATIONS: Record<LangCode, MainTranslation> = {
@@ -38,6 +42,8 @@ export const MAIN_TRANSLATIONS: Record<LangCode, MainTranslation> = {
     visitTitle: 'Buyers are welcome at the gate.', visitSub: 'Serious buyers audit their millers. Tell us when you want to walk the plant and we will arrange it — bring your own moisture meter if you like.',
     visitCta: 'Arrange a mill visit',
     contactTitle: 'Talk to the mill directly.',
+    call: 'Call', explore: 'Explore', compliance: 'Compliance', getInTouch: 'Get in touch', hours: 'Mon–Sat · 9 am – 6 pm IST',
+    skip: 'Skip to content', menuOpen: 'Open menu', menuClose: 'Close menu',
   },
   hi: {
     wa: 'व्हाट्सएप', navHome: 'होम', navAbout: 'हमारे बारे में', navProducts: 'उत्पाद', navExports: 'निर्यात', navContact: 'संपर्क',
@@ -63,6 +69,9 @@ export const MAIN_TRANSLATIONS: Record<LangCode, MainTranslation> = {
     visitTitle: 'खरीदारों का गेट पर स्वागत है।', visitSub: 'गंभीर खरीदार अपनी मिल जाँचते हैं। बताइए कब आना है, हम व्यवस्था कर देंगे — अपना मॉइस्चर मीटर लाना चाहें तो लाइए।',
     visitCta: 'मिल देखने का समय तय करें',
     contactTitle: 'सीधे मिल से बात कीजिए।',
+    // Chrome labels below added later and not yet checked by a native speaker.
+    call: 'कॉल करें', explore: 'पेज', compliance: 'प्रमाणपत्र', getInTouch: 'संपर्क करें', hours: 'सोम–शनि · सुबह 9 – शाम 6 (IST)',
+    skip: 'मुख्य सामग्री पर जाएँ', menuOpen: 'मेनू खोलें', menuClose: 'मेनू बंद करें',
   },
   te: {
     wa: 'వాట్సాప్', navHome: 'హోమ్', navAbout: 'మా గురించి', navProducts: 'ఉత్పత్తులు', navExports: 'ఎగుమతులు', navContact: 'సంప్రదించండి',
@@ -88,6 +97,9 @@ export const MAIN_TRANSLATIONS: Record<LangCode, MainTranslation> = {
     visitTitle: 'కొనుగోలుదారులకు గేటు తెరిచి ఉంది.', visitSub: 'నిజమైన కొనుగోలుదారులు మిల్లును తనిఖీ చేస్తారు. ఎప్పుడు రావాలనుకుంటున్నారో చెప్పండి — మీ మాయిశ్చర్ మీటర్ తెచ్చుకోవచ్చు.',
     visitCta: 'మిల్లు సందర్శన ఏర్పాటు',
     contactTitle: 'నేరుగా మిల్లుతో మాట్లాడండి.',
+    // Chrome labels below added later and not yet checked by a native speaker.
+    call: 'కాల్ చేయండి', explore: 'పేజీలు', compliance: 'ధృవపత్రాలు', getInTouch: 'సంప్రదించండి', hours: 'సోమ–శని · ఉ. 9 – సా. 6 (IST)',
+    skip: 'ప్రధాన విషయానికి వెళ్లండి', menuOpen: 'మెనూ తెరవండి', menuClose: 'మెనూ మూసివేయండి',
   },
   ta: {
     wa: 'வாட்ஸ்ஆப்', navHome: 'முகப்பு', navAbout: 'எங்களைப் பற்றி', navProducts: 'தயாரிப்புகள்', navExports: 'ஏற்றுமதி', navContact: 'தொடர்பு',
@@ -113,6 +125,9 @@ export const MAIN_TRANSLATIONS: Record<LangCode, MainTranslation> = {
     visitTitle: 'வாங்குபவர்களை வாசலில் வரவேற்கிறோம்.', visitSub: 'உண்மையான வாங்குபவர்கள் ஆலையைச் சோதிக்கிறார்கள். எப்போது வர விரும்புகிறீர்கள் என்று சொல்லுங்கள் — உங்கள் மாய்ஸ்சர் மீட்டரை கொண்டு வரலாம்.',
     visitCta: 'ஆலை வருகையை ஏற்பாடு செய்',
     contactTitle: 'ஆலையுடன் நேரடியாகப் பேசுங்கள்.',
+    // Chrome labels below added later and not yet checked by a native speaker.
+    call: 'அழைக்கவும்', explore: 'பக்கங்கள்', compliance: 'சான்றிதழ்கள்', getInTouch: 'தொடர்பு கொள்ள', hours: 'திங்கள்–சனி · காலை 9 – மாலை 6 (IST)',
+    skip: 'முதன்மை உள்ளடக்கத்துக்குச் செல்', menuOpen: 'மெனுவைத் திற', menuClose: 'மெனுவை மூடு',
   },
   kn: {
     wa: 'ವಾಟ್ಸಾಪ್', navHome: 'ಮುಖಪುಟ', navAbout: 'ನಮ್ಮ ಬಗ್ಗೆ', navProducts: 'ಉತ್ಪನ್ನಗಳು', navExports: 'ರಫ್ತು', navContact: 'ಸಂಪರ್ಕ',
@@ -138,6 +153,9 @@ export const MAIN_TRANSLATIONS: Record<LangCode, MainTranslation> = {
     visitTitle: 'ಖರೀದಿದಾರರಿಗೆ ಗೇಟ್ ತೆರೆದಿದೆ.', visitSub: 'ಗಂಭೀರ ಖರೀದಿದಾರರು ಮಿಲ್ ಪರಿಶೀಲಿಸುತ್ತಾರೆ. ಯಾವಾಗ ಬರಬೇಕೆಂದು ತಿಳಿಸಿ — ನಿಮ್ಮ ಮಾಯಿಶ್ಚರ್ ಮೀಟರ್ ತರಬಹುದು.',
     visitCta: 'ಮಿಲ್ ಭೇಟಿ ಏರ್ಪಾಡು',
     contactTitle: 'ನೇರವಾಗಿ ಮಿಲ್‌ನೊಂದಿಗೆ ಮಾತನಾಡಿ.',
+    // Chrome labels below added later and not yet checked by a native speaker.
+    call: 'ಕರೆ ಮಾಡಿ', explore: 'ಪುಟಗಳು', compliance: 'ಪ್ರಮಾಣಪತ್ರಗಳು', getInTouch: 'ಸಂಪರ್ಕಿಸಿ', hours: 'ಸೋಮ–ಶನಿ · ಬೆಳಿಗ್ಗೆ 9 – ಸಂಜೆ 6 (IST)',
+    skip: 'ಮುಖ್ಯ ವಿಷಯಕ್ಕೆ ಹೋಗಿ', menuOpen: 'ಮೆನು ತೆರೆಯಿರಿ', menuClose: 'ಮೆನು ಮುಚ್ಚಿ',
   },
   // Odia. Machine-translated (Gemini 'Pro Extended') from the English above and not yet
   // checked by a native speaker — see the README before treating this as final copy.
@@ -184,6 +202,9 @@ export const MAIN_TRANSLATIONS: Record<LangCode, MainTranslation> = {
     visitSub: 'ପ୍ରକୃତ କ୍ରେତାମାନେ ସେମାନଙ୍କର ମିଲର୍ସକୁ ଯାଞ୍ଚ କରନ୍ତି। ଆପଣ କେବେ ପ୍ଲାଣ୍ଟ ବୁଲି ଦେଖିବାକୁ ଚାହୁଁଛନ୍ତି ଆମକୁ ଜଣାନ୍ତୁ ଏବଂ ଆମେ ଏହାର ବ୍ୟବସ୍ଥା କରିବୁ — ଯଦି ଆପଣ ଚାହାଁନ୍ତି ତେବେ ନିଜର ମଶ୍ଚର ମିଟର ସାଥିରେ ଆଣିପାରିବେ।',
     visitCta: 'ଏକ ମିଲ୍ ପରିଦର୍ଶନ ଆୟୋଜନ କରନ୍ତୁ',
     contactTitle: 'ସିଧାସଳଖ ମିଲ୍ ସହିତ କଥା ହୁଅନ୍ତୁ।',
+    // Chrome labels below added later and not yet checked by a native speaker.
+    call: 'କଲ୍ କରନ୍ତୁ', explore: 'ପୃଷ୍ଠା', compliance: 'ପ୍ରମାଣପତ୍ର', getInTouch: 'ଯୋଗାଯୋଗ କରନ୍ତୁ', hours: 'ସୋମ–ଶନି · ସକାଳ 9 – ସନ୍ଧ୍ୟା 6 (IST)',
+    skip: 'ମୁଖ୍ୟ ବିଷୟବସ୍ତୁକୁ ଯାଆନ୍ତୁ', menuOpen: 'ମେନୁ ଖୋଲନ୍ତୁ', menuClose: 'ମେନୁ ବନ୍ଦ କରନ୍ତୁ',
   },
   // Urdu. Right-to-left: LanguageContext sets dir="rtl" for this code, which flips the
   // layout's logical properties. Machine-translated and not yet checked by a native
@@ -231,5 +252,8 @@ export const MAIN_TRANSLATIONS: Record<LangCode, MainTranslation> = {
     visitSub: 'سنجیدہ خریدار اپنے ملرز کا آڈٹ کرتے ہیں۔ ہمیں بتائیں کہ آپ کب پلانٹ کا دورہ کرنا چاہتے ہیں اور ہم اس کا انتظام کریں گے — اگر آپ چاہیں تو اپنا موئسچر میٹر ساتھ لا سکتے ہیں۔',
     visitCta: 'مل کے دورے کا انتظام کریں',
     contactTitle: 'براہ راست مل سے بات کریں۔',
+    // Chrome labels below added later and not yet checked by a native speaker.
+    call: 'کال کریں', explore: 'صفحات', compliance: 'سرٹیفکیٹس', getInTouch: 'رابطہ کریں', hours: 'پیر–ہفتہ · صبح 9 – شام 6 (IST)',
+    skip: 'مرکزی مواد پر جائیں', menuOpen: 'مینو کھولیں', menuClose: 'مینو بند کریں',
   },
 };

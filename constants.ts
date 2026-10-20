@@ -5,12 +5,11 @@ import type {
 
 export const COMPANY_NAME = "Vagdevi Food Products Private Limited";
 export const SHORT_COMPANY_NAME = "Vagdevi Foods";
-export const COMPANY_TAGLINE = "Elevating Taste, Enriching Lives";
-export const COMPANY_ADDRESS = "Yadgarpalle, Telangana 508207";
 export const COMPANY_CONTACT_EMAIL = "info@vagdevifoods.com";
 export const COMPANY_CONTACT_PHONE = "+91 90004 16808";
 export const COMPANY_CONTACT_PHONE_FORMATTED = "+91 90004-16808";
 export const COMPANY_WHATSAPP_NUMBER = "919000416808";
+export const COMPANY_TEL_HREF = `tel:+${COMPANY_WHATSAPP_NUMBER}`;
 
 export const FARMER_PAYMENTS_PHONE_FORMATTED = "95504 16809";
 export const FARMER_PAYMENTS_WHATSAPP_NUMBER = "919550416809";
@@ -46,6 +45,10 @@ export const WHATSAPP_BULK_QUOTE_LINK = buildWhatsAppLink(
   "Hello Vagdevi Food Products, I'd like a bulk rice quote for:\n• Variety: \n• Quantity: \n• Delivery city: "
 );
 
+export const WHATSAPP_DWARAKA_LINK = buildWhatsAppLink(
+  "Hello Vagdevi Food Products, I'd like to order Dwaraka rice.\n• Pack size (10 / 26 / 30 kg): \n• Quantity: \n• Delivery city: "
+);
+
 export const WHATSAPP_MILL_VISIT_LINK = buildWhatsAppLink(
   "Hello Vagdevi Food Products, I would like to visit the mill at Yadgarpally.\n• Company: \n• Preferred date: \n• What I want to see: "
 );
@@ -58,13 +61,14 @@ export const SURYA_PACK_BLACK_URL = "images/products/surya/pack_black_hmt.webp";
 
 export const ABOUT_PROMOTER_IMAGE_URL = "images/illustrations/about_promoter.webp";
 
+// `labelKey` points at the translated label, so the nav follows the language switcher.
 export const NAV_LINKS: NavLink[] = [
-  { label: "Home", path: "/" },
-  { label: "About Us", path: "/about" },
-  { label: "The Mill", path: "/mill" },
-  { label: "Products", path: "/products" },
-  { label: "Exports", path: "/business" },
-  { label: "Contact Us", path: "/contact" },
+  { labelKey: "navHome", path: "/" },
+  { labelKey: "navAbout", path: "/about" },
+  { labelKey: "navMill", path: "/mill" },
+  { labelKey: "navProducts", path: "/products" },
+  { labelKey: "navExports", path: "/business" },
+  { labelKey: "navContact", path: "/contact" },
 ];
 
 export const RICE_VARIETIES_DATA: RiceVarietyInfo[] = [
@@ -163,14 +167,14 @@ export const PILLARS_DATA: PillarInfo[] = [
 export const STRENGTHS_DATA: StrengthInfo[] = [
   { n: "30+", t: "Promoter experience", d: "Three decades in paddy procurement and milling, carried into every purchase decision." },
   { n: "01", t: "Single-site control", d: "Nothing is job-worked out. What we sell, we milled." },
-  { n: "06", t: "States served", d: "A distribution network that has grown outward from Telangana year on year." },
+  { n: "07", t: "States served", d: "A distribution network that has grown outward from Telangana year on year." },
   { n: "03", t: "Live certifications", d: "FSSAI, ISO 22000:2018 and APEDA — all current, all verifiable." },
 ];
 
 export const CERTIFICATIONS: CertificationInfo[] = [
-  { name: "ISO 22000:2018", src: "images/certs/iso_22000_2018.webp", numberLabel: "Certificate", number: "HYM/UAS/FMS/9186414/001", validTo: "19 Jan 2027", description: "Food safety management covering processing, milling and export of rice and by-products. Certified since January 2018." },
-  { name: "FSSAI State Licence", src: "images/certs/fssai_licence.webp", numberLabel: "Licence no.", number: "13618008000475", validTo: "30 Dec 2028", description: "Issued by the Government of Telangana for the authorised premises at Yadgarpally, Miryalaguda." },
-  { name: "APEDA RCMC", src: "images/certs/apeda_rcmc.webp", numberLabel: "Registration", number: "221976", validTo: "31 Mar 2029", description: "Registered as a Manufacturer Exporter of rice under the Foreign Trade Policy. IEC AAGCV1018C." },
+  { name: "ISO 22000:2018", src: "images/certs/iso_22000_2018.webp", numberLabel: "Certificate", number: "HYM/UAS/FMS/9186414/001", validTo: "19 Jan 2027", validToISO: "2027-01-19", description: "Food safety management covering processing, milling and export of rice and by-products. Certified since January 2018." },
+  { name: "FSSAI State Licence", src: "images/certs/fssai_licence.webp", numberLabel: "Licence no.", number: "13618008000475", validTo: "30 Dec 2028", validToISO: "2028-12-30", description: "Issued by the Government of Telangana for the authorised premises at Yadgarpally, Miryalaguda." },
+  { name: "APEDA RCMC", src: "images/certs/apeda_rcmc.webp", numberLabel: "Registration", number: "221976", validTo: "31 Mar 2029", validToISO: "2029-03-31", description: "Registered as a Manufacturer Exporter of rice under the Foreign Trade Policy. IEC AAGCV1018C." },
 ];
 
 export const EXPORT_PROPS: PillarInfo[] = [
@@ -197,10 +201,3 @@ export const EXPORT_SPECS: Record<'sona' | 'steam', ExportSpecRow[]> = {
     { p: "Crop year", v: "Current" },
   ],
 };
-
-export const SOCIAL_LINKS = [
-  { name: 'YouTube', url: '#', icon: 'YT' },
-  { name: 'Facebook', url: '#', icon: 'FB' },
-  { name: 'X', url: '#', icon: 'X' },
-  { name: 'Instagram', url: '#', icon: 'IG' },
-];

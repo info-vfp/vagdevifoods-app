@@ -39,13 +39,36 @@ const Carousel: React.FC<CarouselProps> = ({ slides, className = '' }) => {
 
     // Ignore mostly-vertical gestures so the page can still be scrolled through the carousel.
     if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
-    go(dx < 0 ? 1 : -1);
+    // In a right-to-left layout "next" sits on the left, so the swipe direction flips too.
+    const rtl = document.documentElement.dir === 'rtl';
+    go((dx < 0) !== rtl ? 1 : -1);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault();
+    const rtl = document.documentElement.dir === 'rtl';
+    go((e.key === 'ArrowRight') !== rtl ? 1 : -1);
   };
 
   const slide = slides[index];
+  // The photos either side of the current one, fetched ahead so a tap or swipe shows the next
+  // frame at once instead of an empty box on a slow connection. They are rendered as hidden
+  // <Img>s with the same `sizes` rather than preloaded by URL, so the browser picks the same
+  // srcset candidate it will actually display — a phone warms the 400px file, not the 1600px.
+  // They stay lazy like the visible slide, so nothing loads until the carousel nears view.
+  const neighbours = slides.length > 1
+    ? [...new Set([(index + 1) % slides.length, (index - 1 + slides.length) % slides.length])]
+    : [];
 
   return (
-    <div className={`relative ${className}`}>
+    <div
+      className={`relative ${className}`}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Photos from the mill floor"
+      onKeyDown={onKeyDown}
+    >
       <div
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
@@ -58,9 +81,19 @@ const Carousel: React.FC<CarouselProps> = ({ slides, className = '' }) => {
           sizes="(min-width: 1024px) 1000px, 100vw"
           className="w-full h-full object-cover"
         />
+        {neighbours.map((i) => (
+          <Img
+            key={slides[i].src}
+            src={slides[i].src}
+            alt=""
+            aria-hidden="true"
+            sizes="(min-width: 1024px) 1000px, 100vw"
+            className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
+          />
+        ))}
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 flex items-end justify-between gap-4">
-          <p className="text-sm sm:text-base font-medium text-white leading-snug max-w-xl">{slide.caption}</p>
+          <p className="text-sm sm:text-base font-medium text-white leading-snug max-w-xl" aria-live="polite">{slide.caption}</p>
           <span className="flex-shrink-0 text-xs font-bold tracking-wider text-white/70">{index + 1} / {slides.length}</span>
         </div>
 
@@ -68,17 +101,17 @@ const Carousel: React.FC<CarouselProps> = ({ slides, className = '' }) => {
           type="button"
           onClick={() => go(-1)}
           aria-label="Previous photo"
-          className="cursor-pointer absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-brand-dark flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+          className="cursor-pointer absolute start-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-brand-dark flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
         >
-          <ChevronLeftIcon className="w-5 h-5" />
+          <ChevronLeftIcon className="w-5 h-5 rtl:-scale-x-100" aria-hidden="true" />
         </button>
         <button
           type="button"
           onClick={() => go(1)}
           aria-label="Next photo"
-          className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-brand-dark flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+          className="cursor-pointer absolute end-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 hover:bg-white text-brand-dark flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
         >
-          <ChevronRightIcon className="w-5 h-5" />
+          <ChevronRightIcon className="w-5 h-5 rtl:-scale-x-100" aria-hidden="true" />
         </button>
       </div>
 

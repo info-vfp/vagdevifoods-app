@@ -19,10 +19,5 @@ export default defineConfig(({ mode }) => {
       // Raising the warning limit just avoids noise on an already-known single chunk.
       chunkSizeWarningLimit: 600,
     },
-    // Vite externalises dependencies for SSR by default. These render during the
-    // pre-render pass, so they must be bundled into the server build instead.
-    ssr: {
-      noExternal: ['framer-motion'],
-    },
   };
 });

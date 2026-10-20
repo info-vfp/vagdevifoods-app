@@ -3,11 +3,16 @@ import Img from './Img';
 import { Link } from 'react-router-dom';
 import {
   NAV_LINKS, SHORT_COMPANY_NAME, COMPANY_NAME, FOOTER_LOGO_URL, COMPANY_CONTACT_EMAIL,
-  COMPANY_CONTACT_PHONE, COMPANY_WHATSAPP_NUMBER, MILL_ADDRESS_LINES,
+  COMPANY_CONTACT_PHONE, COMPANY_TEL_HREF, MILL_ADDRESS_LINES, WHATSAPP_BULK_QUOTE_LINK,
 } from '../constants';
+import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
+import { useLanguage } from '../context/LanguageContext';
 import type { NavLink as NavLinkType } from '../types';
 
 const Footer: React.FC = () => {
+  const { lang } = useLanguage();
+  const t = MAIN_TRANSLATIONS[lang];
+
   return (
     <footer className="bg-brand-dark text-white/70 font-sans">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -20,22 +25,22 @@ const Footer: React.FC = () => {
             </p>
           </div>
 
-          <div>
-            <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-secondary mb-5">Explore</div>
+          <nav aria-label={t.explore}>
+            <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-secondary mb-5">{t.explore}</div>
             <div className="flex flex-col gap-0 sm:gap-3">
               {NAV_LINKS.map((link: NavLinkType) => (
-                <Link key={link.label} to={link.path} className="inline-flex items-center min-h-[44px] sm:min-h-0 text-sm text-white/70 font-medium hover:text-brand-secondary transition-colors duration-300">
-                  {link.label}
+                <Link key={link.path} to={link.path} className="inline-flex items-center min-h-[44px] sm:min-h-0 text-sm text-white/70 font-medium hover:text-brand-secondary transition-colors duration-300">
+                  {t[link.labelKey]}
                 </Link>
               ))}
               <Link to="/surya" className="inline-flex items-center min-h-[44px] sm:min-h-0 text-sm text-[#F072AE] font-semibold hover:text-white transition-colors duration-300">
                 Surya Rice ✦
               </Link>
             </div>
-          </div>
+          </nav>
 
           <div>
-            <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-secondary mb-5">Compliance</div>
+            <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-secondary mb-5">{t.compliance}</div>
             <div className="flex flex-col gap-3 text-[12.5px] leading-relaxed text-white/60">
               <span>FSSAI 13618008000475</span>
               <span>ISO 22000:2018</span>
@@ -45,19 +50,23 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-secondary mb-5">Get in touch</div>
+            <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-secondary mb-5">{t.getInTouch}</div>
             <div className="flex flex-col gap-0 sm:gap-3">
               <a
-                href={`https://wa.me/${COMPANY_WHATSAPP_NUMBER}`}
+                href={WHATSAPP_BULK_QUOTE_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center min-h-[44px] sm:min-h-0 text-sm text-white font-semibold hover:text-brand-secondary transition-colors duration-300"
               >
                 WhatsApp · {COMPANY_CONTACT_PHONE}
               </a>
+              <a href={COMPANY_TEL_HREF} className="inline-flex items-center min-h-[44px] sm:min-h-0 text-[13.5px] text-white/70 hover:text-brand-secondary transition-colors duration-300">
+                {t.call} · {COMPANY_CONTACT_PHONE}
+              </a>
               <a href={`mailto:${COMPANY_CONTACT_EMAIL}`} className="inline-flex items-center min-h-[44px] sm:min-h-0 text-[13.5px] text-white/70 hover:text-brand-secondary transition-colors duration-300">
                 {COMPANY_CONTACT_EMAIL}
               </a>
+              <p className="text-[12.5px] leading-relaxed text-white/60 mt-1.5">{t.hours}</p>
               <p className="text-[12.5px] leading-relaxed text-white/50 mt-1.5">
                 {MILL_ADDRESS_LINES.join(' ')}
               </p>

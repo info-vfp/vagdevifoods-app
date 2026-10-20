@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Img from '../components/Img';
 import ScrollReveal from '../components/ScrollReveal';
-import { RICE_VARIETIES_DATA, PACK_SIZES, SURYA_SWATCHES, BYPRODUCTS_DATA, buildVarietyQuoteLink } from '../constants';
+import {
+  RICE_VARIETIES_DATA, RICE_BRANDS_DATA, PACK_SIZES, SURYA_SWATCHES, BYPRODUCTS_DATA,
+  SURYA_PACK_PINK_URL, WHATSAPP_DWARAKA_LINK, buildVarietyQuoteLink,
+} from '../constants';
 import type { RiceVarietyInfo } from '../types';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
 import { buildGraph, breadcrumbSchema, productSchemas } from '../content/structuredData';
@@ -77,41 +80,75 @@ const ProductsPage: React.FC = () => {
           </div>
 
           <ScrollReveal width="100%">
-            <h2 className="font-display text-2xl sm:text-4xl leading-tight text-gray-900 mb-7">Pack sizes &amp; brands</h2>
+            <h2 className="font-display text-2xl sm:text-4xl leading-tight text-gray-900 mb-7">Pack sizes</h2>
           </ScrollReveal>
-          <div className="grid lg:grid-cols-[1.15fr_.85fr] gap-6 mb-20">
-            <ScrollReveal width="100%">
-              <div className="bg-white border border-brand-line p-8 sm:p-9 h-full">
-                <div className="flex flex-wrap gap-3.5 mb-7">
-                  {PACK_SIZES.map((pk) => (
-                    <div key={pk.kg} className="border border-brand-line bg-brand-cream px-6 py-5 flex-1 min-w-[120px]">
-                      <div className="font-display text-3xl text-gray-900 leading-none">{pk.kg}</div>
-                      <div className="text-[10px] font-bold tracking-[0.16em] uppercase text-brand-gold-ink mt-2">{pk.use}</div>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-[14.5px] leading-relaxed text-gray-500 font-light">
-                  Woven PP and jute, printed to your artwork for private label, or in our own Surya and Dwaraka packs. Bulk consignments ship in 50 kg bags on request. Every pack carries a lot number that ties it back to a milling date and a lab report.
-                </p>
+          <ScrollReveal width="100%">
+            <div className="bg-white border border-brand-line p-8 sm:p-9 mb-20 grid lg:grid-cols-[1.15fr_.85fr] gap-7 lg:gap-10 items-center">
+              <div className="flex flex-wrap gap-3.5">
+                {PACK_SIZES.map((pk) => (
+                  <div key={pk.kg} className="border border-brand-line bg-brand-cream px-6 py-5 flex-1 min-w-[120px]">
+                    <div className="font-display text-3xl text-gray-900 leading-none">{pk.kg}</div>
+                    <div className="text-[10px] font-bold tracking-[0.16em] uppercase text-brand-gold-ink mt-2">{pk.use}</div>
+                  </div>
+                ))}
               </div>
-            </ScrollReveal>
+              <p className="text-[14.5px] leading-relaxed text-gray-500 font-light">
+                Woven PP and jute, printed to your artwork for private label, or in our own Surya and Dwaraka packs. Bulk consignments ship in 50 kg bags on request. Every pack carries a lot number that ties it back to a milling date and a lab report.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Both house brands, side by side. The home page sends Dwaraka's "See all products"
+              link here (to #brands), so Dwaraka has to actually be on this page — it used to be
+              mentioned only in passing, and anyone who followed that link found Surya alone.
+              Each card wears its own pack colours: pink for Surya, Dwaraka's purple and gold. */}
+          <ScrollReveal width="100%">
+            <h2 id="brands" className="scroll-mt-24 font-display text-2xl sm:text-4xl leading-tight text-gray-900 mb-7">Our brands</h2>
+          </ScrollReveal>
+          <div className="grid lg:grid-cols-2 gap-6 mb-20">
             <ScrollReveal width="100%">
               <Link
                 to="/surya"
-                className="flex flex-col justify-between gap-5 bg-gradient-to-br from-[#E4187C] to-[#96094D] text-white p-8 sm:p-9 relative overflow-hidden"
+                className="flex flex-col h-full gap-6 bg-gradient-to-br from-[#E4187C] to-[#96094D] text-white p-8 sm:p-9 relative overflow-hidden"
               >
-                <div className="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-white/[.14] blur-[40px]" />
-                <div className="relative">
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/80 mb-4">Eight pack colours</div>
-                  <Img src="images/logos/surya_brand_logo.webp" alt="Surya" className="h-[62px] w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.3)]" />
+                <div className="absolute -top-12 -end-12 w-52 h-52 rounded-full bg-white/[.14] blur-[40px]" />
+                <div className="relative flex justify-between items-start gap-5">
+                  <div>
+                    <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/80 mb-4">Consumer brand · eight pack colours</div>
+                    <Img src="images/logos/surya_brand_logo.webp" alt="Surya" className="h-[62px] w-auto drop-shadow-[0_8px_18px_rgba(0,0,0,0.3)]" />
+                  </div>
+                  <Img src={SURYA_PACK_PINK_URL} alt="Surya JSR rice, pink pack" sizes="110px" className="w-20 sm:w-[110px] h-auto drop-shadow-[0_18px_34px_rgba(0,0,0,0.45)] flex-shrink-0" />
                 </div>
+                <p className="relative font-serif text-[17px] sm:text-xl leading-relaxed text-white/90">{RICE_BRANDS_DATA[0].description}</p>
                 <div className="relative flex gap-2 flex-wrap">
                   {SURYA_SWATCHES.map((sw) => (
                     <span key={sw.n} title={sw.n} className="w-[26px] h-[26px] rounded-full border-[1.5px] border-white/60" style={{ backgroundColor: sw.c }} />
                   ))}
                 </div>
-                <span className="relative inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase self-start">{t.suryaCta} <Arrow /></span>
+                <span className="relative mt-auto inline-flex items-center gap-2 bg-white text-[#96094D] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase self-start">{t.suryaCta} <Arrow /></span>
               </Link>
+            </ScrollReveal>
+            <ScrollReveal width="100%">
+              <div id="dwaraka" className="flex flex-col h-full gap-6 bg-gradient-to-br from-[#6A2C9A] to-[#2E0D52] text-white p-8 sm:p-9 relative overflow-hidden">
+                <div className="absolute -top-12 -end-12 w-52 h-52 rounded-full bg-[#FFD83A]/[.14] blur-[40px]" />
+                <div className="relative flex justify-between items-start gap-5">
+                  <div>
+                    <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/80 mb-4">Household brand · idli &amp; dosa</div>
+                    <Img src={RICE_BRANDS_DATA[1].logoUrl} alt="Dwaraka" className="h-[62px] w-auto" />
+                  </div>
+                  <Img src={RICE_BRANDS_DATA[1].packagingImageUrls[0]} alt="Dwaraka rice pack" sizes="110px" className="w-20 sm:w-[110px] h-auto drop-shadow-[0_18px_34px_rgba(0,0,0,0.45)] flex-shrink-0" />
+                </div>
+                <p className="relative font-serif text-[17px] sm:text-xl leading-relaxed text-white/90">{RICE_BRANDS_DATA[1].description}</p>
+                <p className="relative text-[11px] font-bold tracking-[0.14em] uppercase text-[#FFD83A]">“{RICE_BRANDS_DATA[1].tagline}”</p>
+                <a
+                  href={WHATSAPP_DWARAKA_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative mt-auto inline-flex items-center gap-2 bg-[#FFD83A] text-[#2E0D52] px-5 py-3.5 rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase self-start transition-transform duration-300 hover:-translate-y-0.5"
+                >
+                  {t.enquire} <Arrow />
+                </a>
+              </div>
             </ScrollReveal>
           </div>
 

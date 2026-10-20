@@ -150,5 +150,5 @@ export const SURYA_BUYERS: SuryaBuyer[] = [
 
 export const SURYA_TICKER = [
   'Love in every bite', 'JSR Lachkari Kolam', 'HMT boiled', '₹75 per kg',
-  'Milled in Miryalaguda', 'ISO 22000:2018', 'Eight pack colours', 'Six states',
+  'Milled in Miryalaguda', 'ISO 22000:2018', 'Eight pack colours', 'Seven states',
 ];

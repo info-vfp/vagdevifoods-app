@@ -69,6 +69,8 @@ const BusinessPage: React.FC = () => {
                   return (
                     <button
                       key={tab.key}
+                      type="button"
+                      aria-pressed={active}
                       onClick={() => setSpec(tab.key)}
                       className={`cursor-pointer flex-shrink-0 px-5 min-h-[44px] rounded-full text-[10.5px] font-extrabold tracking-[0.14em] uppercase border transition-all duration-300 ${active
                         ? 'bg-brand-dark text-white border-brand-dark'
