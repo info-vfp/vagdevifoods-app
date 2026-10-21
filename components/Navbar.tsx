@@ -41,8 +41,8 @@ const Navbar: React.FC = () => {
                 to={link.path}
                 aria-current={active ? 'page' : undefined}
                 className={`px-3 py-2 text-[11.5px] font-bold uppercase tracking-wider border-b-2 transition-colors duration-300 whitespace-nowrap ${active
-                  ? 'text-brand-gold-ink border-brand-secondary'
-                  : 'text-brand-primary border-transparent hover:text-brand-gold-ink'
+                  ? 'text-brand-orange-ink border-brand-secondary'
+                  : 'text-brand-primary border-transparent hover:text-brand-orange-ink'
                   }`}
               >
                 {t[link.labelKey]}
@@ -72,15 +72,15 @@ const Navbar: React.FC = () => {
 
         <div className="lg:hidden flex items-center ms-auto gap-2">
           {/* No language control here on purpose: a <select> reading "EN" is unreadable to
-              someone who does not read Latin script, and it hides the other four behind a
-              tap. LanguageStrip below the header shows all five outright. */}
+              someone who does not read Latin script, and it hides the other five behind a
+              tap. LanguageStrip below the header shows all six outright. */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             type="button"
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
             aria-label={isOpen ? t.menuClose : t.menuOpen}
-            className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-md text-brand-primary hover:text-brand-gold-ink focus:outline-none focus:ring-2 focus:ring-brand-secondary/40"
+            className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-md text-brand-primary hover:text-brand-orange-ink focus:outline-none focus:ring-2 focus:ring-brand-secondary/40"
           >
             {!isOpen ? <Bars3Icon className="block h-7 w-7" aria-hidden="true" /> : <XMarkIcon className="block h-7 w-7" aria-hidden="true" />}
           </button>
@@ -109,6 +109,8 @@ const Navbar: React.FC = () => {
                 activeChipClassName="bg-brand-dark text-white border border-brand-dark"
               />
             </div>
+            {/* The active row's tint is 6%, not 10%: on the stronger tint the burnt-orange
+                label drops to 4.45:1, just under AA for 16px text. */}
             {NAV_LINKS.map((link: NavLinkType) => (
               <Link
                 key={link.path}
@@ -117,7 +119,7 @@ const Navbar: React.FC = () => {
                 aria-current={location.pathname === link.path ? 'page' : undefined}
                 className={`block px-4 py-3 rounded-xl text-base font-bold uppercase tracking-wider transition-all duration-300
                   ${location.pathname === link.path
-                    ? 'bg-brand-secondary/10 text-brand-gold-ink ps-6'
+                    ? 'bg-brand-secondary/[.06] text-brand-orange-ink ps-6'
                     : 'text-brand-primary hover:bg-brand-primary/5 hover:ps-6'
                   }`}
               >

@@ -36,7 +36,7 @@ const MillPage: React.FC = () => {
         <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-14 w-full">
           <div className="flex items-center gap-3 mb-5">
             <span className="w-10 h-px bg-brand-secondary" />
-            <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-[#E8CE74]">{t.millKicker}</span>
+            <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-brand-orange-soft">{t.millKicker}</span>
           </div>
           <h1 className="font-display text-[34px] sm:text-6xl lg:text-7xl leading-[1.02] tracking-tight max-w-3xl mb-6">{t.millTitle}</h1>
           <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/85 max-w-xl">{t.millSub}</p>
@@ -47,7 +47,7 @@ const MillPage: React.FC = () => {
         <div className="max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
             <div className="mb-9">
-              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-4">{t.journeyKicker}</div>
+              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-soft mb-4">{t.journeyKicker}</div>
               <h2 className="font-display text-[28px] sm:text-5xl leading-[1.06] tracking-tight max-w-3xl">{t.journeyTitle}</h2>
             </div>
           </ScrollReveal>
@@ -69,9 +69,9 @@ const MillPage: React.FC = () => {
                       : 'bg-white/[.06] text-white/85 border-white/[.22] hover:border-white/40'
                       }`}
                   >
-                    {/* /55 measured 3.31:1 on the gold pill — /70 keeps the number visibly
-                        secondary to the label while clearing AA at this size. */}
-                    <span className={`font-display text-xs ${active ? 'text-brand-dark/70' : 'text-brand-secondary'}`}>{s.n}</span>
+                    {/* The orange pill is darker than the gold it replaced: /70 measures 4.2:1 on
+                        it, /80 clears AA (5.1:1) while keeping the number visibly secondary. */}
+                    <span className={`font-display text-xs ${active ? 'text-brand-dark/80' : 'text-brand-secondary'}`}>{s.n}</span>
                     {s.label}
                   </button>
                 );
@@ -89,7 +89,7 @@ const MillPage: React.FC = () => {
               </div>
               <div className="p-8 sm:p-10 flex flex-col gap-6 border-s-0 lg:border-s border-white/[.14]">
                 <div>
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#E8CE74] mb-3.5">{stage.where}</div>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-orange-soft mb-3.5">{stage.where}</div>
                   <h3 className="font-display text-[26px] sm:text-4xl leading-tight mb-4">{stage.title}</h3>
                   <p className="text-[14.5px] leading-relaxed text-white/75 font-light">{stage.body}</p>
                 </div>
@@ -112,7 +112,7 @@ const MillPage: React.FC = () => {
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-[1fr_.8fr] gap-11 items-end mb-11">
               <div>
-                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-gold-ink mb-4">{t.machineryKicker}</div>
+                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-ink mb-4">{t.machineryKicker}</div>
                 <h2 className="font-display text-[28px] sm:text-5xl leading-[1.06] tracking-tight text-gray-900">{t.machineryTitle}</h2>
               </div>
               <p className="font-serif text-xl leading-relaxed text-gray-600">{t.machinerySub}</p>
@@ -127,7 +127,7 @@ const MillPage: React.FC = () => {
                     <Img src={m.src} alt={m.t} sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: m.pos }} />
                   </div>
                   <div className="p-7 flex flex-col gap-3 flex-1">
-                    <div className="text-[10px] font-extrabold tracking-[0.18em] uppercase text-brand-gold-ink">{m.tag}</div>
+                    <div className="text-[10px] font-extrabold tracking-[0.18em] uppercase text-brand-orange-ink">{m.tag}</div>
                     <h3 className="font-display text-2xl leading-tight text-gray-900">{m.t}</h3>
                     <p className="text-sm leading-relaxed text-gray-500 font-light">{m.d}</p>
                   </div>
@@ -154,7 +154,7 @@ const MillPage: React.FC = () => {
         <div className="max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
             <div className="mb-9">
-              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-gold-ink mb-4">More photos</div>
+              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-ink mb-4">More photos</div>
               <h2 className="font-display text-[28px] sm:text-5xl leading-[1.06] tracking-tight text-gray-900 max-w-3xl">More from the mill floor.</h2>
             </div>
           </ScrollReveal>

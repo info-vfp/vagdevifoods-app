@@ -132,7 +132,7 @@ const ContactPage: React.FC = () => {
     text-brand-dark placeholder:text-gray-500 focus:outline-none focus:bg-white
     ${errors[fieldName]
       ? 'border-red-700 focus:ring-2 focus:ring-red-700/20'
-      : 'border-brand-line hover:border-brand-gold-ink/50 focus:border-brand-gold-ink focus:ring-2 focus:ring-brand-secondary/25'
+      : 'border-brand-line hover:border-brand-orange-ink/50 focus:border-brand-orange-ink focus:ring-2 focus:ring-brand-secondary/25'
     }
   `;
 
@@ -149,7 +149,7 @@ const ContactPage: React.FC = () => {
 
   const labelClasses = "block text-[11px] font-extrabold text-gray-800 mb-2.5 tracking-[0.16em] uppercase";
   const optional = <span className="text-gray-500 font-medium ms-1 normal-case tracking-normal text-xs">(optional)</span>;
-  const required = <span className="text-brand-gold-ink" aria-hidden="true">*</span>;
+  const required = <span className="text-brand-orange-ink" aria-hidden="true">*</span>;
 
   return (
     <div className="bg-brand-cream font-sans">
@@ -159,9 +159,9 @@ const ContactPage: React.FC = () => {
       />
 
       <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_80%_15%,rgba(212,175,55,0.18),transparent_62%)]" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_80%_15%,rgba(240,127,26,0.18),transparent_62%)]" />
         <div className="relative max-w-screen-xl mx-auto">
-          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navContact}</div>
+          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-soft mb-5">{t.navContact}</div>
           <h1 className="font-display text-[34px] sm:text-6xl leading-[1.05] tracking-tight max-w-2xl mb-6">{t.contactTitle}</h1>
           <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/80 max-w-xl">WhatsApp is the fastest way to reach the sales desk. Monday to Saturday, 9 am to 6 pm IST.</p>
         </div>
@@ -190,15 +190,15 @@ const ContactPage: React.FC = () => {
             <ScrollReveal width="100%">
               <div className="bg-white border border-brand-line p-8 flex flex-col gap-6 h-full">
                 <div>
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Call or email</div>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-orange-ink mb-2.5">Call or email</div>
                   {/* These are the primary actions on the page for anyone on a phone, so each
                       gets a full 44px row rather than only the height of its own text. */}
-                  <a href={COMPANY_TEL_HREF} className="flex items-center min-h-[44px] font-display text-2xl text-gray-900 hover:text-brand-gold-ink">{COMPANY_CONTACT_PHONE}</a>
-                  <a href={`mailto:${COMPANY_CONTACT_EMAIL}`} className="flex items-center min-h-[44px] text-sm text-gray-600 font-medium hover:text-brand-gold-ink">{COMPANY_CONTACT_EMAIL}</a>
+                  <a href={COMPANY_TEL_HREF} className="flex items-center min-h-[44px] font-display text-2xl text-gray-900 hover:text-brand-orange-ink">{COMPANY_CONTACT_PHONE}</a>
+                  <a href={`mailto:${COMPANY_CONTACT_EMAIL}`} className="flex items-center min-h-[44px] text-sm text-gray-600 font-medium hover:text-brand-orange-ink">{COMPANY_CONTACT_EMAIL}</a>
                 </div>
                 <div className="border-t border-[#F0EBDD] pt-5">
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Farmers · paddy payments</div>
-                  <a href={`https://wa.me/${FARMER_PAYMENTS_WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-[44px] font-display text-xl text-gray-900 hover:text-brand-gold-ink">{FARMER_PAYMENTS_PHONE_FORMATTED}</a>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-orange-ink mb-2.5">Farmers · paddy payments</div>
+                  <a href={`https://wa.me/${FARMER_PAYMENTS_WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-[44px] font-display text-xl text-gray-900 hover:text-brand-orange-ink">{FARMER_PAYMENTS_PHONE_FORMATTED}</a>
                   <p className="text-xs text-gray-500 mt-2 leading-relaxed">Bring your pattadar passbook, bank passbook and Aadhaar copy.</p>
                 </div>
               </div>
@@ -207,11 +207,11 @@ const ContactPage: React.FC = () => {
             <ScrollReveal width="100%">
               <div className="bg-white border border-brand-line p-8 flex flex-col gap-6 h-full">
                 <div>
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Mill &amp; works</div>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-orange-ink mb-2.5">Mill &amp; works</div>
                   <p className="text-[14.5px] leading-relaxed text-gray-700">{MILL_ADDRESS_LINES.map((line, i) => <React.Fragment key={i}>{line}<br /></React.Fragment>)}</p>
                 </div>
                 <div className="border-t border-[#F0EBDD] pt-5">
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-gold-ink mb-2.5">Registered office</div>
+                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-orange-ink mb-2.5">Registered office</div>
                   <p className="text-[14.5px] leading-relaxed text-gray-700">{REGISTERED_OFFICE_LINES.map((line, i) => <React.Fragment key={i}>{line}<br /></React.Fragment>)}</p>
                 </div>
               </div>
@@ -237,7 +237,7 @@ const ContactPage: React.FC = () => {
           <ScrollReveal width="100%">
             <div className="bg-white border border-brand-line p-7 sm:p-12 max-w-4xl mx-auto">
               <div className="mb-9">
-                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-gold-ink mb-4">Prefer email?</div>
+                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-ink mb-4">Prefer email?</div>
                 <h2 className="font-display text-3xl sm:text-4xl leading-tight text-gray-900 mb-3">Send the details and we will reply in writing.</h2>
                 <p className="text-[15px] leading-relaxed text-gray-600 font-light">We answer within one working day. For a price today, WhatsApp is faster.</p>
               </div>
@@ -349,7 +349,7 @@ const ContactPage: React.FC = () => {
                             onClick={() => pickTopic(topic)}
                             className={`min-h-[44px] px-4 rounded-full border text-[11px] font-extrabold tracking-[0.1em] uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary/50 ${active
                               ? 'bg-brand-dark text-white border-brand-dark'
-                              : 'bg-white text-gray-800 border-brand-line hover:border-brand-gold-ink/60'
+                              : 'bg-white text-gray-800 border-brand-line hover:border-brand-orange-ink/60'
                               }`}
                           >
                             {topic}
@@ -396,7 +396,7 @@ const ContactPage: React.FC = () => {
                         </>
                       )}
                     </button>
-                    <p className="text-xs text-gray-500"><span className="text-brand-gold-ink" aria-hidden="true">*</span> Required</p>
+                    <p className="text-xs text-gray-500"><span className="text-brand-orange-ink" aria-hidden="true">*</span> Required</p>
                   </div>
                 </form>
               )}

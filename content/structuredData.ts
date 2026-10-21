@@ -112,7 +112,7 @@ export const organizationSchema = () => ({
       telephone: COMPANY_CONTACT_PHONE,
       contactType: 'sales',
       areaServed: 'IN',
-      availableLanguage: ['English', 'Hindi', 'Telugu', 'Tamil', 'Kannada', 'Odia', 'Urdu'],
+      availableLanguage: ['English', 'Hindi', 'Telugu', 'Tamil', 'Kannada', 'Urdu'],
     },
   ],
   sameAs: [`https://wa.me/${COMPANY_WHATSAPP_NUMBER}`],

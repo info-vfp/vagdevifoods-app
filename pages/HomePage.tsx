@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
 
       {/* Hero */}
       <section className="relative bg-brand-dark text-white overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(85%_70%_at_78%_10%,rgba(212,175,55,0.20),transparent_62%),radial-gradient(70%_60%_at_6%_94%,rgba(238,128,34,0.13),transparent_62%)]" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(85%_70%_at_78%_10%,rgba(240,127,26,0.20),transparent_62%),radial-gradient(70%_60%_at_6%_94%,rgba(238,128,34,0.13),transparent_62%)]" />
         <div className="absolute -top-[14%] -end-[6%] w-[520px] h-[520px] rounded-full bg-brand-secondary/[.13] blur-[90px] animate-[vf-pulse_9s_ease-in-out_infinite] pointer-events-none" />
 
         <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 grid lg:grid-cols-[1.12fr_.88fr] gap-12 items-center min-h-[calc(100dvh-74px)]">
@@ -43,7 +43,7 @@ const HomePage: React.FC = () => {
             <ScrollReveal direction="up">
               <div className="flex items-center gap-3 mb-7">
                 <span className="w-10 h-px bg-brand-secondary" />
-                <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-[#E8CE74]">Yadgarpally · Miryalaguda · Telangana</span>
+                <span className="text-[10px] font-bold tracking-[0.26em] uppercase text-brand-orange-soft">Yadgarpally · Miryalaguda · Telangana</span>
               </div>
             </ScrollReveal>
             <ScrollReveal direction="up" delay={0.08}>
@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
                   href={WHATSAPP_BULK_QUOTE_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative overflow-hidden inline-flex items-center gap-2.5 bg-brand-secondary text-brand-dark px-8 py-[19px] rounded-full text-xs font-extrabold tracking-[0.13em] uppercase shadow-[0_14px_34px_-12px_rgba(212,175,55,0.6)] transition-transform duration-300 hover:-translate-y-1"
+                  className="relative overflow-hidden inline-flex items-center gap-2.5 bg-brand-secondary text-brand-dark px-8 py-[19px] rounded-full text-xs font-extrabold tracking-[0.13em] uppercase shadow-[0_14px_34px_-12px_rgba(240,127,26,0.6)] transition-transform duration-300 hover:-translate-y-1"
                 >
                   {t.ctaQuote}
                 </a>
@@ -147,7 +147,7 @@ const HomePage: React.FC = () => {
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-2 gap-7 sm:gap-14 items-end mb-9 sm:mb-12">
               <div>
-                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-gold-ink mb-4">01 — {t.s1kicker}</div>
+                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-ink mb-4">01 — {t.s1kicker}</div>
                 <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-gray-900">{t.s1title}</h2>
               </div>
               <p className="font-serif text-[17px] sm:text-xl leading-relaxed text-gray-600 pb-1">
@@ -162,7 +162,7 @@ const HomePage: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/[.74] via-brand-dark/[.04] to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 flex flex-wrap gap-3 items-end justify-between">
                 <div>
-                  <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#E8CE74] mb-2">The plant</div>
+                  <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-brand-orange-soft mb-2">The plant</div>
                   <div className="font-display text-2xl sm:text-3xl text-white leading-tight">Sy. Nos. 328–333, Vijayawada Road</div>
                 </div>
                 <div className="text-[11px] tracking-[0.14em] text-white/70 uppercase">{GEO_COORDINATES.lat}° N &nbsp;/&nbsp; {GEO_COORDINATES.lng}° E</div>
@@ -173,8 +173,8 @@ const HomePage: React.FC = () => {
           <div className="grid sm:grid-cols-3 gap-px bg-brand-line border border-brand-line">
             {PILLARS_DATA.map((p) => (
               <ScrollReveal key={p.t} width="100%">
-                <div className="bg-white hover:bg-[#FFFDF5] transition-colors duration-300 px-6 py-7 sm:px-8 sm:py-10 h-full">
-                  <div className="font-display text-sm font-bold text-brand-gold-ink tracking-[0.2em] mb-5">{p.i}</div>
+                <div className="bg-white hover:bg-[#FFFAF4] transition-colors duration-300 px-6 py-7 sm:px-8 sm:py-10 h-full">
+                  <div className="font-display text-sm font-bold text-brand-orange-ink tracking-[0.2em] mb-5">{p.i}</div>
                   <h3 className="font-display text-2xl leading-tight text-gray-900 mb-3">{p.t}</h3>
                   <p className="text-sm leading-relaxed text-gray-500 font-light">{p.d}</p>
                 </div>
@@ -189,7 +189,7 @@ const HomePage: React.FC = () => {
         <div className="max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
             <div className="mb-8 sm:mb-12">
-              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-gold-ink mb-4">02 — {t.s2kicker}</div>
+              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-ink mb-4">02 — {t.s2kicker}</div>
               <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-gray-900 max-w-3xl">{t.s2title}</h2>
             </div>
           </ScrollReveal>
@@ -208,7 +208,7 @@ const HomePage: React.FC = () => {
                   <Img src={st.src} alt={st.t} sizes="(min-width: 1024px) 400px, (min-width: 640px) 45vw, 78vw" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: st.pos }} />
                 </div>
                 <div className="flex items-baseline gap-2.5 mt-4">
-                  <span className="font-display text-sm font-bold text-brand-gold-ink">{st.n}</span>
+                  <span className="font-display text-sm font-bold text-brand-orange-ink">{st.n}</span>
                   <h3 className="font-display text-xl text-gray-900">{st.t}</h3>
                 </div>
                 <p className="text-sm leading-relaxed text-gray-500 font-light mt-1.5">{st.d}</p>
@@ -231,11 +231,11 @@ const HomePage: React.FC = () => {
 
       {/* 03 — Our brands */}
       <section className="relative bg-brand-dark text-white overflow-hidden py-12 sm:py-24 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(60%_60%_at_88%_18%,rgba(212,175,55,0.15),transparent_62%)]" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(60%_60%_at_88%_18%,rgba(240,127,26,0.15),transparent_62%)]" />
         <div className="relative max-w-screen-xl mx-auto">
           <ScrollReveal width="100%">
             <div className="mb-8 sm:mb-12">
-              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-4">03 — {t.s3kicker}</div>
+              <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-soft mb-4">03 — {t.s3kicker}</div>
               <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-white max-w-3xl">{t.s3title}</h2>
             </div>
           </ScrollReveal>
@@ -277,7 +277,7 @@ const HomePage: React.FC = () => {
           <ScrollReveal width="100%">
             <div className="grid lg:grid-cols-[1fr_.85fr] gap-7 sm:gap-12 items-end mb-8 sm:mb-11">
               <div>
-                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-gold-ink mb-4">04 — {t.s4kicker}</div>
+                <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-ink mb-4">04 — {t.s4kicker}</div>
                 <h2 className="font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-gray-900">{t.s4title}</h2>
               </div>
               <p className="font-serif text-[17px] sm:text-xl leading-relaxed text-gray-600">Numbers you can verify before you place an order. Full-resolution copies of all three, plus lab reports and a company profile, are sent on request.</p>
@@ -310,7 +310,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Gold CTA */}
+      {/* Orange CTA band — the logo colour at full strength, once per page */}
       <section className="relative overflow-hidden bg-brand-secondary text-brand-dark py-12 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="absolute -top-24 -right-16 w-[420px] h-[420px] rounded-full bg-white/[.22] blur-[60px]" />
         <ScrollReveal width="100%">

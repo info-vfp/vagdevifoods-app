@@ -33,12 +33,12 @@ const LanguageStrip: React.FC<LanguageStripProps> = ({
 
   return (
     <div className={`lg:hidden ${className}`}>
-      {/* `group` labels the row for screen readers; the buttons alone would read as seven
+      {/* `group` labels the row for screen readers; the buttons alone would read as six
           unrelated words.
 
-          Wraps rather than scrolls. Seven chips fit one row from 360px up, but not at 320px —
-          and a language you have to scroll sideways to find is exactly the problem this
-          replaced, so on the narrowest phones it takes a second row instead. */}
+          Wraps rather than scrolls. Six chips fit one row down to 320px; if another language
+          is added and they stop fitting, the row takes a second line rather than scrolling —
+          a language you have to scroll sideways to find is exactly the problem this replaced. */}
       <div
         role="group"
         aria-label="Choose a language"

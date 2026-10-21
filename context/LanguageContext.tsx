@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type LangCode = 'en' | 'hi' | 'te' | 'ta' | 'kn' | 'or' | 'ur';
+// Odia ('or') was offered for a while and has been withdrawn. A visitor who had picked it still
+// has 'or' in localStorage; isLangCode rejects it, so they fall back to English cleanly.
+export type LangCode = 'en' | 'hi' | 'te' | 'ta' | 'kn' | 'ur';
 
 /**
  * Every language, labelled in its own script.
@@ -16,7 +18,6 @@ export const LANGUAGE_OPTIONS: { value: LangCode; label: string }[] = [
   { value: 'te', label: 'తెలుగు' },
   { value: 'ta', label: 'தமிழ்' },
   { value: 'kn', label: 'ಕನ್ನಡ' },
-  { value: 'or', label: 'ଓଡ଼ିଆ' },
   { value: 'ur', label: 'اردو' },
 ];
 
@@ -34,7 +35,7 @@ const LanguageContext = createContext<LanguageContextValue | undefined>(undefine
 
 const isLangCode = (value: unknown): value is LangCode =>
   value === 'en' || value === 'hi' || value === 'te' ||
-  value === 'ta' || value === 'kn' || value === 'or' || value === 'ur';
+  value === 'ta' || value === 'kn' || value === 'ur';
 
 /**
  * Google Fonts family names for the non-Latin scripts, keyed by language.
@@ -48,7 +49,6 @@ const SCRIPT_FONTS: Partial<Record<LangCode, string>> = {
   te: 'Noto+Sans+Telugu:wght@400;600;700',
   ta: 'Noto+Sans+Tamil:wght@400;600;700',
   kn: 'Noto+Sans+Kannada:wght@400;600;700',
-  or: 'Noto+Sans+Oriya:wght@400;600;700',
   // Nastaliq is the script Urdu readers expect; Noto Sans Arabic would look wrong to them.
   ur: 'Noto+Nastaliq+Urdu:wght@400;600;700',
 };

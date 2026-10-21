@@ -56,6 +56,11 @@ export const WHATSAPP_MILL_VISIT_LINK = buildWhatsAppLink(
 export const NAV_LOGO_URL = "images/logos/vagdevi_nav_logo.webp";
 export const FOOTER_LOGO_URL = "images/logos/vagdevi_footer_logo.webp";
 
+// Surya retail prices. Kept here because they appear in the Surya hero, on both pack cards,
+// in the ticker and — through the unit word — in every language; change them in one place.
+// The 30 kg bag is priced pro rata to the 26 kg bag (₹3,000 ÷ 26 ≈ ₹115/kg).
+export const SURYA_PRICES = { perKg: "₹115", bag26: "₹3,000", bag30: "₹3,460" };
+
 export const SURYA_PACK_PINK_URL = "images/products/surya/pack_pink_jsr.webp";
 export const SURYA_PACK_BLACK_URL = "images/products/surya/pack_black_hmt.webp";
 

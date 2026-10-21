@@ -37,7 +37,7 @@ const BusinessPage: React.FC = () => {
         <Img src="images/mill/warehouse_yard.webp" loading="eager" fetchPriority="high" sizes="100vw" alt="Warehouse and loading yard at Yadgarpally" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/[.94] to-brand-dark/50" />
         <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 w-full">
-          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navExports} · APEDA RCMC 221976</div>
+          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-soft mb-5">{t.navExports} · APEDA RCMC 221976</div>
           <h1 className="font-display text-[34px] sm:text-6xl leading-[1.05] tracking-tight max-w-3xl mb-6">{t.exportsTitle}</h1>
           <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/80 max-w-xl">
             Registered as a Manufacturer Exporter of rice. Container loading at the mill, documentation from Hyderabad, and a lab report with every lot.
@@ -51,8 +51,8 @@ const BusinessPage: React.FC = () => {
           <div className="grid sm:grid-cols-3 gap-px bg-brand-line border border-brand-line mb-20">
             {EXPORT_PROPS.map((e) => (
               <ScrollReveal key={e.t} width="100%">
-                <div className="bg-white hover:bg-[#FFFDF5] transition-colors duration-300 px-8 py-10 h-full">
-                  <div className="font-display text-sm font-bold text-brand-gold-ink tracking-[0.2em] mb-5">{e.i}</div>
+                <div className="bg-white hover:bg-[#FFFAF4] transition-colors duration-300 px-8 py-10 h-full">
+                  <div className="font-display text-sm font-bold text-brand-orange-ink tracking-[0.2em] mb-5">{e.i}</div>
                   <h3 className="font-display text-2xl leading-tight text-gray-900 mb-3">{e.t}</h3>
                   <p className="text-sm leading-relaxed text-gray-500 font-light">{e.d}</p>
                 </div>
@@ -103,7 +103,7 @@ const BusinessPage: React.FC = () => {
                 <Img src="images/mill/quality_lab.webp" alt="Moisture and grain testing in the mill lab" className="w-full h-full object-cover" />
               </div>
               <div className="p-8 sm:p-11 flex flex-col justify-center gap-5">
-                <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-brand-gold-ink">Quality control</div>
+                <div className="text-[10px] font-bold tracking-[0.24em] uppercase text-brand-orange-ink">Quality control</div>
                 <h2 className="font-display text-2xl sm:text-3xl leading-tight text-gray-900">Every truck is sampled before it is unloaded</h2>
                 <p className="text-[15px] leading-relaxed text-gray-600 font-light">
                   A probe sample is drawn from the load at the gate and read for moisture, immature grain and foreign matter. Loads outside our band are turned back. Milled lots are checked again for whiteness, broken ratio and average length before they are stitched and stacked.
@@ -112,7 +112,7 @@ const BusinessPage: React.FC = () => {
                   href={LAB_REPORT_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark self-start hover:text-brand-gold-ink"
+                  className="inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark self-start hover:text-brand-orange-ink"
                 >
                   {/* Tappable area is the whole 44px anchor; the rule hugs the text. */}
                   <span className="border-b-2 border-brand-secondary pb-1">Request a lab report <Arrow /></span>
