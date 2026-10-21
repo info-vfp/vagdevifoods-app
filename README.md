@@ -67,8 +67,8 @@ provider detail in `console.error` rather than on screen: visitors cannot act on
 pages/        One component per route (Home, About, Mill, Products, Exports, Contact, Surya, NotFound)
 components/   Shared UI — Navbar, Footer, Carousel, MobileActionBar, SEO, Img, …
 content/      Page copy and data, separated from layout (translations, mill journey, gallery)
-context/      LanguageContext — the EN/HI/TE/TA/KN switcher
-constants.ts  Company details, contact numbers, certifications, product data
+context/      LanguageContext — the EN/HI/TE/TA/KN/UR switcher
+constants.ts  Company details, contact numbers, certifications, product data, Surya prices
 scripts/      Maintenance tooling (image optimization, image manifest, prerender, sitemap)
 public/       Static assets served as-is: images/, og/ (share cards), icons/, CNAME
 ```
@@ -228,7 +228,8 @@ cut from the V-chevron in the logo.
 Both folders sit **outside `public/images/` on purpose**: `npm run images` converts every PNG
 and JPEG in there to WebP and deletes the original, which would break both. The cards are
 static artwork — if a page's headline changes materially, regenerate its card (same layout:
-brand-navy scrim over a mill photograph, logo top-left, the page's headline in Playfair).
+brand-navy scrim over a mill photograph, logo top-left, the page's headline in Playfair with
+the second line in the logo orange).
 
 ### Notes
 
@@ -300,18 +301,24 @@ value. Worth grepping for after a batch of styling changes:
 grep -rnoE '\b[a-z-]+-(white|black|brand-[a-z]+|gray-[0-9]+)/[0-9]+\b' pages components | awk -F/ '$NF % 5 != 0'
 ```
 
-**Gold is only legible on the dark sections.** The royal `brand-secondary` measures 2.0:1 on
-cream — it fails even the large-text threshold. Gold text on a light background uses
-**`brand-gold-ink`**; the WhatsApp green is **`brand-whatsapp`** (the original measured 3.45:1
-under white labels). Both exist purely to clear AA — see `tailwind.config.js`.
+**The accent is the logo's orange, in three strengths.** `brand-secondary` is `#F07F1A`,
+sampled from the V-chevron in the logo — the site previously used a royal gold that appeared
+nowhere in the identity. At full strength it is for fills, rules and text on navy (6.8:1);
+on cream it measures only 2.6:1, so orange **text** on a light background uses
+**`brand-orange-ink`** (`#B05309`, 4.9:1), and small orange labels on navy or on scrimmed
+photographs use **`brand-orange-soft`** (`#FFB878`). Navy on the orange fill reads 6.8:1, but
+at `/70` drops to 4.2:1 — use `/80` or stronger for small text sitting on orange. The WhatsApp
+green is **`brand-whatsapp`** (the original measured 3.45:1 under white labels). All of these
+exist to clear AA — see `tailwind.config.js`. The Surya microsite keeps its own pink and gold:
+that is the Surya pack's palette, not the company's.
 
 **Phones get every language shown at once, not a dropdown.** A large share of this audience
 runs a rice shop in rural Telangana and reads Telugu or Hindi rather than English, so language
 is a primary control rather than a setting to tuck away. A `<select>` labelled "EN" failed them
-three ways: the label is meaningless if you cannot read Latin script, the other four are hidden
+three ways: the label is meaningless if you cannot read Latin script, the other five are hidden
 until you know to tap it, and it assumes familiarity with a native dropdown.
 
-`components/LanguageStrip.tsx` shows all five as chips, so choosing is recognition — you see
+`components/LanguageStrip.tsx` shows all six as chips, so choosing is recognition — you see
 your own script and press it. It sits *below* the sticky header (unmissable on arrival, then
 scrolls away rather than costing 44px on every scroll), and the mobile menu carries a second
 copy for anyone already scrolled down. The standalone strip hides while the menu is open, or
@@ -326,10 +333,14 @@ to translate the headline and leave every control a visitor navigates by in Engl
 longest set (Tamil) still fits the desktop nav at 1024px; re-check that if you add a link.
 
 The rule if you touch it: **no language may be hidden behind a scroll** — an option a visitor
-has to find by scrolling sideways is the problem this replaced. Seven chips fit one row from
-360px up; at 320px the strip wraps to a second row rather than scrolling. English stays
-abbreviated to `EN` because it is the one label a Latin-script reader decodes instantly, which
-buys width for the six endonyms.
+has to find by scrolling sideways is the problem this replaced. Six chips fit one row down to
+320px; if a language is added and they stop fitting, the strip wraps to a second row rather
+than scrolling. English stays abbreviated to `EN` because it is the one label a Latin-script
+reader decodes instantly, which buys width for the five endonyms.
+
+**Odia has been withdrawn.** It was offered for a while and removed; anyone who had chosen it
+still has `or` saved in their browser, which `LanguageContext` no longer recognises, so they
+fall back to English rather than to a broken state.
 
 ### Urdu is right-to-left
 
@@ -357,15 +368,15 @@ Directional glyphs need help too: a literal arrow keeps pointing the same way un
 ends up aimed back at the text it should lead away from. Use `components/Arrow.tsx`, which
 carries `rtl:-scale-x-100`.
 
-### The Odia and Urdu copy is machine-translated
+### The Urdu copy is machine-translated
 
-Both were produced with Gemini and **have not been checked by a native speaker**. The same
-goes for the short chrome labels (Call, Explore, Skip to content…) in all six non-English
-languages, which were added later and are marked as such in the file. The blocks
-are commented as such in `content/mainTranslations.ts` and `content/suryaTranslations.ts`.
-Treat them as a working draft: they are structurally correct and preserve brand, certification
-and place names, but wording nobody has reviewed is a real risk on a page carrying compliance
-claims. The other five languages predate this and are not affected.
+It was produced with Gemini and **has not been checked by a native speaker**. The same goes
+for the short chrome labels (Call, Explore, Skip to content…) in all five non-English
+languages, which were added later and are marked as such in the file. The blocks are
+commented as such in `content/mainTranslations.ts` and `content/suryaTranslations.ts`. Treat
+them as a working draft: they are structurally correct and preserve brand, certification and
+place names, but wording nobody has reviewed is a real risk on a page carrying compliance
+claims. The rest of the Hindi, Telugu, Tamil and Kannada copy predates this.
 
 **Every interactive element gets at least 44px.** Where a link must stay visually small, give
 the anchor `inline-flex items-center min-h-[44px]` and put the decoration on an inner `<span>`

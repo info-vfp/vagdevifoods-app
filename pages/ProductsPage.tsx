@@ -32,9 +32,9 @@ const ProductsPage: React.FC = () => {
       />
 
       <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_82%_15%,rgba(212,175,55,0.18),transparent_62%)]" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_82%_15%,rgba(240,127,26,0.18),transparent_62%)]" />
         <div className="relative max-w-screen-xl mx-auto">
-          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">{t.navProducts}</div>
+          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-soft mb-5">{t.navProducts}</div>
           <h1 className="font-display text-[34px] sm:text-6xl leading-[1.05] tracking-tight max-w-3xl mb-6">{t.productsTitle}</h1>
           <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/80 max-w-2xl">
             Three varieties, each available as steam or double boiled, in 10, 26 and 30 kg packs — plus the by-products the mill produces along the way.
@@ -55,7 +55,7 @@ const ProductsPage: React.FC = () => {
                   <div className="p-7 sm:p-8 flex flex-col gap-4 flex-1">
                     <div>
                       <h3 className="font-display text-[28px] leading-tight text-gray-900">{v.name}</h3>
-                      <div className="text-[10.5px] font-bold tracking-[0.18em] uppercase text-brand-gold-ink mt-2">{v.altName}</div>
+                      <div className="text-[10.5px] font-bold tracking-[0.18em] uppercase text-brand-orange-ink mt-2">{v.altName}</div>
                     </div>
                     <p className="text-[14.5px] leading-relaxed text-gray-500 font-light">{v.description}</p>
                     <div className="flex flex-wrap gap-2 mt-auto">
@@ -67,9 +67,9 @@ const ProductsPage: React.FC = () => {
                       href={buildVarietyQuoteLink(`${v.name} / ${v.altName} rice`)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark self-start hover:text-brand-gold-ink"
+                      className="group inline-flex items-center min-h-[44px] text-[11px] font-extrabold tracking-[0.14em] uppercase text-brand-dark self-start hover:text-brand-orange-ink"
                     >
-                      {/* The tappable area is the whole 44px-tall anchor; the gold rule stays
+                      {/* The tappable area is the whole 44px-tall anchor; the orange rule stays
                           tight to the text so the link still reads as a link. */}
                       <span className="border-b-2 border-brand-secondary pb-1">{t.enquire} <Arrow /></span>
                     </a>
@@ -88,7 +88,7 @@ const ProductsPage: React.FC = () => {
                 {PACK_SIZES.map((pk) => (
                   <div key={pk.kg} className="border border-brand-line bg-brand-cream px-6 py-5 flex-1 min-w-[120px]">
                     <div className="font-display text-3xl text-gray-900 leading-none">{pk.kg}</div>
-                    <div className="text-[10px] font-bold tracking-[0.16em] uppercase text-brand-gold-ink mt-2">{pk.use}</div>
+                    <div className="text-[10px] font-bold tracking-[0.16em] uppercase text-brand-orange-ink mt-2">{pk.use}</div>
                   </div>
                 ))}
               </div>
@@ -158,7 +158,7 @@ const ProductsPage: React.FC = () => {
           <div className="grid sm:grid-cols-3 gap-px bg-brand-line border border-brand-line">
             {BYPRODUCTS_DATA.map((b) => (
               <ScrollReveal key={b.n} width="100%">
-                <div className="bg-white hover:bg-[#FFFDF5] transition-colors duration-300 px-8 py-9 h-full">
+                <div className="bg-white hover:bg-[#FFFAF4] transition-colors duration-300 px-8 py-9 h-full">
                   <h3 className="font-display text-2xl text-gray-900 mb-3">{b.n}</h3>
                   <p className="text-sm leading-relaxed text-gray-500 font-light">{b.d}</p>
                 </div>

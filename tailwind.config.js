@@ -16,12 +16,18 @@ export default {
         'brand-bg': '#FFFFFF', // Pure White for professional cleanliness
         'brand-bg-alt': '#F8FAFC', // Slate 50 - Cooler than Gray to match Navy
         'brand-primary': '#1F2937', // Charcoal (Professional, High Contrast)
-        'brand-secondary': '#D4AF37', // Royal Gold (Luxury, complements packaging)
+        // The orange of the V-chevron in the logo, sampled from the artwork. The site used a
+        // royal gold here, which matched nothing in the identity — the logo, the gate sign and
+        // the bags all carry this orange. Fills, rules and text on the navy sections (6.8:1).
+        'brand-secondary': '#F07F1A',
 
-        // The royal gold above measures 2.0:1 on cream and 8.7:1 on navy. It is legible on the
-        // dark sections and nowhere else, so anything gold sitting on a light background uses
-        // this darker bronze instead — 4.65:1 on cream, 4.9:1 on white, clearing WCAG AA.
-        'brand-gold-ink': '#8A6D1F',
+        // The logo orange measures only 2.6:1 on cream, so orange *text* on a light background
+        // uses this burnt orange instead — 4.9:1 on cream, 5.1:1 on white, clearing WCAG AA.
+        'brand-orange-ink': '#B05309',
+
+        // Small orange text on navy and on the navy-scrimmed photographs (kickers, captions).
+        // 10.8:1 on navy, and still 4.7:1 against the lightest scrim the site uses.
+        'brand-orange-soft': '#FFB878',
 
         // WhatsApp green, darkened from #1D9E5A. Every use of it carries white label text, and
         // the original measured 3.45:1 — under AA for the 13px labels on the sticky mobile
@@ -34,22 +40,19 @@ export default {
 
         // Legacy mappings kept so older class usages keep resolving
         'brand-espresso': '#1F2937',
-        'brand-saffron': '#D4AF37',
         'brand-cream': '#FBF9F4', // Off-white section background (redesign)
 
         'text-heading': '#111827', // Gray 900 (Sharp black)
         'text-body': '#374151', // Gray 700 (Readable gray)
         'text-muted': '#6B7280', // Gray 500
-
-        'brand-orange': '#D4AF37', // Compatibility alias -> Gold
       },
       fontFamily: {
         // Each webfont is followed immediately by its metric-matched fallback (defined in
         // index.css) so the swap when the real face arrives does not reflow the page.
         // The Noto families are for the Hindi / Telugu / Tamil / Kannada translations.
-        sans: ['Montserrat', 'Montserrat Fallback', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Oriya', 'Noto Nastaliq Urdu', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'Cormorant Fallback', 'Noto Sans Telugu', 'Noto Sans Oriya', 'Noto Nastaliq Urdu', 'serif'],
-        display: ['Playfair Display', 'Playfair Fallback', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Oriya', 'Noto Nastaliq Urdu', 'serif'],
+        sans: ['Montserrat', 'Montserrat Fallback', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Nastaliq Urdu', 'sans-serif'],
+        serif: ['Cormorant Garamond', 'Cormorant Fallback', 'Noto Sans Telugu', 'Noto Nastaliq Urdu', 'serif'],
+        display: ['Playfair Display', 'Playfair Fallback', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Nastaliq Urdu', 'serif'],
       },
       boxShadow: {
         glass: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',

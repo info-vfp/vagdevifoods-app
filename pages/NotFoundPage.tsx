@@ -23,9 +23,9 @@ const NotFoundPage: React.FC = () => {
       <SEO title="Page not found" description="This page does not exist. Find the mill, products, exports and contact details from here." noindex />
 
       <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_80%_15%,rgba(212,175,55,0.18),transparent_62%)]" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_80%_15%,rgba(240,127,26,0.18),transparent_62%)]" />
         <div className="relative max-w-screen-xl mx-auto">
-          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-[#E8CE74] mb-5">404 — Page not found</div>
+          <div className="text-[10.5px] font-bold tracking-[0.26em] uppercase text-brand-orange-soft mb-5">404 — Page not found</div>
           <h1 className="font-display text-[34px] sm:text-6xl leading-[1.05] tracking-tight max-w-3xl mb-6">That page has moved, or never existed.</h1>
           <p className="font-serif text-xl sm:text-2xl leading-relaxed text-white/80 max-w-2xl">
             Everything on the site is still one tap away below — or message the sales desk and we will send you what you were looking for.
@@ -40,9 +40,9 @@ const NotFoundPage: React.FC = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className="bg-white hover:bg-[#FFFDF5] transition-colors duration-300 px-6 sm:px-8 py-6 min-h-[44px] flex items-center justify-between gap-4 font-display text-xl sm:text-2xl text-gray-900"
+                className="bg-white hover:bg-[#FFFAF4] transition-colors duration-300 px-6 sm:px-8 py-6 min-h-[44px] flex items-center justify-between gap-4 font-display text-xl sm:text-2xl text-gray-900"
               >
-                {t[link.labelKey]} <Arrow className="text-brand-gold-ink text-lg" />
+                {t[link.labelKey]} <Arrow className="text-brand-orange-ink text-lg" />
               </Link>
             ))}
           </nav>

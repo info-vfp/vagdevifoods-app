@@ -2,7 +2,7 @@ import type { LangCode } from '../context/LanguageContext';
 
 export interface SuryaTranslation {
   navCta: string; badge: string;
-  heroA: string; heroB: string; heroSub: string; heroCta: string; priceNote: string;
+  heroA: string; heroB: string; heroSub: string; heroCta: string; /** The word for kilogram, used to build the price line from SURYA_PRICES. */ kg: string;
   pickKicker: string; pickTitle: string; pickSub: string; orderOn: string;
   cookKicker: string; cookTitle: string; cookSub: string; cookFoot: string;
   rangeKicker: string; rangeTitle: string; rangeSub: string;
@@ -18,7 +18,7 @@ export const SURYA_TRANSLATIONS: Record<LangCode, SuryaTranslation> = {
     heroB: 'bite.',
     heroSub: 'Two packs. One mill. Surya is the rice that shows up on lakhs of plates across seven states — grown in the Telangana rice bowl and milled where the paddy is grown.',
     heroCta: 'Order on WhatsApp',
-    priceNote: '₹1,950 / 26 kg · ₹2,250 / 30 kg',
+    kg: 'kg',
     pickKicker: 'Pink or black',
     pickTitle: 'Pick your side of the country.',
     pickSub: 'Our two best-sellers move in almost equal volume — they just live in different kitchens.',
@@ -46,7 +46,7 @@ export const SURYA_TRANSLATIONS: Record<LangCode, SuryaTranslation> = {
     heroB: 'प्यार।',
     heroSub: 'दो पैक। एक मिल। सूर्य वह चावल है जो सात राज्यों की लाखों थालियों तक पहुँचता है — तेलंगाना के धान क्षेत्र में उगा और वहीं मिल किया गया।',
     heroCta: 'व्हाट्सएप पर ऑर्डर करें',
-    priceNote: '₹1,950 / 26 किग्रा · ₹2,250 / 30 किग्रा',
+    kg: 'किग्रा',
     pickKicker: 'गुलाबी या काला',
     pickTitle: 'अपने हिस्से का चावल चुनिए।',
     pickSub: 'हमारे दोनों सबसे ज़्यादा बिकने वाले पैक लगभग बराबर बिकते हैं — बस रसोई अलग होती है।',
@@ -74,7 +74,7 @@ export const SURYA_TRANSLATIONS: Record<LangCode, SuryaTranslation> = {
     heroB: 'ప్రేమ.',
     heroSub: 'రెండు ప్యాక్‌లు. ఒకే మిల్లు. ఏడు రాష్ట్రాల్లో లక్షల ప్లేట్లకు చేరే బియ్యం సూర్య — తెలంగాణ వరి ప్రాంతంలో పండి, అక్కడే మిల్లింగ్.',
     heroCta: 'వాట్సాప్‌లో ఆర్డర్',
-    priceNote: '₹1,950 / 26 కేజీ · ₹2,250 / 30 కేజీ',
+    kg: 'కేజీ',
     pickKicker: 'పింక్ లేదా బ్లాక్',
     pickTitle: 'మీ వైపు బియ్యం ఎంచుకోండి.',
     pickSub: 'మా రెండు టాప్ ప్యాక్‌లు దాదాపు సమానంగా అమ్ముడవుతాయి — వంటగదులు మాత్రమే వేరు.',
@@ -102,7 +102,7 @@ export const SURYA_TRANSLATIONS: Record<LangCode, SuryaTranslation> = {
     heroB: 'அன்பு.',
     heroSub: 'இரண்டு பொதிகள். ஒரே ஆலை. ஏழு மாநிலங்களில் லட்சம் தட்டுகளுக்குச் செல்லும் அரிசி சூர்யா — தெலங்கானா நெல் மண்ணில் விளைந்து, அங்கேயே அரவை.',
     heroCta: 'வாட்ஸ்ஆப்பில் ஆர்டர்',
-    priceNote: '₹1,950 / 26 கிலோ · ₹2,250 / 30 கிலோ',
+    kg: 'கிலோ',
     pickKicker: 'பிங்க் அல்லது பிளாக்',
     pickTitle: 'உங்கள் பக்க அரிசியைத் தேர்வு செய்யுங்கள்.',
     pickSub: 'எங்கள் இரு முன்னணி பொதிகளும் கிட்டத்தட்ட சம அளவில் விற்கின்றன — சமையலறைகள் மட்டுமே வேறு.',
@@ -130,7 +130,7 @@ export const SURYA_TRANSLATIONS: Record<LangCode, SuryaTranslation> = {
     heroB: 'ಪ್ರೀತಿ.',
     heroSub: 'ಎರಡು ಪ್ಯಾಕ್. ಒಂದೇ ಮಿಲ್. ಏಳು ರಾಜ್ಯಗಳ ಲಕ್ಷಾಂತರ ತಟ್ಟೆಗಳಿಗೆ ತಲುಪುವ ಅಕ್ಕಿ ಸೂರ್ಯ — ತೆಲಂಗಾಣದ ಭತ್ತದ ನಾಡಿನಲ್ಲಿ ಬೆಳೆದು, ಅಲ್ಲೇ ಮಿಲ್ಲಿಂಗ್.',
     heroCta: 'ವಾಟ್ಸಾಪ್‌ನಲ್ಲಿ ಆರ್ಡರ್',
-    priceNote: '₹1,950 / 26 ಕೆಜಿ · ₹2,250 / 30 ಕೆಜಿ',
+    kg: 'ಕೆಜಿ',
     pickKicker: 'ಪಿಂಕ್ ಅಥವಾ ಬ್ಲಾಕ್',
     pickTitle: 'ನಿಮ್ಮ ಕಡೆಯ ಅಕ್ಕಿ ಆಯ್ಕೆ ಮಾಡಿ.',
     pickSub: 'ನಮ್ಮ ಎರಡು ಪ್ರಮುಖ ಪ್ಯಾಕ್‌ಗಳು ಬಹುತೇಕ ಸಮಾನವಾಗಿ ಮಾರಾಟವಾಗುತ್ತವೆ — ಅಡುಗೆಮನೆಗಳು ಮಾತ್ರ ಬೇರೆ.',
@@ -151,36 +151,6 @@ export const SURYA_TRANSLATIONS: Record<LangCode, SuryaTranslation> = {
     endSub: 'ನಿಮ್ಮ ನಗರ ಮತ್ತು ಮಾಸಿಕ ಪ್ರಮಾಣವನ್ನು ಒಂದು ಸಂದೇಶದಲ್ಲಿ ಕಳುಹಿಸಿ. ಹತ್ತಿರದ ವಿತರಕರಿಗೆ ಜೋಡಿಸುತ್ತೇವೆ ಅಥವಾ ನೇರವಾಗಿ ಪೂರೈಸುತ್ತೇವೆ.',
     endCta: 'ವಾಟ್ಸಾಪ್‌ನಲ್ಲಿ ಸಂದೇಶ',
   },
-  // Odia. Machine-translated (Gemini 'Pro Extended') from the English above and not yet
-  // checked by a native speaker — see the README before treating this as final copy.
-  or: {
-    navCta: 'ଏକ ଡିଲର ଖୋଜନ୍ତୁ',
-    badge: 'ଏକ Vagdevi ଫୁଡ୍ସ ବ୍ରାଣ୍ଡ୍ · Miryalaguda',
-    heroA: 'ପ୍ରତିଟି ଗୁଣ୍ଡାରେ',
-    heroB: 'ଭଲପାଇବା।',
-    heroSub: 'ଦୁଇଟି ପ୍ୟାକ୍। ଗୋଟିଏ ମିଲ୍। Surya ହେଉଛି ସେହି ଚାଉଳ ଯାହା ସାତୋଟି ରାଜ୍ୟରେ ଲକ୍ଷ ଲକ୍ଷ ଥାଳିରେ ପରଷା ଯାଏ — Telangana ରାଇସ୍ ବାଉଲ୍ ରେ ଉତ୍ପାଦିତ ଏବଂ ଯେଉଁଠି ଧାନ ଚାଷ ହୁଏ ସେଇଠି ମିଲିଂ ହୁଏ।',
-    heroCta: 'WhatsApp ରେ ଅର୍ଡର କରନ୍ତୁ',
-    priceNote: '₹1,950 / 26 kg · ₹2,250 / 30 kg',
-    pickKicker: 'ଗୋଲାପୀ କିମ୍ବା କଳା',
-    pickTitle: 'ଆପଣଙ୍କ ଅଞ୍ଚଳର ପସନ୍ଦ ବାଛନ୍ତୁ।',
-    pickSub: 'ଆମର ଦୁଇଟି ସର୍ବାଧିକ ବିକ୍ରି ହେଉଥିବା ଉତ୍ପାଦ ପ୍ରାୟ ସମାନ ପରିମାଣରେ ବିକ୍ରି ହୁଏ — ସେଗୁଡିକ କେବଳ ଭିନ୍ନ ଭିନ୍ନ ରୋଷେଇ ଘରେ ବ୍ୟବହାର ହୁଏ।',
-    orderOn: 'ଅର୍ଡର କରନ୍ତୁ',
-    cookKicker: 'ସଠିକ୍ ଭାବରେ ରାନ୍ଧନ୍ତୁ',
-    cookTitle: 'ସମାନ ଚାଉଳ, ଚାରୋଟି ଉପାୟରେ।',
-    cookSub: 'Surya ପାଇଁ ପ୍ରକୃତରେ କାମ କରୁଥିବା ପାଣିର ଅନୁପାତ ଏବଂ ସମୟ — ନାଗପୁରର ଏକ ପ୍ରେସର କୁକର ଠାରୁ ଆରମ୍ଭ କରି ହଷ୍ଟେଲ ରୁମର ରାଇସ୍ କୁକର ପର୍ଯ୍ୟନ୍ତ।',
-    cookFoot: 'ମଧ୍ୟମ ଆଞ୍ଚରେ ବିନା ହୁଇସିଲ୍ ରେ ଗୋଟିଏ ସମ୍ପୂର୍ଣ୍ଣ ସାଇକେଲ୍ ପାଇଁ ସମୟ ଦିଆଯାଇଛି। ଆପଣଙ୍କ ଚୁଲା ଅନୁଯାୟୀ ଏକ ମିନିଟ୍ ଏପଟ ସେପଟ କରିପାରିବେ।',
-    rangeKicker: 'ସମ୍ପୂର୍ଣ୍ଣ ରେଞ୍ଜ୍',
-    rangeTitle: 'ଆଠଟି ରଙ୍ଗ। ପ୍ରତ୍ୟେକ ରୋଷେଇ ଘରର ଏକ ପସନ୍ଦ ଅଛି।',
-    rangeSub: 'ବ୍ୟାଗରେ ଥିବା ରଙ୍ଗ ଆପଣଙ୍କ କିରାନା ଦୋକାନକୁ କହେ ଯେ ଏହା କେଉଁ ଧାନ ଏବଂ ମିଲରୁ ଆସିଛି। ଗୋଲାପୀ ଏବଂ କଳା ରଙ୍ଗ ଆଗରେ ଅଛି; ବାକି ସମସ୍ତଙ୍କର ନିଜସ୍ୱ ସ୍ଥାୟୀ ଗ୍ରାହକ ଅଛନ୍ତି।',
-    trustKicker: 'ଏହା କେଉଁଠାରୁ ଆସେ',
-    trustTitle: 'ଆପଣ ମାନଚିତ୍ରରେ ମିଲକୁ ଦେଖାଇ ପାରିବେ।',
-    trustBody: 'Surya ଆମର ନିଜ ପ୍ଲାଣ୍ଟ ବିଜୟୱାଡା ରୋଡ୍, Yadgarpally ରେ ମିଲିଂ କରାଯାଏ — ଏହା ବାହାରୁ ଅଣାଯାଇ ନଥାଏ କିମ୍ବା ତିନୋଟି ବ୍ୟବସାୟୀଙ୍କ ଠାରୁ ମିଶାଯାଇ ନଥାଏ। ଆଖପାଖ ମଣ୍ଡଳର କୃଷକମାନଙ୍କ ଠାରୁ ଧାନ ଆସେ, ସମାନ ପରିସରରେ ଶୁଖାଯାଏ, ମିଲିଂ ହୁଏ, ଗ୍ରେଡିଂ ଏବଂ କଲର୍-ସର୍ଟିଂ କରାଯାଏ ଏବଂ ଏକ ଲଟ୍ ନମ୍ବର ଥିବା ବ୍ୟାଗ୍ ଭାବରେ ବାହାରକୁ ଯାଏ।',
-    trustChips: ['ISO 22000:2018', 'FSSAI ଲାଇସେନ୍ସପ୍ରାପ୍ତ', 'ଗୋଟିଏ ସ୍ଥାନରେ ମିଲିଂ'],
-    trustCta: 'ମିଲ୍ ଦେଖନ୍ତୁ',
-    endTitle: 'Surya ଷ୍ଟକ୍ କରିବାକୁ ପ୍ରସ୍ତୁତ କି?',
-    endSub: 'ଆପଣଙ୍କ ସହର ଏବଂ ମାସିକ ପରିମାଣ ସହିତ ଗୋଟିଏ ମେସେଜ୍ ପଠାନ୍ତୁ। ଆମେ ଆପଣଙ୍କୁ ନିକଟତମ ବିତରକଙ୍କ ସହ ଯୋଡିବୁ କିମ୍ବା ସିଧାସଳଖ ଯୋଗାଇଦେବୁ।',
-    endCta: 'ଆମକୁ WhatsApp ରେ ମେସେଜ୍ କରନ୍ତୁ',
-  },
   // Urdu. Right-to-left: LanguageContext sets dir="rtl" for this code, which flips the
   // layout's logical properties. Machine-translated and not yet checked by a native
   // speaker — see the README before treating this as final copy.
@@ -191,7 +161,7 @@ export const SURYA_TRANSLATIONS: Record<LangCode, SuryaTranslation> = {
     heroB: 'پیار۔',
     heroSub: 'دو پیکنگ۔ ایک مل۔ Surya وہ چاول ہے جو سات ریاستوں میں لاکھوں پلیٹوں پر پیش کیا جاتا ہے — اسے Telangana کے رائس باؤل میں اگایا جاتا ہے اور وہیں ملنگ کی جاتی ہے جہاں دھان کی کاشت ہوتی ہے۔',
     heroCta: 'واٹس ایپ پر آرڈر کریں',
-    priceNote: '₹1,950 / 26 kg · ₹2,250 / 30 kg',
+    kg: 'kg',
     pickKicker: 'گلابی یا کالا',
     pickTitle: 'اپنے علاقے کی پسند چنیں۔',
     pickSub: 'ہماری دو سب سے زیادہ بکنے والی ورائٹیز تقریباً برابر مقدار میں فروخت ہوتی ہیں — بس یہ الگ الگ کچن میں استعمال ہوتی ہیں۔',

@@ -10,7 +10,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import LanguageStrip from '../components/LanguageStrip';
 import SkipLink from '../components/SkipLink';
 import {
-  buildWhatsAppLink, COMPANY_NAME, COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE, COMPANY_TEL_HREF,
+  buildWhatsAppLink, COMPANY_NAME, COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE, COMPANY_TEL_HREF, SURYA_PRICES,
 } from '../constants';
 import { SURYA_TRANSLATIONS } from '../content/suryaTranslations';
 import { SURYA_SKUS, COOK_METHODS, SURYA_COLOURS, SURYA_BUYERS, SURYA_TICKER } from '../content/suryaContent';
@@ -74,7 +74,7 @@ const SuryaPage: React.FC = () => {
           </Link>
           <div className="flex items-center gap-2.5 flex-shrink-0">
             {/* Phones get LanguageStrip under the header instead — same reasoning as the
-                main site: a dropdown labelled in Latin script hides the other four. */}
+                main site: a dropdown labelled in Latin script hides the other five. */}
             <LanguageSwitcher className="hidden lg:inline-flex" />
             {/* Hidden on phones — the sticky action bar carries this same CTA down there,
                 and at 375px the full header row overflows the viewport. */}
@@ -145,10 +145,10 @@ const SuryaPage: React.FC = () => {
                 </a>
                 <div className="flex flex-col gap-0.5">
                   <div className="flex items-baseline gap-1.5 text-white">
-                    <span className="font-display text-[34px] font-bold leading-none">₹75</span>
+                    <span className="font-display text-[34px] font-bold leading-none">{SURYA_PRICES.perKg}</span>
                     <span className="text-xs font-bold tracking-wider uppercase opacity-80">/ kg</span>
                   </div>
-                  <span className="text-[10.5px] font-semibold tracking-wider uppercase text-white/65">{t.priceNote}</span>
+                  <span className="text-[10.5px] font-semibold tracking-wider uppercase text-white/65">{SURYA_PRICES.bag26} / 26 {t.kg} · {SURYA_PRICES.bag30} / 30 {t.kg}</span>
                 </div>
               </div>
 
@@ -213,7 +213,7 @@ const SuryaPage: React.FC = () => {
                       <div className="text-[11px] font-bold tracking-[0.16em] uppercase" style={{ color: s.accent }}>{s.variety}</div>
                     </div>
                     <div className="text-end flex-shrink-0">
-                      <div className="font-display text-3xl text-white leading-none">₹1,950</div>
+                      <div className="font-display text-3xl text-white leading-none">{SURYA_PRICES.bag26}</div>
                       <div className="text-[10px] font-bold tracking-[0.12em] uppercase text-white/60 mt-1.5">26 kg bag</div>
                     </div>
                   </div>

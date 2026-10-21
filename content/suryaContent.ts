@@ -1,3 +1,5 @@
+import { SURYA_PRICES } from '../constants';
+
 export interface SuryaSku {
   key: 'pink' | 'black';
   tag: string;
@@ -149,6 +151,6 @@ export const SURYA_BUYERS: SuryaBuyer[] = [
 ];
 
 export const SURYA_TICKER = [
-  'Love in every bite', 'JSR Lachkari Kolam', 'HMT boiled', '₹75 per kg',
+  'Love in every bite', 'JSR Lachkari Kolam', 'HMT boiled', `${SURYA_PRICES.perKg} per kg`,
   'Milled in Miryalaguda', 'ISO 22000:2018', 'Eight pack colours', 'Seven states',
 ];
