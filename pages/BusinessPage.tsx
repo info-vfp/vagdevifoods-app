@@ -5,8 +5,7 @@ import Img from '../components/Img';
 import ScrollReveal from '../components/ScrollReveal';
 import { EXPORT_PROPS, EXPORT_SPECS, buildWhatsAppLink } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
-import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
-import { absoluteUrl } from '../content/seo';
+import { exportSpecSchemas } from '../content/structuredData';
 import { useLanguage } from '../context/LanguageContext';
 
 const SPEC_TABS: { key: 'sona' | 'steam'; label: string }[] = [
@@ -21,16 +20,11 @@ const BusinessPage: React.FC = () => {
   const t = MAIN_TRANSLATIONS[lang];
   const [spec, setSpec] = useState<'sona' | 'steam'>('sona');
 
-  const structuredData = buildGraph(
-    { '@type': 'WebPage', name: 'Rice exports', url: absoluteUrl('/business'), about: { '@id': ORGANISATION_ID } },
-    breadcrumbSchema('/business')
-  );
 
   return (
     <div className="bg-brand-cream font-sans">
       <SEO
-        keywords="rice exporters india, bulk rice suppliers, private label rice, export specifications rice"
-        structuredData={structuredData}
+        schema={exportSpecSchemas()}
       />
 
       <section className="relative text-white overflow-hidden min-h-[62dvh] flex items-end">
@@ -71,6 +65,7 @@ const BusinessPage: React.FC = () => {
                       key={tab.key}
                       type="button"
                       aria-pressed={active}
+                      aria-controls={`spec-${tab.key}`}
                       onClick={() => setSpec(tab.key)}
                       className={`cursor-pointer flex-shrink-0 px-5 min-h-[44px] rounded-full text-[10.5px] font-extrabold tracking-[0.14em] uppercase border transition-all duration-300 ${active
                         ? 'bg-brand-dark text-white border-brand-dark'
@@ -86,14 +81,18 @@ const BusinessPage: React.FC = () => {
           </ScrollReveal>
 
           <ScrollReveal width="100%">
-            <div className="bg-white border border-brand-line overflow-hidden mb-3.5">
-              {EXPORT_SPECS[spec].map((row) => (
-                <div key={row.p} className="grid grid-cols-2 gap-5 px-6 sm:px-8 py-5 border-b border-[#F0EBDD] last:border-0 hover:bg-brand-cream transition-colors duration-300">
-                  <div className="text-[11px] font-bold tracking-[0.14em] uppercase text-gray-500 self-center">{row.p}</div>
-                  <div className="font-display text-xl sm:text-2xl text-gray-900 text-end">{row.v}</div>
-                </div>
-              ))}
-            </div>
+            {/* Both grades are in the page and the inactive one is hidden, so the steam-rice
+                specification is crawlable too — it used to exist only after a click. */}
+            {SPEC_TABS.map((tab) => (
+              <div key={tab.key} id={`spec-${tab.key}`} hidden={spec !== tab.key} className="bg-white border border-brand-line overflow-hidden mb-3.5">
+                {EXPORT_SPECS[tab.key].map((row) => (
+                  <div key={row.p} className="grid grid-cols-2 gap-5 px-6 sm:px-8 py-5 border-b border-[#F0EBDD] last:border-0 hover:bg-brand-cream transition-colors duration-300">
+                    <div className="text-[11px] font-bold tracking-[0.14em] uppercase text-gray-500 self-center">{row.p}</div>
+                    <div className="font-display text-xl sm:text-2xl text-gray-900 text-end">{row.v}</div>
+                  </div>
+                ))}
+              </div>
+            ))}
           </ScrollReveal>
           <p className="text-xs text-gray-500 italic mb-20">Indicative parameters. A signed lab report accompanies every shipment; custom specifications are quoted on request.</p>
 

@@ -18,6 +18,7 @@ Live at **[vagdevifoods.com](https://vagdevifoods.com)**.
 | Optimize newly added images | `npm run images` |
 | Measure images + emit responsive variants | `npm run manifest` |
 | Rebuild sitemap only | `npm run sitemap` |
+| Rebuild llms.txt / llms-full.txt only | `npm run llms` |
 | Type-check **and** build (pre-flight) | `npm run check` |
 | Publish manually (fallback) | `npm run deploy` |
 
@@ -76,19 +77,20 @@ public/       Static assets served as-is: images/, og/ (share cards), icons/, CN
 ### Routing and pre-rendering
 
 Routes are real paths (`vagdevifoods.com/mill`), and **every route is pre-rendered to static
-HTML at build time**. `npm run build` runs five steps:
+HTML at build time**. `npm run build` runs six steps:
 
 1. `manifest` — measures `public/images/` and writes `content/imageSizes.ts` (see below)
 2. `build:client` — the browser bundle
 3. `build:ssr` — a server bundle of the same app
 4. `prerender` — renders each route in `content/seo.ts` and writes `dist/mill.html` *and*
    `dist/mill/index.html`, so extensionless URLs resolve at HTTP 200 on any static host
-5. `sitemap` — regenerates `sitemap.xml` from the same route list
+5. `sitemap` — regenerates `sitemap.xml` from the same route list, with each page's images
+6. `llms` — writes `llms.txt` and `llms-full.txt` from the site's own data (see below)
 
 This exists because the site was previously client-rendered only: crawlers that don't run
 JavaScript received ~495 characters of empty shell, identical for every page. They now get the
 real content and per-page metadata. **Adding a route means adding it to `content/seo.ts`** —
-the router, the pre-renderer and the sitemap all read from there.
+the router, the pre-renderer, the sitemap, the structured data and llms.txt all read from there.
 
 Each route is a separate chunk (`React.lazy` in `App.tsx`), so the home page no longer ships
 the contact form's EmailJS client or the Surya microsite. That is also why `entry-server.tsx`
@@ -117,6 +119,62 @@ per route on every build and warns below 1,000 characters, so a regression usual
 there first.
 
 ---
+
+## Search and AI visibility (SEO / GEO)
+
+Everything a search engine or an AI assistant reads about the site is generated from the
+same data the pages render, so it cannot drift from what visitors see.
+
+**Per page** (`components/SEO.tsx`, fed by `content/seo.ts`): a complete `<title>` of about
+60 characters, topic first and brand last; a 120–160 character description; canonical URL;
+robots directives allowing large image previews and full snippets; Open Graph and X cards
+with a 1200×630 JPEG; and the `geo.*` / `ICBM` tags for the mill's location. There is
+deliberately **no `keywords` meta** — Google ignores it and Bing reads a long one as spam.
+
+**When you change what a page says, bump its `lastModified` in `content/seo.ts`.** It becomes
+the sitemap's `<lastmod>` and the page's `dateModified`. Do not set it on every build — the
+old sitemap stamped every URL with the build date, which teaches crawlers to ignore it.
+
+**Structured data** (`content/structuredData.ts`) is one connected JSON-LD graph per page,
+with stable `@id`s so every page describes the same entities:
+
+| On | Entities |
+|---|---|
+| Every page | WebSite · Organization + LocalBusiness (legal name, address, geo, hours, Maps listing, certificates with issuers, contact points, areas served) · the Surya and Dwaraka Brands · the page (WebPage / AboutPage / ContactPage / CollectionPage) · BreadcrumbList |
+| Home | FAQPage — from `content/faq.ts`, the same array the FAQ section renders |
+| Products | a Product per rice variety |
+| Exports | a Product per export grade, with the specification table as properties |
+| Surya | a ProductGroup per pack with 26 kg and 30 kg variants and their prices (from `SURYA_PRICES`) · a HowTo per cooking method |
+
+The rule that keeps it trustworthy: **nothing goes in structured data that a visitor cannot
+read on that page.** That is why the FAQ answers and the Surya offers are built from the same
+data as the visible content. Check changes with Google's
+[Rich Results Test](https://search.google.com/test/rich-results) and the
+[Schema.org validator](https://validator.schema.org/).
+
+**Tabbed content is all in the HTML.** The mill stages, export-spec grades and Surya cooking
+methods render every panel and hide the inactive ones (`hidden` on a plain wrapper — a
+`grid` class on the same element would override it). Rendering only the selected panel meant
+seven of the eight mill stages never reached a crawler.
+
+**For AI assistants** — ChatGPT, Perplexity, Gemini, Claude, Copilot — the build writes
+`llms.txt` (a summary and page index in the llmstxt.org format) and `llms-full.txt` (every
+product, specification, mill stage, cooking guide and FAQ as one Markdown file), both from
+`scripts/generate-llms.mjs`. Don't hand-edit them in `dist/`; change the data. `robots.txt`
+allows every crawler and names the main AI crawlers explicitly.
+
+The FAQ answers in `content/faq.ts` are written to stand alone — each names the company, the
+place and the figure — because that is the shape answer engines quote.
+
+**IndexNow.** After each deploy the workflow pings IndexNow with the sitemap's URLs, so Bing
+(whose index also feeds ChatGPT search and Copilot), Yandex, Seznam and Naver recrawl changed
+pages promptly. The key is the file `public/c8156be615d309b75df79a1af708abd4.txt` — public by
+design — and is repeated in `.github/workflows/deploy.yml`; keep the two in step. Google does
+not use IndexNow; it reads the sitemap.
+
+**Outside the code** (account work, not commits): verify the site in Bing Webmaster Tools
+(it can import the Google Search Console property), submit `sitemap.xml` in both, and keep the
+Google Business Profile's name, address, phone and hours identical to the footer.
 
 ## Working with images
 

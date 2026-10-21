@@ -10,12 +10,11 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import LanguageStrip from '../components/LanguageStrip';
 import SkipLink from '../components/SkipLink';
 import {
-  buildWhatsAppLink, COMPANY_NAME, COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE, COMPANY_TEL_HREF, SURYA_PRICES,
+  buildWhatsAppLink, COMPANY_NAME, COMPANY_CONTACT_EMAIL, COMPANY_CONTACT_PHONE, COMPANY_TEL_HREF, SURYA_PRICES, inr,
 } from '../constants';
 import { SURYA_TRANSLATIONS } from '../content/suryaTranslations';
 import { SURYA_SKUS, COOK_METHODS, SURYA_COLOURS, SURYA_BUYERS, SURYA_TICKER } from '../content/suryaContent';
-import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
-import { absoluteUrl } from '../content/seo';
+import { suryaProductSchemas, cookingHowToSchemas } from '../content/structuredData';
 import { useLanguage } from '../context/LanguageContext';
 
 type HeroPack = 'pink' | 'black';
@@ -41,22 +40,12 @@ const SuryaPage: React.FC = () => {
 
   const heroTheme = HERO_GRADIENTS[hero];
   const heroFacts = HERO_FACTS[hero];
-  const method = COOK_METHODS.find((m) => m.key === methodKey)!;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FFF8FB] text-[#2A0F1E] font-sans">
       <SkipLink target="top" />
       <SEO
-        keywords="surya rice, surya rice brand, JSR lachkari kolam, HMT boiled rice, rice dealer telangana"
-        structuredData={buildGraph(
-          {
-            '@type': 'CollectionPage',
-            name: "Vagdevi's Surya Rice",
-            url: absoluteUrl('/surya'),
-            about: { '@id': ORGANISATION_ID },
-          },
-          breadcrumbSchema('/surya')
-        )}
+        schema={[...suryaProductSchemas(SURYA_SKUS), ...cookingHowToSchemas(COOK_METHODS)]}
       />
 
       <header className="sticky top-0 z-[80] bg-[#FFF8FB]/90 backdrop-blur-md border-b border-[#F6DCE8]">
@@ -145,10 +134,10 @@ const SuryaPage: React.FC = () => {
                 </a>
                 <div className="flex flex-col gap-0.5">
                   <div className="flex items-baseline gap-1.5 text-white">
-                    <span className="font-display text-[34px] font-bold leading-none">{SURYA_PRICES.perKg}</span>
+                    <span className="font-display text-[34px] font-bold leading-none">{inr(SURYA_PRICES.perKg)}</span>
                     <span className="text-xs font-bold tracking-wider uppercase opacity-80">/ kg</span>
                   </div>
-                  <span className="text-[10.5px] font-semibold tracking-wider uppercase text-white/65">{SURYA_PRICES.bag26} / 26 {t.kg} · {SURYA_PRICES.bag30} / 30 {t.kg}</span>
+                  <span className="text-[10.5px] font-semibold tracking-wider uppercase text-white/65">{inr(SURYA_PRICES.bag26)} / 26 {t.kg} · {inr(SURYA_PRICES.bag30)} / 30 {t.kg}</span>
                 </div>
               </div>
 
@@ -213,7 +202,7 @@ const SuryaPage: React.FC = () => {
                       <div className="text-[11px] font-bold tracking-[0.16em] uppercase" style={{ color: s.accent }}>{s.variety}</div>
                     </div>
                     <div className="text-end flex-shrink-0">
-                      <div className="font-display text-3xl text-white leading-none">{SURYA_PRICES.bag26}</div>
+                      <div className="font-display text-3xl text-white leading-none">{inr(SURYA_PRICES.bag26)}</div>
                       <div className="text-[10px] font-bold tracking-[0.12em] uppercase text-white/60 mt-1.5">26 kg bag</div>
                     </div>
                   </div>
@@ -268,6 +257,7 @@ const SuryaPage: React.FC = () => {
                     key={m.key}
                     type="button"
                     aria-pressed={active}
+                    aria-controls={`cook-${m.key}`}
                     onClick={() => setMethodKey(m.key)}
                     className={`cursor-pointer flex-shrink-0 snap-start px-5 min-h-[44px] rounded-full text-[11px] font-extrabold tracking-[0.13em] uppercase transition-all duration-300 border ${active ? 'bg-white text-[#2A0F1E] border-white' : 'bg-white/[.06] text-white/80 border-white/[.24]'
                       }`}
@@ -278,38 +268,45 @@ const SuryaPage: React.FC = () => {
               })}
             </div>
 
-            <div className="grid lg:grid-cols-[.95fr_1.05fr] bg-white/5 border border-white/[.14] rounded-3xl overflow-hidden">
-              <div className="p-8 sm:p-10 flex flex-col gap-6 border-b lg:border-b-0 lg:border-e border-white/[.12]">
-                <div>
-                  <h3 className="font-display text-[26px] sm:text-4xl leading-tight mb-3">{method.title}</h3>
-                  <p className="text-[14.5px] leading-relaxed text-white/70 font-light">{method.blurb}</p>
+            {/* All four methods are in the page, the inactive three hidden — previously only the
+                selected one reached the HTML, so three cooking guides were invisible to search.
+                The wrapper carries `hidden`; the panel's `grid` class would override it. */}
+            {COOK_METHODS.map((method) => (
+              <div key={method.key} id={`cook-${method.key}`} hidden={method.key !== methodKey}>
+              <div className="grid lg:grid-cols-[.95fr_1.05fr] bg-white/5 border border-white/[.14] rounded-3xl overflow-hidden">
+                <div className="p-8 sm:p-10 flex flex-col gap-6 border-b lg:border-b-0 lg:border-e border-white/[.12]">
+                  <div>
+                    <h3 className="font-display text-[26px] sm:text-4xl leading-tight mb-3">{method.title}</h3>
+                    <p className="text-[14.5px] leading-relaxed text-white/70 font-light">{method.blurb}</p>
+                  </div>
+                  <div className="grid grid-cols-3 gap-px bg-white/[.16]">
+                    {method.dials.map((d) => (
+                      <div key={d.k} className="bg-[#2A0F1E] px-4 py-5">
+                        <div className="font-display text-2xl text-[#FFE08A] leading-none mb-2">{d.v}</div>
+                        <div className="text-[10.5px] font-bold tracking-[0.14em] uppercase text-white/55 leading-snug">{d.k}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-3 pt-1">
+                    <span className="w-[34px] h-px bg-[#F7A8CE]" />
+                    <span className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#F7A8CE]">{method.pack}</span>
+                  </div>
                 </div>
-                <div className="grid grid-cols-3 gap-px bg-white/[.16]">
-                  {method.dials.map((d) => (
-                    <div key={d.k} className="bg-[#2A0F1E] px-4 py-5">
-                      <div className="font-display text-2xl text-[#FFE08A] leading-none mb-2">{d.v}</div>
-                      <div className="text-[10.5px] font-bold tracking-[0.14em] uppercase text-white/55 leading-snug">{d.k}</div>
+                <div className="p-8 sm:p-10 flex flex-col gap-0.5">
+                  {method.steps.map((st) => (
+                    <div key={st.n} className="flex gap-[18px] py-[18px] border-b border-white/10 last:border-0">
+                      <span className="font-display text-[15px] font-bold text-[#F7A8CE] flex-shrink-0 w-[26px] pt-0.5">{st.n}</span>
+                      <div>
+                        <div className="text-[15px] font-semibold text-white mb-1.5">{st.t}</div>
+                        <p className="text-[13.5px] leading-relaxed text-white/65 font-light">{st.d}</p>
+                      </div>
                     </div>
                   ))}
-                </div>
-                <div className="flex items-center gap-3 pt-1">
-                  <span className="w-[34px] h-px bg-[#F7A8CE]" />
-                  <span className="text-[11px] font-bold tracking-[0.14em] uppercase text-[#F7A8CE]">{method.pack}</span>
+                  <p className="text-xs text-white/60 italic mt-4">{t.cookFoot}</p>
                 </div>
               </div>
-              <div className="p-8 sm:p-10 flex flex-col gap-0.5">
-                {method.steps.map((st) => (
-                  <div key={st.n} className="flex gap-[18px] py-[18px] border-b border-white/10 last:border-0">
-                    <span className="font-display text-[15px] font-bold text-[#F7A8CE] flex-shrink-0 w-[26px] pt-0.5">{st.n}</span>
-                    <div>
-                      <div className="text-[15px] font-semibold text-white mb-1.5">{st.t}</div>
-                      <p className="text-[13.5px] leading-relaxed text-white/65 font-light">{st.d}</p>
-                    </div>
-                  </div>
-                ))}
-                <p className="text-xs text-white/60 italic mt-4">{t.cookFoot}</p>
               </div>
-            </div>
+            ))}
           </div>
         </section>
 

@@ -4,25 +4,16 @@ import Img from '../components/Img';
 import ScrollReveal from '../components/ScrollReveal';
 import { STRENGTHS_DATA, INCORPORATION_DATE, FARMER_PAYMENTS_PHONE_FORMATTED } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
-import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
-import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 
 const AboutPage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
-  const structuredData = buildGraph(
-    { '@type': 'AboutPage', name: 'About Vagdevi Food Products', url: absoluteUrl('/about'), mainEntity: { '@id': ORGANISATION_ID } },
-    breadcrumbSchema('/about')
-  );
 
   return (
     <div className="bg-brand-cream font-sans">
-      <SEO
-        keywords="about vagdevi foods, rice mill telangana, board of directors, rice mill history"
-        structuredData={structuredData}
-      />
+      <SEO />
 
       <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_80%_15%,rgba(240,127,26,0.18),transparent_62%)]" />

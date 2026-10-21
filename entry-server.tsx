@@ -2,9 +2,14 @@ import { prerenderToNodeStream } from 'react-dom/static';
 import { StaticRouter } from 'react-router-dom/server';
 import { AppRoutes } from './App';
 
-// Re-exported so the build scripts read routes from the same registry the app renders
-// from, rather than keeping their own copy that could drift.
-export { ROUTES, SITE_URL } from './content/seo';
+// Re-exported so the build scripts read routes — and, for llms.txt / llms-full.txt, the
+// site's facts — from the same modules the app renders from, rather than keeping their own
+// copies that could drift.
+export { ROUTES, SITE_URL, SITE_NAME } from './content/seo';
+export * as SITE_FACTS from './constants';
+export { MILL_STAGES, MILL_MACHINERY } from './content/millJourney';
+export { SURYA_SKUS, SURYA_COLOURS, COOK_METHODS } from './content/suryaContent';
+export { FAQ_ITEMS } from './content/faq';
 
 /**
  * Renders one route to static HTML at build time.

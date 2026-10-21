@@ -8,27 +8,17 @@ import { WHATSAPP_MILL_VISIT_LINK } from '../constants';
 import { MILL_STAGES, MILL_MACHINERY, MILL_MOSAIC } from '../content/millJourney';
 import { MILL_GALLERY } from '../content/millGallery';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
-import { buildGraph, breadcrumbSchema, ORGANISATION_ID } from '../content/structuredData';
-import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 
 const MillPage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
   const [stageIndex, setStageIndex] = useState(0);
-  const stage = MILL_STAGES[stageIndex];
 
-  const structuredData = buildGraph(
-    { '@type': 'WebPage', name: 'The Mill', url: absoluteUrl('/mill'), about: { '@id': ORGANISATION_ID } },
-    breadcrumbSchema('/mill')
-  );
 
   return (
     <div className="bg-brand-cream font-sans">
-      <SEO
-        keywords="rice mill tour, rice milling process, paddy to rice journey, Yadgarpally mill"
-        structuredData={structuredData}
-      />
+      <SEO />
 
       <section className="relative text-white overflow-hidden min-h-[74dvh] flex items-end">
         <Img src="images/mill/gate_sign.webp" loading="eager" fetchPriority="high" sizes="100vw" alt="The gate of Vagdevi Food Products, Yadgarpally" className="absolute inset-0 w-full h-full object-cover object-[center_62%]" />
@@ -63,6 +53,7 @@ const MillPage: React.FC = () => {
                     key={s.n}
                     type="button"
                     aria-pressed={active}
+                    aria-controls={`stage-${s.n}`}
                     onClick={() => setStageIndex(i)}
                     className={`cursor-pointer flex-shrink-0 snap-start flex items-center gap-2 px-[18px] min-h-[44px] rounded-full text-[10.5px] font-extrabold tracking-[0.12em] uppercase transition-all duration-300 border ${active
                       ? 'bg-brand-secondary text-brand-dark border-brand-secondary'
@@ -80,29 +71,38 @@ const MillPage: React.FC = () => {
           </ScrollReveal>
 
           <ScrollReveal width="100%">
-            <div className="grid lg:grid-cols-[1.35fr_.65fr] border border-white/[.16] overflow-hidden bg-white/[.04]">
-              <div className="relative min-h-[320px] lg:min-h-[520px] overflow-hidden bg-[#060B1C]">
-                <Img src={stage.src} alt={stage.title} sizes="(min-width: 1024px) 830px, 100vw" className="w-full h-full object-cover" style={{ objectPosition: stage.pos }} />
-                <div className="absolute start-0 bottom-0 p-7 bg-gradient-to-t from-[#060B1C]/90 to-transparent w-full">
-                  <div className="font-display text-5xl text-brand-secondary/90 leading-none">{stage.n}</div>
-                </div>
-              </div>
-              <div className="p-8 sm:p-10 flex flex-col gap-6 border-s-0 lg:border-s border-white/[.14]">
-                <div>
-                  <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-orange-soft mb-3.5">{stage.where}</div>
-                  <h3 className="font-display text-[26px] sm:text-4xl leading-tight mb-4">{stage.title}</h3>
-                  <p className="text-[14.5px] leading-relaxed text-white/75 font-light">{stage.body}</p>
-                </div>
-                <div className="mt-auto flex flex-col gap-px bg-white/[.16]">
-                  {stage.facts.map((f) => (
-                    <div key={f.k} className="bg-brand-dark px-[18px] py-4 flex justify-between gap-4 items-baseline">
-                      <span className="text-[10.5px] font-extrabold tracking-[0.16em] uppercase text-white/50">{f.k}</span>
-                      <span className="font-display text-lg text-white text-end">{f.v}</span>
+            {/* All eight stages are in the page; the inactive ones are hidden. Rendering only the
+                selected stage meant stages two to eight never reached the HTML, so search
+                engines and AI crawlers saw one-eighth of the mill's story. The wrapper carries
+                `hidden` because the panel's own `grid` class would override the attribute, and
+                photos in hidden panels are lazy, so they still load only when shown. */}
+            {MILL_STAGES.map((stage, i) => (
+              <div key={stage.n} id={`stage-${stage.n}`} hidden={i !== stageIndex}>
+                <div className="grid lg:grid-cols-[1.35fr_.65fr] border border-white/[.16] overflow-hidden bg-white/[.04]">
+                  <div className="relative min-h-[320px] lg:min-h-[520px] overflow-hidden bg-[#060B1C]">
+                    <Img src={stage.src} alt={stage.title} sizes="(min-width: 1024px) 830px, 100vw" className="w-full h-full object-cover" style={{ objectPosition: stage.pos }} />
+                    <div className="absolute start-0 bottom-0 p-7 bg-gradient-to-t from-[#060B1C]/90 to-transparent w-full">
+                      <div className="font-display text-5xl text-brand-secondary/90 leading-none">{stage.n}</div>
                     </div>
-                  ))}
+                  </div>
+                  <div className="p-8 sm:p-10 flex flex-col gap-6 border-s-0 lg:border-s border-white/[.14]">
+                    <div>
+                      <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-brand-orange-soft mb-3.5">{stage.where}</div>
+                      <h3 className="font-display text-[26px] sm:text-4xl leading-tight mb-4">{stage.title}</h3>
+                      <p className="text-[14.5px] leading-relaxed text-white/75 font-light">{stage.body}</p>
+                    </div>
+                    <div className="mt-auto flex flex-col gap-px bg-white/[.16]">
+                      {stage.facts.map((f) => (
+                        <div key={f.k} className="bg-brand-dark px-[18px] py-4 flex justify-between gap-4 items-baseline">
+                          <span className="text-[10.5px] font-extrabold tracking-[0.16em] uppercase text-white/50">{f.k}</span>
+                          <span className="font-display text-lg text-white text-end">{f.v}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </ScrollReveal>
         </div>
       </section>
