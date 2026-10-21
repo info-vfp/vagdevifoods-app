@@ -15,25 +15,22 @@ export const FARMER_PAYMENTS_PHONE_FORMATTED = "95504 16809";
 export const FARMER_PAYMENTS_WHATSAPP_NUMBER = "919550416809";
 
 export const INCORPORATION_DATE = "15 September 2017";
+
+/** States the mill dispatches to — the list behind every "seven states" on the site. */
+export const STATES_SERVED = [
+  "Maharashtra", "Tamil Nadu", "Karnataka", "Andhra Pradesh", "Chhattisgarh", "Telangana", "Odisha",
+];
 export const IEC_NUMBER = "AAGCV1018C";
 export const GEO_COORDINATES = { lat: 16.8769, lng: 79.5974 };
 
 export const MILL_ADDRESS_LINES = ["Sy. Nos. 328–333, Vijayawada Road,", "Yadgarpally, Miryalaguda,", "Nalgonda District, Telangana 508207"];
 export const REGISTERED_OFFICE_LINES = ["1-98/1/JSIC/6F/604-B, 6th Floor,", "Jain Sadguru Capital Park, Madhapur,", "Hyderabad, Telangana 500082"];
 
-export const GOOGLE_MAPS_EMBED_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3817.9789240473942!2d79.59740769999999!3d16.876937100000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35250429b5232d%3A0x97c88d0bd3e943fd!2sVagdevi%20Food%20Products%20Private%20Limited!5e0!3m2!1sen!2sin!4v1756100292717!5m2!1sen!2sin";
+// The mill's own Google Maps listing (its CID, decoded from the embed below). Used as the
+// map link and as the business's sameAs profile in structured data.
+export const GOOGLE_MAPS_PLACE_URL = "https://maps.google.com/?cid=10937146777008686077";
 
-export const SEO_KEYWORDS = [
-  "Premium Rice Manufacturers Telangana",
-  "Export Quality Sona Masoori Rice",
-  "Bulk Rice Suppliers India",
-  "Rice Mill Private Label Services",
-  "Horeca Rice Suppliers",
-  "Steam Rice Wholesale",
-  "Double Boiled Rice Exporters",
-  "Vagdevi Food Products",
-  "Indian Rice Brands for Export"
-].join(", ");
+export const GOOGLE_MAPS_EMBED_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3817.9789240473942!2d79.59740769999999!3d16.876937100000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35250429b5232d%3A0x97c88d0bd3e943fd!2sVagdevi%20Food%20Products%20Private%20Limited!5e0!3m2!1sen!2sin!4v1756100292717!5m2!1sen!2sin";
 
 export const buildWhatsAppLink = (message: string): string =>
   `https://wa.me/${COMPANY_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -56,10 +53,14 @@ export const WHATSAPP_MILL_VISIT_LINK = buildWhatsAppLink(
 export const NAV_LOGO_URL = "images/logos/vagdevi_nav_logo.webp";
 export const FOOTER_LOGO_URL = "images/logos/vagdevi_footer_logo.webp";
 
-// Surya retail prices. Kept here because they appear in the Surya hero, on both pack cards,
-// in the ticker and — through the unit word — in every language; change them in one place.
-// The 30 kg bag is priced pro rata to the 26 kg bag (₹3,000 ÷ 26 ≈ ₹115/kg).
-export const SURYA_PRICES = { perKg: "₹115", bag26: "₹3,000", bag30: "₹3,460" };
+// Surya retail prices in rupees. Kept here because they appear in the Surya hero, on both
+// pack cards, in the ticker, in the page's search snippet and in its Product structured
+// data — change them in one place. The 30 kg bag is priced pro rata to the 26 kg bag
+// (₹3,000 ÷ 26 ≈ ₹115/kg).
+export const SURYA_PRICES = { perKg: 115, bag26: 3000, bag30: 3460 };
+
+/** Formats rupees the Indian way: inr(3000) -> "₹3,000". */
+export const inr = (amount: number): string => `₹${amount.toLocaleString('en-IN')}`;
 
 export const SURYA_PACK_PINK_URL = "images/products/surya/pack_pink_jsr.webp";
 export const SURYA_PACK_BLACK_URL = "images/products/surya/pack_black_hmt.webp";
@@ -177,9 +178,9 @@ export const STRENGTHS_DATA: StrengthInfo[] = [
 ];
 
 export const CERTIFICATIONS: CertificationInfo[] = [
-  { name: "ISO 22000:2018", src: "images/certs/iso_22000_2018.webp", numberLabel: "Certificate", number: "HYM/UAS/FMS/9186414/001", validTo: "19 Jan 2027", validToISO: "2027-01-19", description: "Food safety management covering processing, milling and export of rice and by-products. Certified since January 2018." },
-  { name: "FSSAI State Licence", src: "images/certs/fssai_licence.webp", numberLabel: "Licence no.", number: "13618008000475", validTo: "30 Dec 2028", validToISO: "2028-12-30", description: "Issued by the Government of Telangana for the authorised premises at Yadgarpally, Miryalaguda." },
-  { name: "APEDA RCMC", src: "images/certs/apeda_rcmc.webp", numberLabel: "Registration", number: "221976", validTo: "31 Mar 2029", validToISO: "2029-03-31", description: "Registered as a Manufacturer Exporter of rice under the Foreign Trade Policy. IEC AAGCV1018C." },
+  { name: "ISO 22000:2018", src: "images/certs/iso_22000_2018.webp", numberLabel: "Certificate", number: "HYM/UAS/FMS/9186414/001", validTo: "19 Jan 2027", validToISO: "2027-01-19", issuer: "HYM International Certifications Pvt. Ltd.", description: "Food safety management covering processing, milling and export of rice and by-products. Certified since January 2018." },
+  { name: "FSSAI State Licence", src: "images/certs/fssai_licence.webp", numberLabel: "Licence no.", number: "13618008000475", validTo: "30 Dec 2028", validToISO: "2028-12-30", issuer: "Food Safety and Standards Authority of India", description: "Issued by the Government of Telangana for the authorised premises at Yadgarpally, Miryalaguda." },
+  { name: "APEDA RCMC", src: "images/certs/apeda_rcmc.webp", numberLabel: "Registration", number: "221976", validTo: "31 Mar 2029", validToISO: "2029-03-31", issuer: "Agricultural and Processed Food Products Export Development Authority (APEDA)", description: "Registered as a Manufacturer Exporter of rice under the Foreign Trade Policy. IEC AAGCV1018C." },
 ];
 
 export const EXPORT_PROPS: PillarInfo[] = [

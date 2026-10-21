@@ -91,7 +91,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // page shows Telugu makes the site unusable with assistive tech.
   useEffect(() => {
     ensureScriptFont(lang);
-    document.documentElement.lang = lang;
+    // English is tagged as Indian English, matching the pre-rendered pages and og:locale.
+    document.documentElement.lang = lang === 'en' ? 'en-IN' : lang;
     // Urdu is right-to-left. Setting `dir` flips the logical CSS properties the layout is
     // built from, so the page mirrors without a second stylesheet.
     document.documentElement.dir = RTL_LANGUAGES.has(lang) ? 'rtl' : 'ltr';

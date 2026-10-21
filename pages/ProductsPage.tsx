@@ -10,25 +10,18 @@ import {
 } from '../constants';
 import type { RiceVarietyInfo } from '../types';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
-import { buildGraph, breadcrumbSchema, productSchemas } from '../content/structuredData';
-import { absoluteUrl } from '../content/seo';
+import { productSchemas } from '../content/structuredData';
 import { useLanguage } from '../context/LanguageContext';
 
 const ProductsPage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
-  const structuredData = buildGraph(
-    { '@type': 'CollectionPage', name: 'Rice varieties and by-products', url: absoluteUrl('/products') },
-    ...productSchemas(),
-    breadcrumbSchema('/products')
-  );
 
   return (
     <div className="bg-brand-cream font-sans">
       <SEO
-        keywords="JSR rice, HMT rice, RNR rice, Sona Masoori, rice bran, broken rice, husk"
-        structuredData={structuredData}
+        schema={productSchemas()}
       />
 
       <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">

@@ -12,25 +12,20 @@ import {
 } from '../constants';
 import { HOME_MILL_STEPS } from '../content/millJourney';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
-import { buildGraph, organizationSchema, websiteSchema, breadcrumbSchema } from '../content/structuredData';
+import { faqSchema } from '../content/structuredData';
+import { FAQ_ITEMS } from '../content/faq';
+import FaqSection from '../components/FaqSection';
 import { useLanguage } from '../context/LanguageContext';
 
 const HomePage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
-  // Title/description now come from the route registry in content/seo.ts.
-  const structuredData = buildGraph(
-    organizationSchema(),
-    websiteSchema(),
-    breadcrumbSchema('/')
-  );
 
   return (
     <div className="bg-brand-cream font-sans overflow-x-hidden">
       <SEO
-        keywords="rice mill telangana, bulk rice suppliers, JSR HMT RNR rice, rice exporters miryalaguda, rice mill miryalaguda, paddy procurement nalgonda"
-        structuredData={structuredData}
+        schema={[faqSchema(FAQ_ITEMS, '/')]}
       />
 
       {/* Hero */}
@@ -309,6 +304,15 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* 05 — Questions buyers ask. Also emitted as FAQPage structured data (see the SEO tag
+          above), which is what answer engines quote. */}
+      <FaqSection
+        items={FAQ_ITEMS}
+        kicker="05 — Questions buyers ask"
+        title="Straight answers before you call."
+        intro="Varieties, packs, certificates, prices and how to order — the questions the sales desk hears most, answered in full."
+      />
 
       {/* Orange CTA band — the logo colour at full strength, once per page */}
       <section className="relative overflow-hidden bg-brand-secondary text-brand-dark py-12 sm:py-24 px-4 sm:px-6 lg:px-8">

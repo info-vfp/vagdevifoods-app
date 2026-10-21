@@ -41,6 +41,8 @@ export interface CertificationInfo {
   validTo: string;
   /** The same date in ISO 8601, for structured data. */
   validToISO: string;
+  /** The body that issued it, as printed on the certificate. */
+  issuer: string;
   description: string;
 }
 

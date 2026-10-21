@@ -1,25 +1,48 @@
 /**
  * Single source of truth for per-route SEO metadata.
  *
- * Consumed by three places that must never disagree:
- *   - components/SEO.tsx        (what the browser and crawlers read)
- *   - scripts/prerender.mjs     (which routes get static HTML written)
- *   - scripts/generate-sitemap.mjs
+ * Consumed by places that must never disagree:
+ *   - components/SEO.tsx           (what the browser and crawlers read)
+ *   - content/structuredData.ts    (each page's WebPage and breadcrumb entities)
+ *   - scripts/prerender.mjs        (which routes get static HTML written)
+ *   - scripts/generate-sitemap.mjs (URLs and <lastmod>)
+ *   - scripts/generate-llms-full.mjs
  *
  * The previous hand-maintained sitemap.xml drifted out of sync — it still listed a
  * deleted /markets route and was missing /mill and /surya. Deriving all three from
  * this one list is what prevents that recurring.
  */
 
+import { SURYA_PRICES, inr } from '../constants';
+
 export const SITE_URL = 'https://vagdevifoods.com';
 export const SITE_NAME = 'Vagdevi Food Products';
+/** Locale of the pre-rendered pages: Indian English. */
+export const SITE_LOCALE = 'en-IN';
 export const DEFAULT_SHARE_IMAGE = '/og/home.jpg';
 
 export interface RouteMeta {
   /** Canonical path, always with a leading slash and no trailing slash (except root). */
   path: string;
+  /**
+   * The complete <title>, used as-is — no suffix is appended. Keep it near 60 characters:
+   * the page's own topic first, the brand last (the home page leads with the brand). Longer
+   * titles get cut off in results, and Google rewrites ones that bury the topic.
+   */
   title: string;
+  /** Short name for breadcrumbs and structured data, e.g. "The Mill". */
+  label: string;
+  /** 120–160 characters: what the page answers, with the facts a searcher is checking for. */
   description: string;
+  /** schema.org page type — WebPage or a subtype (AboutPage, ContactPage, CollectionPage). */
+  type: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage';
+  /**
+   * When the page's content last changed meaningfully (ISO date). Feeds the sitemap's
+   * <lastmod> and the page's dateModified. Update it when you change what a page says —
+   * not on every build: search engines stop trusting a lastmod that changes with no
+   * content change, which is what the old build-date stamp did.
+   */
+  lastModified: string;
   /**
    * Site-relative path to the route's 1200×630 share card in public/og/; converted to an
    * absolute URL for og:image. Kept outside public/images/ on purpose — `npm run images`
@@ -28,9 +51,6 @@ export interface RouteMeta {
   image: string;
   /** Describes the share card for screen readers on the platforms that support it. */
   imageAlt: string;
-  /** Sitemap hints. */
-  priority: number;
-  changefreq: 'daily' | 'weekly' | 'monthly' | 'yearly';
 }
 
 /** Turn a site-relative path into the absolute URL crawlers and social scrapers require. */
@@ -42,73 +62,82 @@ export const absoluteUrl = (path: string): string => {
 export const ROUTES: RouteMeta[] = [
   {
     path: '/',
-    title: 'Bulk Rice Millers & Exporters in Miryalaguda, Telangana',
+    title: 'Vagdevi Food Products | Rice Mill & Exporter, Telangana',
+    label: 'Home',
     description:
-      'ISO 22000:2018 certified rice mill at Yadgarpally, Miryalaguda. Bulk supply, private label and export of JSR, HMT and RNR steam and double-boiled rice. FSSAI 13618008000475.',
+      'ISO 22000:2018 rice mill in Miryalaguda, Telangana. JSR, HMT and RNR rice, steam or double boiled, for bulk, private label and export. Quotes on WhatsApp.',
+    type: 'WebPage',
+    lastModified: '2026-10-21',
     image: '/og/home.jpg',
     imageAlt: 'The Vagdevi Food Products mill and silos at Yadgarpally — “Milled where the paddy is grown.”',
-    priority: 1.0,
-    changefreq: 'monthly',
   },
   {
     path: '/about',
-    title: 'About Us — Rice Millers in Nalgonda District Since 2017',
+    title: 'About: Nalgonda Rice Millers Since 2017 | Vagdevi Foods',
+    label: 'About',
     description:
-      'Incorporated 15 September 2017 and run by promoters with over thirty years in the paddy trade. Vagdevi Food Products mills, packs and exports rice from a single site in Nalgonda district, Telangana.',
+      'Rice millers since 2017, run by promoters with 30+ years in the paddy trade. Paddy bought direct from Nalgonda farmers and milled on one certified site.',
+    type: 'AboutPage',
+    lastModified: '2026-10-21',
     image: '/og/about.jpg',
     imageAlt: 'Farmers at the paddy procurement counter of the Vagdevi mill',
-    priority: 0.8,
-    changefreq: 'yearly',
   },
   {
     path: '/mill',
-    title: 'The Mill — Inside Our Rice Plant at Yadgarpally',
+    title: 'Our Rice Mill: Paddy to Pack in 8 Stages | Vagdevi Foods',
+    label: 'The Mill',
     description:
-      'Eight stages from a farmer’s truck to a stitched bag: weighbridge, sampling, lab, drying, SATAKE milling, colour sorting and dispatch. Every photograph shot inside our own mill.',
+      'Inside our rice mill at Yadgarpally: weighbridge, gate sampling, lab, drying, SATAKE milling, colour sorting and dispatch, photographed during a real shift.',
+    type: 'WebPage',
+    lastModified: '2026-10-21',
     image: '/og/mill.jpg',
     imageAlt: 'The main gate of the Vagdevi Food Products mill at Yadgarpally',
-    priority: 0.9,
-    changefreq: 'monthly',
   },
   {
     path: '/products',
-    title: 'Rice Varieties — JSR, HMT & RNR in 10, 26 and 30 kg Packs',
+    title: 'JSR, HMT & RNR Rice — 10, 26, 30 kg Packs | Vagdevi Foods',
+    label: 'Products',
     description:
-      'JSR Lachkari Kolam, HMT Sona Masoori and RNR Telangana Sona, each available steam or double boiled in 10, 26 and 30 kg packs, plus rice bran, broken rice and husk by-products.',
+      'JSR Lachkari Kolam, HMT Sona Masoori and RNR Telangana Sona rice, steam or double boiled, in 10, 26 and 30 kg packs. Plus rice bran, broken rice and husk.',
+    type: 'CollectionPage',
+    lastModified: '2026-10-21',
     image: '/og/products.jpg',
     imageAlt: 'Milled JSR rice — JSR, HMT and RNR, steam or double boiled',
-    priority: 0.9,
-    changefreq: 'monthly',
   },
   {
     path: '/business',
-    title: 'Rice Exports — APEDA Registered Manufacturer Exporter',
+    title: 'Sona Masoori Rice Exporter, APEDA Registered | Vagdevi Foods',
+    label: 'Exports',
     description:
-      'A supply partner for importers, wholesalers and private-label brands. APEDA RCMC 221976, IEC AAGCV1018C. Export specifications for Sona Masoori and steam rice, with a lab report per lot.',
+      'APEDA-registered rice exporter (RCMC 221976). Sona Masoori and steam rice export specifications, private label bags and a signed lab report with every lot.',
+    type: 'WebPage',
+    lastModified: '2026-10-21',
     image: '/og/business.jpg',
     imageAlt: 'Warehouse and loading yard at the Vagdevi mill — rice exports',
-    priority: 0.9,
-    changefreq: 'monthly',
   },
   {
     path: '/contact',
-    title: 'Contact — Talk to the Mill Directly',
+    title: 'Contact the Rice Mill in Miryalaguda | Vagdevi Foods',
+    label: 'Contact',
     description:
-      'WhatsApp or call the sales desk on +91 90004 16808, Monday to Saturday 9 am to 6 pm IST. Mill at Sy. Nos. 328–333, Vijayawada Road, Yadgarpally, Miryalaguda, Telangana 508207.',
+      'WhatsApp or call +91 90004 16808, Mon–Sat 9 am–6 pm IST. Rice mill on Vijayawada Road, Yadgarpally, Miryalaguda, Telangana 508207. Buyer visits welcome.',
+    type: 'ContactPage',
+    lastModified: '2026-10-21',
     image: '/og/contact.jpg',
     imageAlt: 'The Vagdevi mill at Yadgarpally — talk to the mill directly',
-    priority: 0.8,
-    changefreq: 'yearly',
   },
   {
     path: '/surya',
-    title: "Vagdevi's Surya Rice — Love in Every Bite",
+    title: 'Surya Rice — Pink JSR & Black HMT Bags | Vagdevi Foods',
+    label: 'Surya Rice',
+    // Prices come from SURYA_PRICES so the snippet can never quote an old price.
     description:
-      'Surya rice by Vagdevi Food Products. Pink for JSR Lachkari Kolam, black for HMT boiled, in 10, 26 and 30 kg packs. Eight pack colours, milled in Miryalaguda, Telangana.',
+      `Surya rice: pink JSR Lachkari Kolam and black HMT boiled. ${inr(SURYA_PRICES.bag26)} per 26 kg bag, ` +
+      `${inr(SURYA_PRICES.bag30)} per 30 kg. Milled in Miryalaguda, Telangana.`,
+    type: 'CollectionPage',
+    lastModified: '2026-10-21',
     image: '/og/surya.jpg',
     imageAlt: 'Surya rice — pink JSR and black HMT packs. Love in every bite.',
-    priority: 0.8,
-    changefreq: 'monthly',
   },
 ];
 

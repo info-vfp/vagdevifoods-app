@@ -8,8 +8,6 @@ import {
   REGISTERED_OFFICE_LINES, GOOGLE_MAPS_EMBED_URL,
 } from '../constants';
 import { MAIN_TRANSLATIONS } from '../content/mainTranslations';
-import { buildGraph, breadcrumbSchema, organizationSchema } from '../content/structuredData';
-import { absoluteUrl } from '../content/seo';
 import { useLanguage } from '../context/LanguageContext';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 
@@ -36,11 +34,6 @@ const ContactPage: React.FC = () => {
   const { lang } = useLanguage();
   const t = MAIN_TRANSLATIONS[lang];
 
-  const structuredData = buildGraph(
-    { '@type': 'ContactPage', name: 'Contact Vagdevi Food Products', url: absoluteUrl('/contact') },
-    organizationSchema(),
-    breadcrumbSchema('/contact')
-  );
 
   const form = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState<FormFields>(EMPTY_FORM);
@@ -153,10 +146,7 @@ const ContactPage: React.FC = () => {
 
   return (
     <div className="bg-brand-cream font-sans">
-      <SEO
-        keywords="contact vagdevi foods, rice suppliers contact, food products inquiry"
-        structuredData={structuredData}
-      />
+      <SEO />
 
       <section className="relative bg-brand-dark text-white overflow-hidden py-16 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(70%_70%_at_80%_15%,rgba(240,127,26,0.18),transparent_62%)]" />

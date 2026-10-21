@@ -1,16 +1,19 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { SEO_KEYWORDS } from '../constants';
+import { GEO_COORDINATES } from '../constants';
 import { SITE_NAME, DEFAULT_SHARE_IMAGE, absoluteUrl, getRouteMeta } from '../content/seo';
+import {
+    buildGraph, websiteSchema, organizationSchema, brandSchemas, webPageSchema, breadcrumbSchema,
+} from '../content/structuredData';
 
 interface SEOProps {
     /** Overrides the title from the route registry. Usually omit and let the registry win. */
     title?: string;
     description?: string;
-    keywords?: string;
     image?: string;
     type?: string;
-    structuredData?: object;
+    /** Extra JSON-LD nodes for this page — products, FAQ, how-tos — added to the shared graph. */
+    schema?: (object | null)[];
     /** Keep this page out of search results (the 404 page). */
     noindex?: boolean;
 }
@@ -27,18 +30,20 @@ interface SEOProps {
  * stops updating the head after hydration, so the title and canonical stayed frozen on the
  * first page for the whole session.
  *
- * Defaults come from content/seo.ts so the page, the pre-rendered HTML and the sitemap all
- * describe a route identically. Everything resolves to an absolute URL, because relative
- * og:image paths are ignored by WhatsApp and LinkedIn — and WhatsApp is this business's
- * primary channel.
+ * Defaults come from content/seo.ts so the page, the pre-rendered HTML, the sitemap and the
+ * structured data all describe a route identically. Everything resolves to an absolute URL,
+ * because relative og:image paths are ignored by WhatsApp and LinkedIn — and WhatsApp is this
+ * business's primary channel.
+ *
+ * There is no `keywords` meta: Google has ignored it for over a decade, and Bing treats a long
+ * one as a spam signal. Relevance comes from titles, headings, body copy and structured data.
  */
 const SEO: React.FC<SEOProps> = ({
     title,
     description,
-    keywords,
     image,
     type = 'website',
-    structuredData,
+    schema = [],
     noindex = false,
 }) => {
     const { pathname } = useLocation();
@@ -46,7 +51,7 @@ const SEO: React.FC<SEOProps> = ({
     const path = pathname !== '/' ? pathname.replace(/\/+$/, '') : '/';
     const meta = getRouteMeta(path);
 
-    const resolvedTitle = title ?? meta?.title ?? SITE_NAME;
+    const fullTitle = title ? `${title} | ${SITE_NAME}` : meta?.title ?? SITE_NAME;
     const resolvedDescription = description ?? meta?.description ?? '';
     // Every route has its own 1200×630 JPEG share card in public/og/. JPEG rather than WebP
     // because WhatsApp — this business's main channel — does not reliably preview WebP.
@@ -54,22 +59,36 @@ const SEO: React.FC<SEOProps> = ({
     const imageAlt = meta?.imageAlt ?? `${SITE_NAME} — rice mill at Yadgarpally, Miryalaguda, Telangana`;
     const canonical = absoluteUrl(path);
 
-    const fullTitle = resolvedTitle === SITE_NAME ? resolvedTitle : `${resolvedTitle} | ${SITE_NAME}`;
-    const effectiveKeywords = keywords ? `${keywords}, ${SEO_KEYWORDS}` : SEO_KEYWORDS;
+    // One connected graph per page: who publishes the site, the company, this page and where
+    // it sits, then whatever the page itself is about. A noindexed page gets none of it.
+    const graph = noindex
+        ? null
+        : buildGraph(
+            websiteSchema(),
+            organizationSchema(),
+            ...brandSchemas(),
+            webPageSchema(path),
+            breadcrumbSchema(path),
+            ...schema,
+        );
 
     return (
         <>
             <title>{fullTitle}</title>
             <meta name="description" content={resolvedDescription} />
-            <meta name="keywords" content={effectiveKeywords} />
             {!noindex && <link rel="canonical" href={canonical} />}
-            <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
+            <meta
+                name="robots"
+                content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+            />
 
-            {/* Geographic signals for local search */}
+            {/* Geographic meta for regional engines and directories. Google reads location from
+                the LocalBusiness structured data instead; these are kept because they cost
+                nothing and some crawlers still use them. */}
             <meta name="geo.region" content="IN-TG" />
-            <meta name="geo.placename" content="Miryalaguda, Nalgonda, Telangana" />
-            <meta name="geo.position" content="16.8769;79.5974" />
-            <meta name="ICBM" content="16.8769, 79.5974" />
+            <meta name="geo.placename" content="Miryalaguda, Nalgonda, Telangana, India" />
+            <meta name="geo.position" content={`${GEO_COORDINATES.lat};${GEO_COORDINATES.lng}`} />
+            <meta name="ICBM" content={`${GEO_COORDINATES.lat}, ${GEO_COORDINATES.lng}`} />
 
             {/* Open Graph */}
             <meta property="og:type" content={type} />
@@ -83,8 +102,9 @@ const SEO: React.FC<SEOProps> = ({
             <meta property="og:url" content={canonical} />
             <meta property="og:site_name" content={SITE_NAME} />
             <meta property="og:locale" content="en_IN" />
+            {meta && <meta property="og:updated_time" content={`${meta.lastModified}T00:00:00+05:30`} />}
 
-            {/* Twitter */}
+            {/* Twitter / X */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={resolvedDescription} />
@@ -92,10 +112,10 @@ const SEO: React.FC<SEOProps> = ({
             <meta name="twitter:image:alt" content={imageAlt} />
 
             {/* JSON-LD is valid in the body, so it does not need hoisting. */}
-            {structuredData && (
+            {graph && (
                 <script
                     type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
                 />
             )}
         </>

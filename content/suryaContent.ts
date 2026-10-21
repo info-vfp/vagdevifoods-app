@@ -1,4 +1,4 @@
-import { SURYA_PRICES } from '../constants';
+import { SURYA_PRICES, inr } from '../constants';
 
 export interface SuryaSku {
   key: 'pink' | 'black';
@@ -151,6 +151,6 @@ export const SURYA_BUYERS: SuryaBuyer[] = [
 ];
 
 export const SURYA_TICKER = [
-  'Love in every bite', 'JSR Lachkari Kolam', 'HMT boiled', `${SURYA_PRICES.perKg} per kg`,
+  'Love in every bite', 'JSR Lachkari Kolam', 'HMT boiled', `${inr(SURYA_PRICES.perKg)} per kg`,
   'Milled in Miryalaguda', 'ISO 22000:2018', 'Eight pack colours', 'Seven states',
 ];

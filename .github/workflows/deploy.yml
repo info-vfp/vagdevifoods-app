@@ -86,6 +86,7 @@ jobs:
         run: |
           test -f dist/index.html || { echo "::error::dist/index.html missing"; exit 1; }
           test -f dist/CNAME     || { echo "::error::dist/CNAME missing — custom domain would be lost"; exit 1; }
+          test -f dist/sitemap.xml && test -f dist/llms.txt || { echo "::error::sitemap.xml or llms.txt missing"; exit 1; }
           echo "Build size: $(du -sh dist | cut -f1)"
 
       - name: Publish to gh-pages
@@ -95,3 +96,27 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           commit_message: "deploy: ${{ github.event.head_commit.message }}"
+
+      - name: Ping IndexNow
+        # IndexNow tells Bing (and Yandex, Seznam, Naver) which URLs changed, so they are
+        # recrawled in hours instead of weeks. Bing's index also feeds ChatGPT search and
+        # Copilot. Google does not take part; it reads sitemap.xml.
+        #
+        # The key is public by design: search engines verify a ping by fetching
+        # https://vagdevifoods.com/<key>.txt, which is public/<key>.txt. Pages takes a minute
+        # to go live after the push above, so wait for the key file before pinging.
+        # A failed ping must never fail a deploy.
+        continue-on-error: true
+        env:
+          INDEXNOW_KEY: c8156be615d309b75df79a1af708abd4
+        run: |
+          for i in $(seq 1 18); do
+            curl -sf "https://vagdevifoods.com/$INDEXNOW_KEY.txt" >/dev/null && break
+            sleep 10
+          done
+          urls=$(grep -o '<loc>[^<]*' dist/sitemap.xml | sed 's/<loc>//' | jq -R . | jq -s .)
+          body=$(jq -n --arg key "$INDEXNOW_KEY" --argjson urls "$urls" \
+            '{host: "vagdevifoods.com", key: $key, keyLocation: ("https://vagdevifoods.com/" + $key + ".txt"), urlList: $urls}')
+          curl -s -o /dev/null -w "IndexNow responded HTTP %{http_code}\n" --max-time 30 \
+            -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' -d "$body"
