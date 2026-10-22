@@ -1,0 +1,41 @@
+name: Check
+
+# Runs the full pre-flight on every pull request, so a broken change is caught on the PR
+# instead of on main — where Build & Deploy would publish it. Before this existed nothing ran
+# until after a merge, and the deploy itself never type-checked.
+#
+# `npm run check` = typecheck → style rules → build (pre-render, sitemap, llms.txt) → SEO
+# checks on the built HTML. The same command runs before every deploy and `npm run deploy`.
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A new push to the same PR supersedes the run for the previous one.
+concurrency:
+  group: check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # No EmailJS variables here on purpose: pull requests from forks cannot read them,
+      # and the build succeeds without them (the contact form compiles to its fallback).
+      - name: Typecheck, lint, build and check SEO
+        run: npm run check
