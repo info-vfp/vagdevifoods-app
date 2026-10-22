@@ -13,20 +13,23 @@ Live at **[vagdevifoods.com](https://vagdevifoods.com)**.
 |---|---|
 | Run the site locally | `npm run dev` |
 | Check types | `npm run typecheck` |
+| Check style rules (opacity steps, RTL-safe classes) | `npm run lint:styles` |
+| Check the built site's SEO (after a build) | `npm run check:seo` |
 | Build for production | `npm run build` |
 | Preview the production build | `npm run preview` |
 | Optimize newly added images | `npm run images` |
 | Measure images + emit responsive variants | `npm run manifest` |
 | Rebuild sitemap only | `npm run sitemap` |
 | Rebuild llms.txt / llms-full.txt only | `npm run llms` |
-| Type-check **and** build (pre-flight) | `npm run check` |
+| Everything CI runs: typecheck → styles → build → SEO | `npm run check` |
 | Publish manually (fallback) | `npm run deploy` |
 
 ---
 
 ## Getting started
 
-Requires **Node 22+**.
+Requires **Node 22+** — the exact major is in `.nvmrc`, which CI reads too, so `nvm use` gives
+you the same Node the site is built with.
 
 ```bash
 npm install
@@ -152,6 +155,13 @@ data as the visible content. Check changes with Google's
 [Rich Results Test](https://search.google.com/test/rich-results) and the
 [Schema.org validator](https://validator.schema.org/).
 
+**These rules are enforced.** `npm run check:seo` (part of `npm run check`, so it runs on every
+pull request and deploy) reads the built HTML the way a crawler does and fails on: a missing or
+duplicate title, a title over 65 characters, a description outside 110–165, a wrong canonical,
+a page marked noindex, a returning `keywords` meta, missing Open Graph or geo tags, a JSON-LD
+reference to an entity the page does not define, a Surya variant without a price, an
+indexable 404, or a sitemap / robots.txt / llms.txt that lost a route.
+
 **Tabbed content is all in the HTML.** The mill stages, export-spec grades and Surya cooking
 methods render every panel and hide the inactive ones (`hidden` on a plain wrapper — a
 `grid` class on the same element would override it). Rendering only the selected panel meant
@@ -223,19 +233,35 @@ idempotent, and `manifest` runs as part of every build.
 
 ## Deployment
 
-### Automatic (normal path)
+### How a change reaches the site
 
-**Pushing to `main` deploys the site.** GitHub Actions
-([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) builds the project and pushes
-the result to the `gh-pages` branch, which GitHub Pages serves at vagdevifoods.com.
-
-```bash
-git checkout main
-git merge your-branch
-git push origin main          # deploy starts automatically
+```
+pull request ──► Check (ci.yml): typecheck · styles · build · SEO       must pass to merge
+      │
+merge to main ─► Build & Deploy (deploy.yml):
+                   EmailJS key check → npm run check → publish gh-pages
+                   → confirm the live site serves the new build, every page 200
+                   → ping IndexNow
 ```
 
-Watch it under the repository's **Actions** tab. A run takes roughly a minute.
+**Open a pull request; merging it to `main` deploys.** The **Check** workflow
+([`ci.yml`](.github/workflows/ci.yml)) runs `npm run check` on every pull request — the same
+pre-flight you can run locally — so a type error, a style-rule break, a failed pre-render or
+an SEO regression shows up on the PR, not on the live site. Before this, nothing ran until
+after a merge, and the deploy itself never type-checked.
+
+**Build & Deploy** ([`deploy.yml`](.github/workflows/deploy.yml)) repeats the check (main can
+change without a PR), pushes `dist/` to the `gh-pages` branch that GitHub Pages serves, and
+then **confirms the site is live**: it waits until vagdevifoods.com serves the new bundle and
+checks every page in the sitemap answers 200 with its own title. A wrong page turns the run
+red; Pages merely being slow is a warning. Deploys queue rather than cancel each other, so a
+publish is never cut off halfway.
+
+Watch it under the repository's **Actions** tab. A run takes one to two minutes.
+
+**Recommended (one-time, in GitHub settings):** protect `main` under **Settings → Rules →
+Rulesets** — require a pull request and the **Check / check** status. Then nothing reaches the
+live site without passing the pre-flight.
 
 You can also trigger a deploy without pushing code: **Actions → Build & Deploy → Run workflow**.
 
@@ -272,6 +298,44 @@ npm run deploy
 ```
 
 `predeploy` runs `npm run check` first, so a type error or failed build blocks the release.
+The `gh-pages` publisher is fetched on demand with `npx` rather than installed: it is only
+needed in this emergency path, and as a dependency it pulled four high-severity advisories
+into every install. A manual deploy skips the EmailJS check, the live-site confirmation and
+IndexNow — prefer **Actions → Build & Deploy → Run workflow** whenever Actions is up.
+
+### Custom domain
+
+`public/CNAME` binds **vagdevifoods.com**. For **www.vagdevifoods.com** to open securely and
+redirect to it, two things must be true at once:
+
+1. At the DNS provider, `www` is a **CNAME** to `info-vfp.github.io` (no other record on
+   `www`), and the apex has GitHub's four A records: `185.199.108.153`, `185.199.109.153`,
+   `185.199.110.153`, `185.199.111.153`. A CAA record, if any, must allow `letsencrypt.org`.
+2. GitHub has issued a certificate that covers `www`. It only does that when `www` already
+   points at it — so after fixing DNS, go to **Settings → Pages**, remove the custom domain,
+   save, add `vagdevifoods.com` back, and tick **Enforce HTTPS** once the check passes.
+
+Every deploy checks `www` and leaves a **warning** on the run until it redirects to the apex
+over valid HTTPS.
+
+### Dependencies
+
+**Dependabot** ([`.github/dependabot.yml`](.github/dependabot.yml)) opens a pull request each
+month with grouped minor and patch updates for npm packages and for the workflows' actions,
+and every one of those PRs runs the Check workflow. Majors arrive one at a time.
+
+**Held on purpose** (and excluded from Dependabot's major updates):
+
+- **Tailwind CSS 3.** `npm audit` reports advisories in its file-watching and glob libraries
+  (`braces`, `micromatch`, `chokidar`). They run only at build time over this repository's own
+  files, so there is no untrusted input to exploit. The fix is Tailwind 4 — a rewrite of the
+  config and of several utilities this design leans on — which deserves its own change with a
+  visual review, not a dependency bump.
+- **React Router 6** (`react-router-dom`, kept on the latest patched 6.30.x). The two
+  advisories fixed only in v7 do not apply here: one needs links built from untrusted input
+  (every link on this site is a fixed path), the other affects the data-router hydration mode
+  this site does not use. v7 also adds about 6KB gzipped to every page. Revisit if links ever
+  take user input, or when v6 stops receiving security fixes.
 
 ### Share cards and icons
 
@@ -293,7 +357,7 @@ the second line in the logo orange).
 
 - `dist/` is generated output and is **not** committed. Never edit it by hand.
 - `public/CNAME` is what binds the custom domain. Vite copies it into `dist/` on every build,
-  and CI fails the run if it is missing — without it GitHub Pages drops vagdevifoods.com.
+  and the deploy fails if it is missing — without it GitHub Pages drops vagdevifoods.com.
 
 ---
 
@@ -353,11 +417,7 @@ The site holds **WCAG AA** and Lighthouse scores 100. Three rules keep it there.
 CSS at all, and the element quietly inherits its parent's colour — on a dark panel that means
 invisible text, which is exactly how a paragraph of the Surya footer went unreadable for
 months. Use `/80`, or bracket syntax (`text-white/[0.82]`) if you really need the in-between
-value. Worth grepping for after a batch of styling changes:
-
-```bash
-grep -rnoE '\b[a-z-]+-(white|black|brand-[a-z]+|gray-[0-9]+)/[0-9]+\b' pages components | awk -F/ '$NF % 5 != 0'
-```
+value. `npm run lint:styles` catches it, and runs on every pull request and deploy.
 
 **The accent is the logo's orange, in three strengths.** `brand-secondary` is `#F07F1A`,
 sampled from the V-chevron in the logo — the site previously used a royal gold that appeared
@@ -416,11 +476,7 @@ that way:
 | `scroll-pl-*` | `scroll-ps-*` |
 
 A physical property does not flip, so it silently breaks Urdu while looking fine in English.
-Worth grepping after a batch of styling work:
-
-```bash
-grep -rnP '(?<![-\w])(ml|mr|pl|pr)-[0-9.]+|(?<![-\w])text-(left|right)\b|(?<![-\w])border-(l|r)(?![-\w])|(?<![-\w])-?(left|right)-\[' pages components
-```
+`npm run lint:styles` flags them, with the file and line, on every pull request and deploy.
 
 Directional glyphs need help too: a literal arrow keeps pointing the same way under RTL and
 ends up aimed back at the text it should lead away from. Use `components/Arrow.tsx`, which

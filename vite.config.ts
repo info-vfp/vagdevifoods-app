@@ -1,23 +1,18 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, '.', '');
-  return {
-    base: "/",
-    define: {
-      'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
-    },
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
-      }
-    },
-    build: {
-      // Routes are pre-rendered, so the browser gets markup before the bundle parses.
-      // Raising the warning limit just avoids noise on an already-known single chunk.
-      chunkSizeWarningLimit: 600,
-    },
-  };
+export default defineConfig({
+  base: "/",
+  // Only VITE_-prefixed variables reach the browser bundle (the EmailJS settings). Anything
+  // else in .env stays on the machine that builds the site.
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '.'),
+    }
+  },
+  build: {
+    // Routes are pre-rendered, so the browser gets markup before the bundle parses.
+    // Raising the warning limit just avoids noise on an already-known single chunk.
+    chunkSizeWarningLimit: 600,
+  },
 });

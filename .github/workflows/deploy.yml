@@ -3,6 +3,12 @@ name: Build & Deploy
 # Publishes the site to the `gh-pages` branch, which GitHub Pages already serves
 # at vagdevifoods.com. Runs on every push to main, and can also be triggered by hand
 # from the Actions tab.
+#
+#   check → publish → confirm it is live → tell search engines
+#
+# Nothing is published unless `npm run check` passes (typecheck, style rules, build, SEO
+# checks), and the run only goes green once the live site is serving the new build.
+# Pull requests run the same check first, in ci.yml.
 on:
   push:
     branches: [main]
@@ -12,14 +18,17 @@ on:
 permissions:
   contents: write
 
-# If several pushes land quickly, let the newest one win rather than queueing deploys.
+# One deploy at a time. A deploy that has started is allowed to finish — cancelling one
+# mid-publish is how a half-updated site happens — and if several pushes land meanwhile,
+# only the newest waits its turn.
 concurrency:
   group: deploy-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -27,7 +36,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install dependencies
@@ -71,14 +80,17 @@ jobs:
               echo "EmailJS variables present and the public key resolves to an account." ;;
           esac
 
-      - name: Build
-        # Stored as repository *variables* (not secrets): all three are embedded in the
-        # client bundle and readable in the browser, so they are not sensitive.
+      - name: Typecheck, lint, build and check SEO
+        # The same pre-flight a pull request runs (ci.yml) — repeated here because main can
+        # also change without a PR. Stops the deploy before anything is published.
+        #
+        # The EmailJS values are repository *variables* (not secrets): all three are embedded
+        # in the client bundle and readable in the browser, so they are not sensitive.
         env:
           VITE_EMAILJS_SERVICE_ID: ${{ vars.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ vars.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ vars.VITE_EMAILJS_PUBLIC_KEY }}
-        run: npm run build
+        run: npm run check
 
       - name: Verify build output
         # Fail loudly here rather than publishing a broken site. The CNAME is what keeps
@@ -97,14 +109,62 @@ jobs:
           publish_branch: gh-pages
           commit_message: "deploy: ${{ github.event.head_commit.message }}"
 
+      - name: Confirm the site is live
+        # A successful push to gh-pages is not a live site: GitHub Pages builds it separately,
+        # and the custom domain sits in front of that. Wait until vagdevifoods.com serves this
+        # build's bundle, then check every page in the sitemap answers 200 with its own title.
+        # A wrong page fails the run; Pages being slow only warns. The query string sidesteps
+        # the CDN's 10-minute cache.
+        #
+        # It also checks www.vagdevifoods.com and warns on every run until it redirects to the
+        # apex over valid HTTPS — see "Custom domain" in the README.
+        run: |
+          bust="v=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          bundle=$(grep -o 'src="/assets/index-[^"]*\.js"' dist/index.html | head -1)
+          live=""
+          for i in $(seq 1 30); do
+            curl -sf --max-time 10 "https://vagdevifoods.com/?$bust" | grep -qF "$bundle" && { live=1; break; }
+            sleep 10
+          done
+          if [ -z "$live" ]; then
+            echo "::warning title=New build not live yet::vagdevifoods.com was still serving the previous build after 5 minutes. Check the 'pages build and deployment' run."
+          else
+            echo "New build is live."
+            failed=0
+            for loc in $(grep -o '<loc>[^<]*' dist/sitemap.xml | sed 's/<loc>//'); do
+              path=${loc#https://vagdevifoods.com}
+              file=dist/index.html; [ "$path" != "/" ] && file="dist${path}.html"
+              want=$(grep -o '<title[^>]*>[^<]*</title>' "$file" | head -1)
+              page=$(curl -s --max-time 15 -w '\n%{http_code}' "$loc?$bust" || true)
+              code=$(printf '%s' "$page" | tail -n1)
+              if [ "$code" = 200 ] && printf '%s' "$page" | grep -qF "$want"; then
+                echo "OK  $code  $loc"
+              else
+                echo "::error title=Live page is wrong::$loc returned HTTP $code or not the page this build produced"
+                failed=1
+              fi
+            done
+          fi
+
+          if ! www=$(curl -sS -o /dev/null --max-time 15 -w '%{http_code} %{redirect_url}' https://www.vagdevifoods.com/ 2>&1); then
+            www=$(printf '%s' "$www" | tr '\n' ' ')
+            echo "::warning title=www.vagdevifoods.com has no valid HTTPS::Visitors who type www see a security warning ($www). Fix the DNS and re-add the custom domain — see 'Custom domain' in the README."
+          else
+            case "$www" in
+              30[1278]\ https://vagdevifoods.com/*) echo "www redirects to the main domain: $www" ;;
+              *) echo "::warning title=www.vagdevifoods.com does not redirect::Expected a redirect to https://vagdevifoods.com/, got: $www" ;;
+            esac
+          fi
+          exit ${failed:-0}
+
       - name: Ping IndexNow
         # IndexNow tells Bing (and Yandex, Seznam, Naver) which URLs changed, so they are
         # recrawled in hours instead of weeks. Bing's index also feeds ChatGPT search and
         # Copilot. Google does not take part; it reads sitemap.xml.
         #
         # The key is public by design: search engines verify a ping by fetching
-        # https://vagdevifoods.com/<key>.txt, which is public/<key>.txt. Pages takes a minute
-        # to go live after the push above, so wait for the key file before pinging.
+        # https://vagdevifoods.com/<key>.txt, which is public/<key>.txt. The step above has
+        # usually confirmed the site is live; the short wait covers the case where it timed out.
         # A failed ping must never fail a deploy.
         continue-on-error: true
         env:
